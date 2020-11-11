@@ -8,6 +8,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.tiled.TiledMap;
 
 public class DungeonsAkimboGame extends StateBasedGame {
 	
@@ -27,6 +28,11 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	
 	public final int screenWidth;
 	public final int screenHeight;
+	
+	
+	private DaMap gameMap;
+	private boolean mapReady;
+	private TiledMap mapPlan;
 	
 	
 	public void initStatesList(GameContainer container) throws SlickException {
