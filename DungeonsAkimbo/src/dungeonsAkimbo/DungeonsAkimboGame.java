@@ -18,6 +18,7 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	public static final int SPLASHSCREENSTATE = 0;
 	public static final int MAINMENUSTATE = 1;
 	public static final int PLAYINGSTATE = 2;
+	public static final int PLAYTESTSTATE = 3;
 	
 	//App properties
 	public static final int WIDTH = 1280;
@@ -39,6 +40,7 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		addState(new StartSplashState());
 		addState(new MainMenuState());
 		addState(new PlayingState());
+		addState(new PlayTestState());
 		
 	}
 	

@@ -8,11 +8,11 @@ import jig.Vector;
 
 public class DaTile extends Entity {
 	
-	private boolean blocked;
-	private int type;
-	private int cost;
-	private int tileX;
-	private int tileY;
+	private boolean blocked; // pathing blocked context
+	private int type;	// type. ie. sprite.
+	private int cost;	// tile pathing cost context
+	private int tileX;	// tile map x
+	private int tileY;	// tile map y
 	
 	DaTile(int x, int y, int type){
 		super(x, y);
