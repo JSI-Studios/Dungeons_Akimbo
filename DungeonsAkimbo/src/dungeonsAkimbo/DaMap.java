@@ -1,5 +1,6 @@
 package dungeonsAkimbo;
 
+import org.newdawn.slick.tiled.TiledMap;
 import org.newdawn.slick.util.pathfinding.PathFindingContext;
 import org.newdawn.slick.util.pathfinding.TileBasedMap;
 
@@ -14,10 +15,19 @@ public class DaMap implements TileBasedMap{
 	private int tileHeight; //a single tile's height in pixels
 	
 	//Entities and tiles
+	private TiledMap currentMap;
 	private DaTile[][] tiles; //2d array of tile entities
 	
 	//PathFinding variables
 	private boolean visited;
+	
+	public DaMap(TiledMap map) {
+		this.currentMap = map;
+		this.mapWidth = map.getWidth();
+		this.mapHeight = map.getHeight();
+		this.tileWidth = map.getTileWidth();
+		this.tileHeight = map.getTileHeight();
+	}
 
 	@Override
 	public int getWidthInTiles() {
@@ -37,6 +47,10 @@ public class DaMap implements TileBasedMap{
 	
 	public int getTileHeight() {
 		return tileHeight;
+	}
+	
+	public TiledMap getTiledMap() {
+		return currentMap;
 	}
 	
 	
