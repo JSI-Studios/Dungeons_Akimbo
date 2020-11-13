@@ -1,5 +1,8 @@
 package dungeonsAkimbo;
 
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.tiled.TiledMap;
+
 public class DaCamera {
 	
 	private float xOffSet; //offset of the camera in the x
@@ -53,6 +56,10 @@ public class DaCamera {
 			yOffSet -= .00195f * delta;
 		}	
 		return;		
+	}
+	
+	public void renderMap() {
+		currentGame.getTiledMap().render(0, 0);
 	}
 
 }
