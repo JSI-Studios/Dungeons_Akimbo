@@ -20,6 +20,10 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	public static final int PLAYINGSTATE = 2;
 	public static final int PLAYTESTSTATE = 3;
 	
+	
+	public static final String DA_TESTMAP_RSC = "/Resources/Maps/TestMap/DaTestMapSmall.tmx";
+	public static final String DA_TESTMAP_TILESET_RSC = "/Resources/Maps/TestMap";
+	
 	//App properties
 	public static final int WIDTH = 1280;
 	public static final int HEIGHT = 1024;
@@ -32,7 +36,7 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	
 	
 	private DaMap gameMap;
-	private boolean mapReady;
+	private boolean mapReady = false;
 	private TiledMap mapPlan;
 	
 	
@@ -48,6 +52,23 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		super(title);
 		screenWidth = width;
 		screenHeight = height;
+	}
+	
+	
+	public void loadNewTiledMap(int map) throws SlickException {
+		if (map == 1) {
+			mapPlan = new TiledMap(DA_TESTMAP_RSC, DA_TESTMAP_TILESET_RSC);
+		}
+		mapReady = true;
+	}
+	
+	public void loadMap() {
+		if(mapReady)
+			gameMap = new DaMap(mapPlan);
+	}
+	
+	public DaMap getCurrentMap() {
+		return gameMap;		
 	}
 	
 	public static void main(String[] args) {
