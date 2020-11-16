@@ -13,10 +13,10 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	
 
 	//Art Macros
-	public static final String TEMP_PLAYER = "dungeonsAkimbo/resource/temp_player.png";
-	public static final String TEMP_BULLET = "dungeonsAkimbo/resource/temp_bullet.png";
-	public static final String MOB_ONE = "Resources/Enemies/Spoopy.png";
-
+	public static final String TEMP_PLAYER = "dungeonsAkimbo/resource/Projectiles/temp_player.png";
+	public static final String TEMP_BULLET = "dungeonsAkimbo/resource/Projectiles/temp_bullet.png";
+	public static final String MOB_ONE = "dungeonsAkimbo/resource/Mobs/Spoopy.png";
+	
 	//State Identitifiers
 	public static final int SPLASHSCREENSTATE = 0;
 	public static final int MAINMENUSTATE = 1;
@@ -24,9 +24,8 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	public static final int PLAYTESTSTATE = 3;
 	
 	
-	public static final String DA_TESTMAP_RSC = "/Resources/Maps/TestMap/DaTestMapSmall.tmx";
-	public static final String DA_TESTMAP_TILESET_RSC = "/Resources/Maps/TestMap";
-	
+	public static final String DA_TESTMAP_RSC = "dungeonsAkimbo/resource/Maps/testMap/DaTestMapSmall.tmx";
+	public static final String DA_TESTMAP_TILESET_RSC = "dungeonsAkimbo/resource/Maps/testmap/";
 	//App properties
 	public static final int WIDTH = 1280;
 	public static final int HEIGHT = 1024;
