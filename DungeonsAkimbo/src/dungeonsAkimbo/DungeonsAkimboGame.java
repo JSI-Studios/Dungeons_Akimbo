@@ -15,6 +15,7 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	//Art Macros
 	public static final String TEMP_PLAYER = "dungeonsAkimbo/resource/temp_player.png";
 	public static final String TEMP_BULLET = "dungeonsAkimbo/resource/temp_bullet.png";
+	public static final String MOB_ONE = "Resources/Enemies/Spoopy.png";
 
 	//State Identitifiers
 	public static final int SPLASHSCREENSTATE = 0;
@@ -43,6 +44,9 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	private boolean mapReady = false;
 	private TiledMap mapPlan;
 	
+	// Keep track of mobs (need to implement an array list or handler later)
+	public DaMob mob;
+	
 	
 	public void initStatesList(GameContainer container) throws SlickException {
 		addState(new StartSplashState());
@@ -54,12 +58,17 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		ResourceManager.loadImage(TEMP_PLAYER);
 		ResourceManager.loadImage(TEMP_BULLET);
 		
+		// Load images for mobs
+		ResourceManager.loadImage(MOB_ONE);
+		
 		Entity.antiAliasing = false;
 		Entity.setCoarseGrainedCollisionBoundary(Entity.CIRCLE);
 		
 		
 		player = new Player(screenWidth / 2, screenHeight / 3);
 		
+		// Implement mob array list later, temporary 
+		mob = new DaMob(screenWidth / 2, screenHeight / 2, 1, true);
 	}
 	
 	public DungeonsAkimboGame(String title, int width, int height) {

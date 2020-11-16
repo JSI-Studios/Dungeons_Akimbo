@@ -1,17 +1,20 @@
 package dungeonsAkimbo;
 
+import org.newdawn.slick.SpriteSheet;
+
 import jig.Entity;
+import jig.ResourceManager;
 import jig.Vector;
 
 public class DaMob extends Entity implements DaEnemy {
 
-
-	
 	private int health;
 	private int type;
 	private Vector velocity;
 	private float initX;
 	private float initY;
+	
+	private SpriteSheet sprite;
 	
 	public DaMob(float x, float y, int type, boolean debug) {
 		super(x,y);
@@ -19,10 +22,13 @@ public class DaMob extends Entity implements DaEnemy {
 		setInitX(x);
 		setInitY(y);
 		this.setType(type);
+		this.sprite = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.MOB_ONE), 32, 32, 4, 0);
 		if(type == 0) {
 			setHealth(3);
+			addImageWithBoundingBox(sprite.getSprite(0, 0).getScaledCopy(.5f));
 		} else {
 			setHealth(5);
+			addImageWithBoundingBox(sprite.getSprite(0, 0).getScaledCopy(.5f));
 		}
 	}
 
