@@ -36,8 +36,9 @@ public class PlayTestState extends BasicGameState {
 		g.drawString("DUNGEONS AKIMBO TESTING AREA, ITS A MESS, WE KNOW....", 400, 10);
 		
 		gameView.renderMap();
-		DungeonsAkimboGame dg = (DungeonsAkimboGame) game;
-		dg.player.render(g);
+		DungeonsAkimboGame dag = (DungeonsAkimboGame) game;
+		dag.player.render(g);
+		dag.mob.render(g);
 	}
 
 	@Override
