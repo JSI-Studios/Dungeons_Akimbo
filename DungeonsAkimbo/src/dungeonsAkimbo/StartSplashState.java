@@ -24,7 +24,7 @@ public class StartSplashState extends BasicGameState {
 	
 	@Override
 	public void enter(GameContainer container, StateBasedGame game) throws SlickException {
-		timer = 6000;
+		timer = 2000;
 	}
 
 	@Override

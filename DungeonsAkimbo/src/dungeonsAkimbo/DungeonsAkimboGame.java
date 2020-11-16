@@ -1,5 +1,7 @@
 package dungeonsAkimbo;
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -46,6 +48,8 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	// Keep track of mobs (need to implement an array list or handler later)
 	public DaMob mob;
 	
+	ArrayList<Projectile> player_bullets;
+	
 	
 	public void initStatesList(GameContainer container) throws SlickException {
 		addState(new StartSplashState());
@@ -63,6 +67,7 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		Entity.antiAliasing = false;
 		Entity.setCoarseGrainedCollisionBoundary(Entity.CIRCLE);
 		
+		player_bullets = new ArrayList<Projectile>();
 		
 		player = new Player(screenWidth / 2, screenHeight / 3);
 		

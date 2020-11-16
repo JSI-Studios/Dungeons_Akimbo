@@ -1,6 +1,8 @@
 package dungeonsAkimbo;
 
 
+import org.newdawn.slick.state.StateBasedGame;
+
 import jig.Entity;
 import jig.ResourceManager;
 import jig.Vector;
@@ -24,7 +26,13 @@ public class Player extends Entity {
 		this.addImageWithBoundingBox(ResourceManager.getImage(DungeonsAkimboGame.TEMP_PLAYER));
 	}
 	
-	public void Shoot(float inAngle) {
+	public void Shoot(StateBasedGame game) {
+		
+		DungeonsAkimboGame dag = (DungeonsAkimboGame) game;
+		
+		Projectile bullet = new Projectile(this.getX(), this.getY());
+		bullet.Set_Velocity();
+		dag.player_bullets.add(bullet);
 		
 	}
 	
