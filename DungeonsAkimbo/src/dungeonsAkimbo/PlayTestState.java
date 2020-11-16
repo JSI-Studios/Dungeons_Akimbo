@@ -36,12 +36,18 @@ public class PlayTestState extends BasicGameState {
 		g.drawString("DUNGEONS AKIMBO TESTING AREA, ITS A MESS, WE KNOW....", 400, 10);
 		
 		gameView.renderMap();
+        
+        
+		if(dag.mob.getHealth() > 0) 
 		DungeonsAkimboGame dag = (DungeonsAkimboGame) game;
 		dag.player.render(g);
 		
 		// Render mob if health exists
 		if(dag.mob.getHealth() > 0)
 			dag.mob.render(g);
+		for (Projectile b : dag.player_bullets) {
+			b.render(g);
+		}
 	}
 
 	@Override
@@ -65,7 +71,16 @@ public class PlayTestState extends BasicGameState {
 			new_velocity = new Vector(0f,0f);
 		}
 		
+		if (input.isKeyPressed(Input.KEY_J)) {
+			dag.player.Shoot(dag);
+		}
+		
 		dag.player.Set_Velocity(new_velocity);
+		
+		//
+		for (Projectile b : dag.player_bullets) {
+			b.update(delta);
+		}
 		
 		dag.player.update(delta);
 		
