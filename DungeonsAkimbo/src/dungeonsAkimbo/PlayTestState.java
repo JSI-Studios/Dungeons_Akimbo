@@ -1,5 +1,8 @@
 package dungeonsAkimbo;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -36,15 +39,17 @@ public class PlayTestState extends BasicGameState {
 		g.drawString("DUNGEONS AKIMBO TESTING AREA, ITS A MESS, WE KNOW....", 400, 10);
 		
 		gameView.renderMap();
-        
-        
-		if(dag.mob.getHealth() > 0) 
+		
+		// Simply names from dag
 		DungeonsAkimboGame dag = (DungeonsAkimboGame) game;
+		ArrayList<DaMob> mobs = dag.mobs;
+        
 		dag.player.render(g);
 		
 		// Render mob if health exists
-		if(dag.mob.getHealth() > 0)
-			dag.mob.render(g);
+		mobs.forEach((mob)->mob.render(g));
+		
+		// Render projectile
 		for (Projectile b : dag.player_bullets) {
 			b.render(g);
 		}
@@ -52,9 +57,10 @@ public class PlayTestState extends BasicGameState {
 
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
-		// TODO Auto-generated method stub
 		
+		// Simply names from dag
 		DungeonsAkimboGame dag = (DungeonsAkimboGame) game;
+		ArrayList<DaMob> mobs = dag.mobs;
 		
 		Vector new_velocity;
 		Input input = container.getInput();
@@ -77,14 +83,28 @@ public class PlayTestState extends BasicGameState {
 		
 		dag.player.Set_Velocity(new_velocity);
 		
+		// Mob attacking the player
+		mobs.forEach((mob)->mob.attack(dag.player));
+		
+		// Mob collision handling
+		mobs.forEach((mob)->mob.checkCollision(dag.player));
+		for(Iterator<DaMob> i = mobs.iterator(); i.hasNext();) {
+			// Check if any mobs lost all their health
+			DaMob mob = i.next();
+			if(mob.getHealth() <= 0) {
+				i.remove();
+			}
+		}
+		
+		
 		//
 		for (Projectile b : dag.player_bullets) {
 			b.update(delta);
 		}
 		
+		// Update entities
 		dag.player.update(delta);
-		
-		dag.mob.checkCollision(dag.player);
+		mobs.forEach((mob)->mob.update(delta));
 		
 	}
 

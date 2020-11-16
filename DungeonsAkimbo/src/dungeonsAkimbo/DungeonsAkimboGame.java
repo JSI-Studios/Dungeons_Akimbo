@@ -45,8 +45,8 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	private boolean mapReady = false;
 	private TiledMap mapPlan;
 	
-	// Keep track of mobs (need to implement an array list or handler later)
-	public DaMob mob;
+	// Keep track of mobs
+	public ArrayList<DaMob> mobs;
 	
 	ArrayList<Projectile> player_bullets;
 	
@@ -71,8 +71,9 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		
 		player = new Player(screenWidth / 2, screenHeight / 3);
 		
-		// Implement mob array list later, temporary 
-		mob = new DaMob(screenWidth / 2, screenHeight / 2, 1, true);
+		// Initialize mobs (currently start with one mob)
+		mobs = new ArrayList<DaMob>();
+		mobs.add(new DaMob(screenWidth / 2, screenHeight / 2, 0, true));
 	}
 	
 	public DungeonsAkimboGame(String title, int width, int height) {
