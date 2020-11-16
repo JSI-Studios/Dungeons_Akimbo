@@ -36,6 +36,7 @@ public class MainMenuState extends BasicGameState {
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 		// TODO Auto-generated method stub
+		DungeonsAkimboGame dag = (DungeonsAkimboGame)game;
 		Input input = container.getInput();
 		//enter playing state
 		if(input.isKeyDown(Input.KEY_SPACE)) {
@@ -44,6 +45,21 @@ public class MainMenuState extends BasicGameState {
 		//enter play testing state
 		if(input.isKeyDown(Input.KEY_LCONTROL)) {
 			if(input.isKeyDown(Input.KEY_T)) {
+				game.enterState(DungeonsAkimboGame.PLAYTESTSTATE);
+			}
+		}
+		
+		if(input.isKeyDown(Input.KEY_LCONTROL)) {
+			if(input.isKeyPressed(Input.KEY_S)) {
+				dag.startServer();
+				dag.startClient();
+				game.enterState(DungeonsAkimboGame.PLAYTESTSTATE);
+			}
+		}
+		
+		if(input.isKeyDown(Input.KEY_LCONTROL)) {
+			if(input.isKeyPressed(Input.KEY_C)) {
+				dag.startClient();
 				game.enterState(DungeonsAkimboGame.PLAYTESTSTATE);
 			}
 		}
