@@ -2,6 +2,7 @@ package dungeonsAkimbo;
 
 
 import jig.Entity;
+import jig.ResourceManager;
 import jig.Vector;
 
 public class Player extends Entity {
@@ -19,15 +20,16 @@ public class Player extends Entity {
 	public Player(final float x, final float y) {
 		super(x, y);
 		current_health = this.max_health;
-		speed = 1f;
-		this.dodging = false;
+		speed = 2f;
+		this.addImageWithBoundingBox(ResourceManager.getImage(DungeonsAkimboGame.TEMP_PLAYER));
 	}
 	
 	public void Shoot(float inAngle) {
 		
 	}
 	
-	public void Do_Dodge(final int delta) {	
+	public void Do_Dodge(final int delta, int scaler) {
+		this.speed = scaler*this.speed;
 		this.dodging = true;
 	}
 	
@@ -51,6 +53,7 @@ public class Player extends Entity {
 		}
 		
 		if (dodge_timer <= 0) {
+			this.speed = 1f;
 			this.dodging = false;
 			dodge_timer = 3000;	
 		}
