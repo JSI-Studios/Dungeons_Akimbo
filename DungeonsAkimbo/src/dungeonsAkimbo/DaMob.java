@@ -38,6 +38,7 @@ public class DaMob extends Entity implements DaEnemy {
 		if(this.collides(player) != null) {
 			this.setHealth(this.getHealth() - 1);
 			didCollide = true;
+			System.out.println("Collision!");
 		}
 		return didCollide;
 	}
