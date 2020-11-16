@@ -38,8 +38,11 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	public final int screenWidth;
 	public final int screenHeight;
 	
+	private Thread server, client;
 	
 	public Player player;
+	
+	
 	
 	private DaMap gameMap;
 	private boolean mapReady = false;
@@ -98,6 +101,18 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	
 	public DaMap getCurrentMap() {
 		return gameMap;		
+	}
+	
+	public void startServer() {
+		server = new DaServer(8989);		
+	}
+	
+	public void startClient() {
+		client = new DaClient("DaUser","localhost", 8989);		
+	}
+	
+	public DaClient getClient() {
+		return (DaClient) client;
 	}
 	
 	public static void main(String[] args) {
