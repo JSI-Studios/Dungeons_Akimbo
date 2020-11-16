@@ -73,7 +73,7 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		
 		// Initialize mobs (currently start with one mob)
 		mobs = new ArrayList<DaMob>();
-		mobs.add(new DaMob(screenWidth / 2, screenHeight / 2, 1, true));
+		mobs.add(new DaMob(screenWidth / 2, screenHeight / 2, 0, true));
 	}
 	
 	public DungeonsAkimboGame(String title, int width, int height) {

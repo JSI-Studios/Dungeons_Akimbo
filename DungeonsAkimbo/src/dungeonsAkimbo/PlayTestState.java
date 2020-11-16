@@ -83,6 +83,9 @@ public class PlayTestState extends BasicGameState {
 		
 		dag.player.Set_Velocity(new_velocity);
 		
+		// Mob attacking the player
+		mobs.forEach((mob)->mob.attack(dag.player));
+		
 		// Mob collision handling
 		mobs.forEach((mob)->mob.checkCollision(dag.player));
 		for(Iterator<DaMob> i = mobs.iterator(); i.hasNext();) {
@@ -99,7 +102,9 @@ public class PlayTestState extends BasicGameState {
 			b.update(delta);
 		}
 		
+		// Update entities
 		dag.player.update(delta);
+		mobs.forEach((mob)->mob.update(delta));
 		
 	}
 
