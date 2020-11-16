@@ -68,7 +68,7 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		player = new Player(screenWidth / 2, screenHeight / 3);
 		
 		// Implement mob array list later, temporary 
-		mob = new DaMob(screenWidth / 2, screenHeight / 2, 1, true);
+//		mob = new DaMob(screenWidth / 2, screenHeight / 2, 1, true);
 	}
 	
 	public DungeonsAkimboGame(String title, int width, int height) {
