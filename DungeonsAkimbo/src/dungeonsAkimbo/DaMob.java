@@ -38,18 +38,24 @@ public class DaMob extends Entity implements DaEnemy {
 		if(this.collides(player) != null) {
 			this.setHealth(this.getHealth() - 1);
 			didCollide = true;
+			System.out.println("Collision!");
 		}
 		return didCollide;
 	}
 
 	@Override
-	public void attack() {
-		// TODO Auto-generated method stub
+	public void attack(Entity player) {
+		if(type == 0) {
+			// Just track the player and collide with them
+			Vector distance = this.getPosition().subtract(player.getPosition());
+			this.velocity = distance.unit().negate();
+			this.velocity = this.velocity.unit().scale(.05f);
+		}
 		
 	}
 	
 	public void update(final int delta) {
-		
+		translate(this.velocity.scale(delta));
 	}
 
 	public int getHealth() {
