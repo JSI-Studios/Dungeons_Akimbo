@@ -38,15 +38,18 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	public final int screenWidth;
 	public final int screenHeight;
 	
+	private Thread server, client;
 	
 	public Player player;
+	
+	
 	
 	private DaMap gameMap;
 	private boolean mapReady = false;
 	private TiledMap mapPlan;
 	
-	// Keep track of mobs (need to implement an array list or handler later)
-	public DaMob mob;
+	// Keep track of mobs
+	public ArrayList<DaMob> mobs;
 	
 	ArrayList<Projectile> player_bullets;
 	
@@ -71,8 +74,9 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		
 		player = new Player(screenWidth / 2, screenHeight / 3);
 		
-		// Implement mob array list later, temporary 
-		mob = new DaMob(screenWidth / 2, screenHeight / 2, 1, true);
+		// Initialize mobs (currently start with one mob)
+		mobs = new ArrayList<DaMob>();
+		mobs.add(new DaMob(screenWidth / 2, screenHeight / 2, 0, true));
 	}
 	
 	public DungeonsAkimboGame(String title, int width, int height) {
@@ -97,6 +101,18 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	
 	public DaMap getCurrentMap() {
 		return gameMap;		
+	}
+	
+	public void startServer() {
+		server = new DaServer(8989);		
+	}
+	
+	public void startClient() {
+		client = new DaClient("DaUser","localhost", 8989);		
+	}
+	
+	public DaClient getClient() {
+		return (DaClient) client;
 	}
 	
 	public static void main(String[] args) {
