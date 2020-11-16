@@ -38,6 +38,10 @@ public class PlayTestState extends BasicGameState {
 		gameView.renderMap();
 		DungeonsAkimboGame dag = (DungeonsAkimboGame) game;
 		dag.player.render(g);
+		
+		for (Projectile b : dag.player_bullets) {
+			b.render(g);
+		}
 	}
 
 	@Override
@@ -61,7 +65,16 @@ public class PlayTestState extends BasicGameState {
 			new_velocity = new Vector(0f,0f);
 		}
 		
+		if (input.isKeyPressed(Input.KEY_J)) {
+			dag.player.Shoot(dag);
+		}
+		
 		dag.player.Set_Velocity(new_velocity);
+		
+		//
+		for (Projectile b : dag.player_bullets) {
+			b.update(delta);
+		}
 		
 		dag.player.update(delta);
 		
