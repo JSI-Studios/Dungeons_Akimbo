@@ -2,17 +2,20 @@ package dungeonsAkimbo;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.state.BasicGameState;
-import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
+
+import jig.Entity;
+import jig.ResourceManager;
 
 public class DungeonsAkimboGame extends StateBasedGame {
 	
 
+	//Art Macros
+	public static final String TEMP_PLAYER = "dungeonsAkimbo/resource/temp_player.png";
+	public static final String TEMP_BULLET = "dungeonsAkimbo/resource/temp_bullet.png";
+	public static final String MOB_ONE = "Resources/Enemies/Spoopy.png";
 
 	//State Identitifiers
 	public static final int SPLASHSCREENSTATE = 0;
@@ -35,9 +38,14 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	public final int screenHeight;
 	
 	
+	public Player player;
+	
 	private DaMap gameMap;
 	private boolean mapReady = false;
 	private TiledMap mapPlan;
+	
+	// Keep track of mobs (need to implement an array list or handler later)
+	public DaMob mob;
 	
 	
 	public void initStatesList(GameContainer container) throws SlickException {
@@ -45,7 +53,22 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		addState(new MainMenuState());
 		addState(new PlayingState());
 		addState(new PlayTestState());
+		ResourceManager.setFilterMethod(ResourceManager.FILTER_LINEAR);
 		
+		ResourceManager.loadImage(TEMP_PLAYER);
+		ResourceManager.loadImage(TEMP_BULLET);
+		
+		// Load images for mobs
+		ResourceManager.loadImage(MOB_ONE);
+		
+		Entity.antiAliasing = false;
+		Entity.setCoarseGrainedCollisionBoundary(Entity.CIRCLE);
+		
+		
+		player = new Player(screenWidth / 2, screenHeight / 3);
+		
+		// Implement mob array list later, temporary 
+//		mob = new DaMob(screenWidth / 2, screenHeight / 2, 1, true);
 	}
 	
 	public DungeonsAkimboGame(String title, int width, int height) {
@@ -53,6 +76,7 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		screenWidth = width;
 		screenHeight = height;
 	}
+
 	
 	
 	public void loadNewTiledMap(int map) throws SlickException {
