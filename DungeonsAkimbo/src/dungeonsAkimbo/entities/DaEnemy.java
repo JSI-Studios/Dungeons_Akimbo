@@ -1,4 +1,4 @@
-package dungeonsAkimbo;
+package dungeonsAkimbo.entities;
 
 import jig.Entity;
 

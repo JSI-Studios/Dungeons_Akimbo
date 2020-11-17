@@ -1,4 +1,4 @@
-package dungeonsAkimbo;
+package dungeonsAkimbo.netcode;
 
 import java.net.InetAddress;
 

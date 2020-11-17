@@ -1,7 +1,9 @@
-package dungeonsAkimbo;
+package dungeonsAkimbo.gui;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.tiled.TiledMap;
+
+import dungeonsAkimbo.map.DaMap;
 
 public class DaCamera {
 	
