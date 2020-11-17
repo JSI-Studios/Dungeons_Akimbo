@@ -1,4 +1,4 @@
-package dungeonsAkimbo;
+package dungeonsAkimbo.states;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -9,6 +9,8 @@ import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.EmptyTransition;
 import org.newdawn.slick.state.transition.HorizontalSplitTransition;
+
+import dungeonsAkimbo.DungeonsAkimboGame;
 
 public class StartSplashState extends BasicGameState {
 

@@ -1,4 +1,4 @@
-package dungeonsAkimbo;
+package dungeonsAkimbo.netcode;
 
 import java.util.ArrayList;
 import java.util.Collections;

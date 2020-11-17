@@ -8,6 +8,16 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
 
+import dungeonsAkimbo.entities.DaMob;
+import dungeonsAkimbo.entities.Player;
+import dungeonsAkimbo.entities.Projectile;
+import dungeonsAkimbo.map.DaMap;
+import dungeonsAkimbo.netcode.DaClient;
+import dungeonsAkimbo.netcode.DaServer;
+import dungeonsAkimbo.states.MainMenuState;
+import dungeonsAkimbo.states.PlayTestState;
+import dungeonsAkimbo.states.PlayingState;
+import dungeonsAkimbo.states.StartSplashState;
 import jig.Entity;
 import jig.ResourceManager;
 
@@ -125,6 +135,10 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		} catch(SlickException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public ArrayList<Projectile> getPlayer_bullets() {
+		return player_bullets;
 	}
 }
 

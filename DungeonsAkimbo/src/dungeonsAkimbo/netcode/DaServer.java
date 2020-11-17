@@ -1,4 +1,4 @@
-package dungeonsAkimbo;
+package dungeonsAkimbo.netcode;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -16,7 +16,10 @@ public class DaServer extends Thread {
 	private DatagramSocket socket;
 	private int port;
 	private boolean running = false;
+	
+	//debugging flags
 	private boolean raw = true;
+	private boolean verbose = true;
 	
 	private Thread run, manage, send, receive;
 	
@@ -133,6 +136,7 @@ public class DaServer extends Thread {
 			int id = UniqueIdentifier.getIdentifier();
 			String name = string.split("/c/|/e/")[1];
 			System.out.println(name +"(" + id + ") connected!");
+			if(verbose) System.out.println("From address: " + packet.getAddress().toString().split("/")[1] +":"+ packet.getPort());
 			clients.add(new DaServerClientHandler(name, packet.getAddress(), packet.getPort(), id));
 			String ID = "/c/" + id;
 			send(ID, packet.getAddress(), packet.getPort());
@@ -142,6 +146,7 @@ public class DaServer extends Thread {
 			String id = string.split("/d/|/e/")[1];
 			disconnect(Integer.parseInt(id), true);
 		} else if (string.startsWith("/i/")) {
+			if(verbose) System.out.println("Keep Alive revieved from " + packet.getAddress().toString().split("/")[1] + ":" + packet.getPort());
 			clientResponse.add(Integer.parseInt(string.split("/i/|/e/")[1]));
 		} else {
 			System.out.println(string);
