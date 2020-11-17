@@ -90,17 +90,17 @@ public class PlayTestState extends BasicGameState {
 
 		// Chat controls
 		if (input.isKeyPressed(Input.KEY_ENTER)) {
+			input.clearKeyPressedRecord();
 			if (!chatting) {
 				chatBar.setFocus(true);
 				chatBar.setConsumeEvents(true);
 				chatting = !chatting;
-			} else {
-				
-				chatBar.setFocus(false);
-				chatBar.setConsumeEvents(false);
+			} else {	
 				chatMessage = chatBar.getText();
 				dag.getClient().sendMessage(chatMessage);
 				chatBar.setText("");
+				chatBar.setFocus(false);
+				chatBar.setConsumeEvents(false);
 				chatting = !chatting;
 				
 			}
