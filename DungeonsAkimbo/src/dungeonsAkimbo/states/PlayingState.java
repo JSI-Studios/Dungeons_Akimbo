@@ -1,4 +1,6 @@
-package dungeonsAkimbo;
+package dungeonsAkimbo.states;
+
+import jig.Vector;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -8,11 +10,11 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-public class MainMenuState extends BasicGameState {
+import dungeonsAkimbo.DungeonsAkimboGame;
 
+public class PlayingState extends BasicGameState {
 	
-
-
+	
 	@Override
 	public void init(GameContainer container, StateBasedGame game) throws SlickException {
 		// TODO Auto-generated method stub
@@ -23,49 +25,47 @@ public class MainMenuState extends BasicGameState {
 	public void enter(GameContainer container, StateBasedGame game) throws SlickException {
 		// TODO Auto-generated method stub
 		
+		
 	}
+
 
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 		// TODO Auto-generated method stub
-		DungeonsAkimboGame dag = (DungeonsAkimboGame)game;
+		DungeonsAkimboGame dg = (DungeonsAkimboGame) game;
 		
-		g.drawString("press space to begin", dag.screenWidth/2, dag.screenHeight/2);
+		
+		dg.player.render(g);
+		
 	}
 
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 		// TODO Auto-generated method stub
-		DungeonsAkimboGame dag = (DungeonsAkimboGame)game;
+		
+		DungeonsAkimboGame dg = (DungeonsAkimboGame) game;
+		
+		Vector new_velocity;
 		Input input = container.getInput();
-		//enter playing state
-		if(input.isKeyDown(Input.KEY_SPACE)) {
-			game.enterState(DungeonsAkimboGame.PLAYINGSTATE);
-		}
-		//enter play testing state
-		if(input.isKeyDown(Input.KEY_LCONTROL)) {
-			if(input.isKeyDown(Input.KEY_T)) {
-				game.enterState(DungeonsAkimboGame.PLAYTESTSTATE);
-			}
+		
+		if(input.isKeyDown(Input.KEY_W)) {			
+			new_velocity = new Vector(0f, -0.5f*dg.player.speed);	
+		} else if (input.isKeyDown(Input.KEY_A)) {		
+			new_velocity = new Vector(-0.5f*dg.player.speed, 0f);
+		} else if (input.isKeyDown(Input.KEY_S)) {			
+			new_velocity = new Vector(0f, 0.5f*dg.player.speed);
+		} else if (input.isKeyDown(Input.KEY_D)){			
+			new_velocity = new Vector(0.5f*dg.player.speed, 0f);
+		} else {
+			new_velocity = new Vector(0f,0f);
 		}
 		
-		if(input.isKeyDown(Input.KEY_LCONTROL)) {
-			if(input.isKeyPressed(Input.KEY_S)) {
-				dag.startServer();
-				dag.startClient();
-				game.enterState(DungeonsAkimboGame.PLAYTESTSTATE);
-			}
-		}
+		dg.player.Set_Velocity(new_velocity);
 		
-		if(input.isKeyDown(Input.KEY_LCONTROL)) {
-			if(input.isKeyPressed(Input.KEY_C)) {
-				dag.startClient();
-				game.enterState(DungeonsAkimboGame.PLAYTESTSTATE);
-			}
-		}
+		dg.player.update(delta);
 	}
 
-
+	
 	@Override
 	public void leave(GameContainer container, StateBasedGame game) throws SlickException {
 		// TODO Auto-generated method stub
@@ -75,7 +75,7 @@ public class MainMenuState extends BasicGameState {
 	@Override
 	public int getID() {
 		// TODO Auto-generated method stub
-		return DungeonsAkimboGame.MAINMENUSTATE;
+		return DungeonsAkimboGame.PLAYINGSTATE;
 	}
 
 

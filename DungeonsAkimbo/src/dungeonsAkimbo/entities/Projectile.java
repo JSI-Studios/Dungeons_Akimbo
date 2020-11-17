@@ -1,5 +1,6 @@
-package dungeonsAkimbo;
+package dungeonsAkimbo.entities;
 
+import dungeonsAkimbo.DungeonsAkimboGame;
 import jig.Entity;
 import jig.ResourceManager;
 import jig.Vector;

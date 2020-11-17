@@ -1,4 +1,4 @@
-package dungeonsAkimbo;
+package dungeonsAkimbo.map;
 
 import org.newdawn.slick.Graphics;
 
