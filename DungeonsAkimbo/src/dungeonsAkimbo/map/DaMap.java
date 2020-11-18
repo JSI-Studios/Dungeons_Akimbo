@@ -19,6 +19,7 @@ public class DaMap implements TileBasedMap{
 	//Entities and tiles
 	private TiledMap currentMap;
 	private ArrayList<DaTile> tileList;
+	private ArrayList<DaWall> wallList;
 	private DaTile[][] tiles; //2d array of tile entities
 	
 	//PathFinding variables
@@ -62,6 +63,11 @@ public class DaMap implements TileBasedMap{
 		return tileList;
 	}
 	
+	public ArrayList<DaWall> getWallList() {
+		// TODO Auto-generated method stub
+		return wallList;
+	}
+	
 	
 	@Override
 	public void pathFinderVisited(int x, int y) {
@@ -99,6 +105,7 @@ public class DaMap implements TileBasedMap{
 		
 		tiles = new DaTile[mapWidth][mapHeight];
 		tileList = new ArrayList<DaTile>();
+		wallList = new ArrayList<DaWall>();
 		visited = new Boolean[mapWidth][mapHeight];
 		
 		for(int xTile = 0; xTile < mapWidth; xTile++) {
@@ -109,7 +116,19 @@ public class DaMap implements TileBasedMap{
 			}
 		}
 		
+		for(int xTile = 0; xTile < mapWidth; xTile++) {
+			for(int yTile = 0; yTile < mapHeight; yTile++) {
+				if(mapPlan.getTileId(xTile, yTile, 1) != 0) {
+					DaWall wall = new DaWall(xTile * TILE_SIZE, yTile * TILE_SIZE, mapPlan.getTileId(xTile, yTile, 1), mapPlan.getTileImage(xTile, yTile, 1));
+					wallList.add(wall);
+				}
+			}
+		}
+		
+		
 		
 	}
+
+	
 
 }

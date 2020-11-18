@@ -93,7 +93,7 @@ public class PlayTestState extends BasicGameState {
 				chatting = !chatting;
 			} else {	
 				String message = chat.getChatBarContents();
-				dag.getClient().sendMessage(message);
+				if(message != null)	dag.getClient().sendMessage(message);
 				chatting = !chatting;		
 			}
 		}
