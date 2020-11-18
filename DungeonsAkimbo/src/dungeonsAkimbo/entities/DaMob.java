@@ -25,14 +25,14 @@ public class DaMob extends Entity implements DaEnemy {
 		setInitY(y);
 		this.setBounceCooldown(0);
 		this.setType(type);
-		this.sprite = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.MOB_ZERO), 32, 32, 4, 0);
+		this.sprite = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.MOB_ZERO), 32, 32, 0, 0);
 		if(type == 0) {
 			setHealth(20);
 			addImageWithBoundingBox(sprite.getSprite(0, 0).getScaledCopy(.5f));
 		} else {
-			this.sprite = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.MOB_ONE), 32, 32, 4, 1);
+			this.sprite = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.MOB_ONE), 32, 32, 0, 0);
 			setHealth(20);
-			addImageWithBoundingBox(sprite.getSprite(0, 0).getScaledCopy(.5f));
+			addImageWithBoundingBox(sprite.getSprite(1, 0).getScaledCopy(.5f));
 		}
 	}
 

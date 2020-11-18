@@ -28,7 +28,7 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	public static final String TEMP_PLAYER = "dungeonsAkimbo/resource/Projectiles/temp_player.png";
 	public static final String TEMP_BULLET = "dungeonsAkimbo/resource/Projectiles/temp_bullet.png";
 	public static final String MOB_ZERO = "dungeonsAkimbo/resource/Mobs/Spoopy.png";
-	public static final String MOB_ONE = "dungeonsAkimbo/resource/Mobs/Mummy.png";
+	public static final String MOB_ONE = "dungeonsAkimbo/resource/Mobs/Mommy.png";
 	
 	//State Identitifiers
 	public static final int SPLASHSCREENSTATE = 0;
