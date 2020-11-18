@@ -7,6 +7,7 @@ import org.newdawn.slick.tiled.TiledMap;
 
 import dungeonsAkimbo.map.DaMap;
 import dungeonsAkimbo.map.DaTile;
+import dungeonsAkimbo.map.DaWall;
 
 public class DaCamera {
 	
@@ -69,6 +70,15 @@ public class DaCamera {
 				if(tile.getX() < 1024 + (xOffSet * 32)) {
 					g.translate(-xOffSet*32, -yOffSet*32);
 					tile.render(g);
+					g.translate(xOffSet*32, yOffSet*32);
+				}
+			}
+		}
+		for(DaWall wall: currentGame.getWallList()) {
+			if((wall.getX()/tileWidth) >= this.xOffSet - 1 && (wall.getY()/tileHeight) >= this.yOffSet-1) {
+				if(wall.getX() < 1024 + (xOffSet * 32)) {
+					g.translate(-xOffSet*32, -yOffSet*32);
+					wall.render(g);
 					g.translate(xOffSet*32, yOffSet*32);
 				}
 			}
