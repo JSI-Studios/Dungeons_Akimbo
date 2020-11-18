@@ -60,9 +60,7 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	private TiledMap mapPlan;
 	
 	// Keep track of mobs
-	public ArrayList<DaMob> mobs;
 	
-	ArrayList<Projectile> player_bullets;
 	
 	
 	public void initStatesList(GameContainer container) throws SlickException {
@@ -82,13 +80,12 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		Entity.antiAliasing = false;
 		Entity.setCoarseGrainedCollisionBoundary(Entity.CIRCLE);
 		
-		player_bullets = new ArrayList<Projectile>();
+		
 		
 		player = new Player(screenWidth / 2, screenHeight / 3);
 		
 		// Initialize mobs (currently start with one mob)
-		mobs = new ArrayList<DaMob>();
-		mobs.add(new DaMob(screenWidth / 2, screenHeight / 2, 0, true));
+		
 	}
 	
 	public DungeonsAkimboGame(String title, int width, int height) {
@@ -127,9 +124,7 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	public DaClient getClient() {
 		return (DaClient) client;
 	}
-	public ArrayList<Projectile> getPlayer_bullets() {
-		return player_bullets;
-	}
+	
 
 	
 	public static void main(String[] args) {
@@ -138,6 +133,8 @@ public class DungeonsAkimboGame extends StateBasedGame {
 			app.setDisplayMode(WIDTH, HEIGHT, false);
 			app.setTargetFrameRate(FPS);
 			app.setShowFPS(true);
+			app.setUpdateOnlyWhenVisible(false);
+			app.setAlwaysRender(true);
 			app.start();
 		} catch(SlickException e) {
 			e.printStackTrace();

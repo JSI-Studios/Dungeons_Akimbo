@@ -6,6 +6,10 @@ import org.newdawn.slick.tiled.TiledMap;
 import org.newdawn.slick.util.pathfinding.PathFindingContext;
 import org.newdawn.slick.util.pathfinding.TileBasedMap;
 
+import dungeonsAkimbo.DungeonsAkimboGame;
+import dungeonsAkimbo.entities.DaMob;
+import dungeonsAkimbo.entities.Projectile;
+
 public class DaMap implements TileBasedMap{
 		
 	//Map variables
@@ -21,6 +25,8 @@ public class DaMap implements TileBasedMap{
 	private ArrayList<DaTile> tileList;
 	private ArrayList<DaWall> wallList;
 	private DaTile[][] tiles; //2d array of tile entities
+	public ArrayList<DaMob> mobs;
+	ArrayList<Projectile> player_bullets;
 	
 	//PathFinding variables
 	private Boolean[][] visited;
@@ -96,6 +102,10 @@ public class DaMap implements TileBasedMap{
 		loadNewMap(currentMap);
 	}
 	
+	public ArrayList<Projectile> getPlayer_bullets() {
+		return player_bullets;
+	}
+	
 	public void loadNewMap(TiledMap mapPlan) {
 		mapWidth = mapPlan.getWidth();
 		mapHeight = mapPlan.getHeight();
@@ -106,6 +116,11 @@ public class DaMap implements TileBasedMap{
 		tiles = new DaTile[mapWidth][mapHeight];
 		tileList = new ArrayList<DaTile>();
 		wallList = new ArrayList<DaWall>();
+		
+		player_bullets = new ArrayList<Projectile>();
+		mobs = new ArrayList<DaMob>();
+		
+		
 		visited = new Boolean[mapWidth][mapHeight];
 		
 		for(int xTile = 0; xTile < mapWidth; xTile++) {
@@ -125,7 +140,7 @@ public class DaMap implements TileBasedMap{
 			}
 		}
 		
-		
+		mobs.add(new DaMob(DungeonsAkimboGame.WIDTH / 2, DungeonsAkimboGame.HEIGHT / 2, 0, true));
 		
 	}
 
