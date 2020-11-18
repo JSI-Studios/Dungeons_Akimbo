@@ -124,6 +124,10 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	public DaClient getClient() {
 		return (DaClient) client;
 	}
+	public ArrayList<Projectile> getPlayer_bullets() {
+		return player_bullets;
+	}
+
 	
 	public static void main(String[] args) {
 		try {
@@ -137,8 +141,5 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		}
 	}
 
-	public ArrayList<Projectile> getPlayer_bullets() {
-		return player_bullets;
-	}
 }
 
