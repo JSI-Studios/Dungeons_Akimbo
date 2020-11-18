@@ -1,9 +1,12 @@
 package dungeonsAkimbo.gui;
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.tiled.TiledMap;
 
 import dungeonsAkimbo.map.DaMap;
+import dungeonsAkimbo.map.DaTile;
 
 public class DaCamera {
 	
@@ -60,8 +63,17 @@ public class DaCamera {
 		return;		
 	}
 	
-	public void renderMap() {
-		currentGame.getTiledMap().render(0, 0);
+	public void renderMap(Graphics g) {
+		for(DaTile tile: currentGame.getTileList()) {
+			if((tile.getX()/tileWidth) >= this.xOffSet - 1 && (tile.getY()/tileHeight) >= this.yOffSet-1) {
+				if(tile.getX() < 1024 + (xOffSet * 32)) {
+					g.translate(-xOffSet*32, -yOffSet*32);
+					tile.render(g);
+					g.translate(xOffSet*32, yOffSet*32);
+				}
+			}
+		}
+		//currentGame.getTiledMap().render(0, 0);
 	}
 
 }

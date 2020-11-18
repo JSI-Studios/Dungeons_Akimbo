@@ -1,6 +1,7 @@
 package dungeonsAkimbo.map;
 
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 
 import jig.Entity;
 import jig.ResourceManager;
@@ -14,11 +15,12 @@ public class DaTile extends Entity {
 	private int tileX;	// tile map x
 	private int tileY;	// tile map y
 	
-	DaTile(int x, int y, int type){
+	DaTile(int x, int y, int type, Image tileImage){
 		super(x, y);
 		this.tileX = x;
 		this.tileY = y;
 		this.type = type;
+		addImage(tileImage, new Vector(15,15));
 	}
 	
 	
