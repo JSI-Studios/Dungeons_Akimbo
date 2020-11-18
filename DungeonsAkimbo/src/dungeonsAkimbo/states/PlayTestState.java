@@ -116,8 +116,7 @@ public class PlayTestState extends BasicGameState {
 				Vector mouseVec = new Vector(input.getMouseX(), input.getMouseY());
 				Vector playerPos = dag.player.Get_Position();
 				double shot_angle = playerPos.angleTo(mouseVec);
-				Projectile bullet = dag.player.Shoot(shot_angle);
-				dag.getCurrentMap().getPlayer_bullets().add(bullet);
+				dag.getCurrentMap().getPlayer_bullets().add(dag.player.Shoot(shot_angle));
 			
 			}
 			

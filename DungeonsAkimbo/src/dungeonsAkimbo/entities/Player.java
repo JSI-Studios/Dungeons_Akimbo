@@ -44,9 +44,9 @@ public class Player extends Entity {
 		this.primaryWeapon = gunBackpack.get(i);
 	}
 	
-	public void Shoot(double inAngle) {
+	public Projectile Shoot(double inAngle) {
 		
-		this.primaryWeapon.Attack(inAngle);
+		return this.primaryWeapon.Attack(inAngle);
 
 		
 	}
