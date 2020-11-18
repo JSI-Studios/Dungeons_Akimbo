@@ -1,7 +1,6 @@
 package dungeonsAkimbo.entities;
 
 
-import org.newdawn.slick.state.StateBasedGame;
 
 import dungeonsAkimbo.DungeonsAkimboGame;
 import jig.Entity;
@@ -23,21 +22,18 @@ public class Player extends Entity {
 	public Player(final float x, final float y) {
 		super(x, y);
 		current_health = this.max_health;
-		speed = 2f;
+		speed = 1f;
 		this.addImageWithBoundingBox(ResourceManager.getImage(DungeonsAkimboGame.TEMP_PLAYER));
 	}
 	
 	public Projectile Shoot(double inAngle) {
 		
 		Projectile bullet = new Projectile(this.getX(), this.getY());
-<<<<<<< HEAD:DungeonsAkimbo/src/dungeonsAkimbo/entities/Player.java
-		bullet.Set_Velocity();
-		dag.getPlayer_bullets().add(bullet);
-=======
+
 		bullet.rotate(inAngle);
 		bullet.Set_Velocity(inAngle);
 		return bullet;
->>>>>>> issue_3:DungeonsAkimbo/src/dungeonsAkimbo/Player.java
+
 		
 	}
 	
