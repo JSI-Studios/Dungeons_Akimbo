@@ -27,7 +27,8 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	//Art Macros
 	public static final String TEMP_PLAYER = "dungeonsAkimbo/resource/Projectiles/temp_player.png";
 	public static final String TEMP_BULLET = "dungeonsAkimbo/resource/Projectiles/temp_bullet.png";
-	public static final String MOB_ONE = "dungeonsAkimbo/resource/Mobs/Spoopy.png";
+	public static final String MOB_ZERO = "dungeonsAkimbo/resource/Mobs/Spoopy.png";
+	public static final String MOB_ONE = "dungeonsAkimbo/resource/Mobs/Mommy.png";
 	
 	//State Identitifiers
 	public static final int SPLASHSCREENSTATE = 0;
@@ -75,6 +76,7 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		ResourceManager.loadImage(TEMP_BULLET);
 		
 		// Load images for mobs
+		ResourceManager.loadImage(MOB_ZERO);
 		ResourceManager.loadImage(MOB_ONE);
 		
 		Entity.antiAliasing = false;
@@ -107,6 +109,7 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	public void loadMap() {
 		if(mapReady)
 			gameMap = new DaMap(mapPlan);
+			gameMap.loadMap();
 	}
 	
 	public DaMap getCurrentMap() {
@@ -124,6 +127,10 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	public DaClient getClient() {
 		return (DaClient) client;
 	}
+	public ArrayList<Projectile> getPlayer_bullets() {
+		return player_bullets;
+	}
+
 	
 	public static void main(String[] args) {
 		try {
@@ -137,8 +144,5 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		}
 	}
 
-	public ArrayList<Projectile> getPlayer_bullets() {
-		return player_bullets;
-	}
 }
 

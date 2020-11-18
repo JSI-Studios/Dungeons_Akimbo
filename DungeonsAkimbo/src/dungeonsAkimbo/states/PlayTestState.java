@@ -28,6 +28,8 @@ public class PlayTestState extends BasicGameState {
 	private String chatMessage = "";
 	
 	private boolean chatting = false;
+	
+	private DungeonsAkimboGame dag; 
 
 	@Override
 	public void init(GameContainer container, StateBasedGame game) throws SlickException {
@@ -39,7 +41,7 @@ public class PlayTestState extends BasicGameState {
 	@Override
 	public void enter(GameContainer container, StateBasedGame game) throws SlickException {
 		// TODO Auto-generated method stub
-		DungeonsAkimboGame dag = (DungeonsAkimboGame) game;
+		dag = (DungeonsAkimboGame) game;
 		dag.loadNewTiledMap(1);
 		dag.loadMap();
 		gameView = new DaCamera(dag.getCurrentMap());
@@ -54,10 +56,9 @@ public class PlayTestState extends BasicGameState {
 		// TODO Auto-generated method stub
 		g.drawString("DUNGEONS AKIMBO TESTING AREA, ITS A MESS, WE KNOW....", 400, 10);
 
-		gameView.renderMap();
+		gameView.renderMap(g);
 
 		// Simply names from dag
-		DungeonsAkimboGame dag = (DungeonsAkimboGame) game;
 		ArrayList<DaMob> mobs = dag.mobs;
 
 		dag.player.render(g);
@@ -79,7 +80,6 @@ public class PlayTestState extends BasicGameState {
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 
 		// Simply names from dag
-		DungeonsAkimboGame dag = (DungeonsAkimboGame) game;
 		ArrayList<DaMob> mobs = dag.mobs;
 
 		Vector new_velocity;
@@ -93,7 +93,7 @@ public class PlayTestState extends BasicGameState {
 				chatting = !chatting;
 			} else {	
 				String message = chat.getChatBarContents();
-				dag.getClient().sendMessage(message);
+				if(message != null)	dag.getClient().sendMessage(message);
 				chatting = !chatting;		
 			}
 		}
@@ -135,7 +135,7 @@ public class PlayTestState extends BasicGameState {
 		mobs.forEach((mob) -> mob.attack(dag.player));
 
 		// Mob collision handling
-		mobs.forEach((mob) -> mob.checkCollision(dag.player));
+		mobs.forEach((mob) -> mob.checkCollision(dag.player, true));
 		for (Iterator<DaMob> i = mobs.iterator(); i.hasNext();) {
 			// Check if any mobs lost all their health
 			DaMob mob = i.next();
@@ -144,8 +144,9 @@ public class PlayTestState extends BasicGameState {
 			}
 		}
 
-		//
+		// Check for collision with mobs, and also update projectiles
 		for (Projectile b : dag.getPlayer_bullets()) {
+			mobs.forEach((mob)->mob.checkCollision(b, false));
 			b.update(delta);
 		}
 
