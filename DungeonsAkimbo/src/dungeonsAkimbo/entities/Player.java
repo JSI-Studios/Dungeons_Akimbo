@@ -1,7 +1,6 @@
 package dungeonsAkimbo.entities;
 
 
-import org.newdawn.slick.state.StateBasedGame;
 
 import dungeonsAkimbo.DungeonsAkimboGame;
 import jig.Entity;
@@ -14,7 +13,7 @@ public class Player extends Entity {
 	public float speed;
 	public int current_health;
 	public int max_health;
-	public int dodge_timer = 3000;
+	public int dodge_timer = 500;
 	
 	boolean dodging;
 	
@@ -23,17 +22,18 @@ public class Player extends Entity {
 	public Player(final float x, final float y) {
 		super(x, y);
 		current_health = this.max_health;
-		speed = 2f;
+		speed = 1f;
 		this.addImageWithBoundingBox(ResourceManager.getImage(DungeonsAkimboGame.TEMP_PLAYER));
 	}
 	
-	public void Shoot(StateBasedGame game) {
-		
-		DungeonsAkimboGame dag = (DungeonsAkimboGame) game;
+	public Projectile Shoot(double inAngle) {
 		
 		Projectile bullet = new Projectile(this.getX(), this.getY());
-		bullet.Set_Velocity();
-		dag.getPlayer_bullets().add(bullet);
+
+		bullet.rotate(inAngle);
+		bullet.Set_Velocity(inAngle);
+		return bullet;
+
 		
 	}
 	
@@ -50,6 +50,10 @@ public class Player extends Entity {
 		return velocity;
 	}
 	
+	public Vector Get_Position() {
+		return this.getPosition();
+	}
+	
 	public int Get_Hash() {
 		int hash = 17*(int)this.getX()^19 * (int)(this.getY());
 		return hash;
@@ -59,12 +63,13 @@ public class Player extends Entity {
 		
 		if (this.dodging == true) {
 			dodge_timer -= delta;
+			//System.out.println("Player is dodge? " + this.dodging);
 		}
 		
 		if (dodge_timer <= 0) {
 			this.speed = 1f;
 			this.dodging = false;
-			dodge_timer = 3000;	
+			dodge_timer = 500;	
 		}
 		
 		try {
