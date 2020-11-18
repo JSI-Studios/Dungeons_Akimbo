@@ -36,9 +36,9 @@ public class DaMob extends Entity implements DaEnemy {
 	}
 
 	@Override
-	public boolean checkCollision(Entity player) {
+	public boolean checkCollision(Entity object, boolean isPlayer) {
 		boolean didCollide = false;
-		if(this.collides(player) != null && this.getBounceCooldown() == 0) {
+		if(this.collides(object) != null && this.getBounceCooldown() == 0) {
 			System.out.println("Collides!");
 			this.setHealth(this.getHealth() - 1);
 			this.setBounceCooldown(10);
