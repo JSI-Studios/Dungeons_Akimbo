@@ -107,6 +107,7 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	public void loadMap() {
 		if(mapReady)
 			gameMap = new DaMap(mapPlan);
+			gameMap.loadMap();
 	}
 	
 	public DaMap getCurrentMap() {
