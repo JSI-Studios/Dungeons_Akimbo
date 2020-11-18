@@ -15,8 +15,9 @@ public class Projectile extends Entity {
 		addImageWithBoundingBox(ResourceManager.getImage(DungeonsAkimboGame.TEMP_BULLET));
 	}
 	
-	public void Set_Velocity() {
-		velocity = new Vector(0f, -0.3f);
+	public void Set_Velocity(double inAngle) {
+		velocity = Vector.getVector(inAngle, 2f);
+		
 	}
 	
 	public void update(final int delta) {
