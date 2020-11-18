@@ -1,10 +1,10 @@
-package dungeonsAkimbo;
+package dungeonsAkimbo.InputListeners;
 
 import org.newdawn.slick.Input;
 import org.newdawn.slick.command.BasicCommand;
 
 /**
- * A generic controllerListener implementation that
+ * A generic controllerListener implementation that needs to be bound to a controller
  */
 public class DaControllerListener implements org.newdawn.slick.ControllerListener {
     private Boolean bound;
@@ -236,7 +236,7 @@ public class DaControllerListener implements org.newdawn.slick.ControllerListene
      * TODO: allocate space for additional command information (ex. direction)
      */
     public BasicCommand issueCommand() {
-//        example below (Used in Daniel Garrett's Slick2d-ControllerTest repository):
+//        example command name assignment below (Used in Daniel Garrett's Slick2d-ControllerTest repository):
 //        for (int i = 1; i < buttonsPressed.length; i++) {
 //            if (buttonsPressed[i]) {
 //                switch (i) {
