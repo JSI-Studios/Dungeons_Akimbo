@@ -112,9 +112,19 @@ public class PlayTestState extends BasicGameState {
 				new_velocity = new Vector(0f, 0f);
 			}
 
-			if (input.isKeyPressed(Input.KEY_J)) {
-				dag.player.Shoot(dag);
+			if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+				Vector mouseVec = new Vector(input.getMouseX(), input.getMouseY());
+				Vector playerPos = dag.player.Get_Position();
+				double shot_angle = playerPos.angleTo(mouseVec);
+				Projectile bullet = dag.player.Shoot(shot_angle);
+				dag.getPlayer_bullets().add(bullet);
+			
 			}
+			
+			if (input.isKeyPressed(Input.KEY_SPACE)) {
+				dag.player.Do_Dodge(delta, 1);
+			}
+			
 			
 			dag.player.Set_Velocity(new_velocity);
 		}
