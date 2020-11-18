@@ -14,6 +14,7 @@ public class DaMob extends Entity implements DaEnemy {
 	private Vector velocity;
 	private float initX;
 	private float initY;
+	private float bounceCooldown;
 	
 	private SpriteSheet sprite;
 	
@@ -22,10 +23,11 @@ public class DaMob extends Entity implements DaEnemy {
 		super.setDebug(debug);
 		setInitX(x);
 		setInitY(y);
+		this.setBounceCooldown(0);
 		this.setType(type);
 		this.sprite = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.MOB_ONE), 32, 32, 4, 0);
 		if(type == 0) {
-			setHealth(3);
+			setHealth(20);
 			addImageWithBoundingBox(sprite.getSprite(0, 0).getScaledCopy(.5f));
 		} else {
 			setHealth(5);
@@ -36,17 +38,21 @@ public class DaMob extends Entity implements DaEnemy {
 	@Override
 	public boolean checkCollision(Entity player) {
 		boolean didCollide = false;
-		if(this.collides(player) != null) {
+		if(this.collides(player) != null && this.getBounceCooldown() == 0) {
+			System.out.println("Collides!");
 			this.setHealth(this.getHealth() - 1);
+			this.setBounceCooldown(10);
+			this.velocity = new Vector(0, 0);
 			didCollide = true;
-			System.out.println("Collision!");
 		}
 		return didCollide;
 	}
 
 	@Override
 	public void attack(Entity player) {
-		if(type == 0) {
+		if(this.getBounceCooldown() > 0) {
+			this.setBounceCooldown(this.getBounceCooldown() - 1);
+		} else if(type == 0) {
 			// Just track the player and collide with them
 			Vector distance = this.getPosition().subtract(player.getPosition());
 			this.velocity = distance.unit().negate();
@@ -97,6 +103,14 @@ public class DaMob extends Entity implements DaEnemy {
 
 	public void setInitY(float initY) {
 		this.initY = initY;
+	}
+
+	public float getBounceCooldown() {
+		return bounceCooldown;
+	}
+
+	public void setBounceCooldown(float bounceCooldown) {
+		this.bounceCooldown = bounceCooldown;
 	}
 	
 }
