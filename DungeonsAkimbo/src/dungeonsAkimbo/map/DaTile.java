@@ -14,13 +14,17 @@ public class DaTile extends Entity {
 	private int cost;	// tile pathing cost context
 	private int tileX;	// tile map x
 	private int tileY;	// tile map y
+	private Image sprite;
 	
 	DaTile(int x, int y, int type, Image tileImage){
 		super(x, y);
+		
 		this.tileX = x;
 		this.tileY = y;
 		this.type = type;
-		addImage(tileImage, new Vector(15,15));
+		this.sprite = tileImage;
+		addImage(sprite, new Vector(15,15));
+		
 	}
 	
 	
