@@ -1,8 +1,9 @@
-package dungeonsAkimbo;
+package dungeonsAkimbo.entities;
 
 
 import org.newdawn.slick.state.StateBasedGame;
 
+import dungeonsAkimbo.DungeonsAkimboGame;
 import jig.Entity;
 import jig.ResourceManager;
 import jig.Vector;
@@ -32,7 +33,7 @@ public class Player extends Entity {
 		
 		Projectile bullet = new Projectile(this.getX(), this.getY());
 		bullet.Set_Velocity();
-		dag.player_bullets.add(bullet);
+		dag.getPlayer_bullets().add(bullet);
 		
 	}
 	

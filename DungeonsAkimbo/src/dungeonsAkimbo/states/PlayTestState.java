@@ -1,4 +1,4 @@
-package dungeonsAkimbo;
+package dungeonsAkimbo.states;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -13,13 +13,17 @@ import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import dungeonsAkimbo.DungeonsAkimboGame;
+import dungeonsAkimbo.entities.DaMob;
+import dungeonsAkimbo.entities.Projectile;
+import dungeonsAkimbo.gui.ChatGUI;
+import dungeonsAkimbo.gui.DaCamera;
 import jig.Vector;
 
 public class PlayTestState extends BasicGameState {
 
 	public DaCamera gameView;
-	private TextField chatBar;
-	private TextField chatLog;
+	private ChatGUI chat;
 	
 	private String chatMessage = "";
 	
@@ -41,15 +45,7 @@ public class PlayTestState extends BasicGameState {
 		gameView = new DaCamera(dag.getCurrentMap());
 		
 		//Chat GUI handling
-		chatLog = new TextField(container, container.getDefaultFont(), 1025, 580, 246, 400);
-		chatLog.setBackgroundColor(Color.transparent);
-		chatLog.setBorderColor(Color.gray);
-		chatLog.setTextColor(Color.white);
-		chatBar = new TextField(container, container.getDefaultFont(), 1025, 980, 246, 20);
-		chatBar.setBackgroundColor(Color.transparent);
-		chatBar.setBorderColor(Color.gray);
-		chatBar.setCursorVisible(true);
-		chatBar.setTextColor(Color.white);
+		chat = new ChatGUI(0, 768, 1024, 244, container);
 
 	}
 
@@ -70,11 +66,12 @@ public class PlayTestState extends BasicGameState {
 		mobs.forEach((mob) -> mob.render(g));
 
 		// Render projectile
-		for (Projectile b : dag.player_bullets) {
+		for (Projectile b : dag.getPlayer_bullets()) {
 			b.render(g);
 		}
-		chatLog.render(container, g);
-		chatBar.render(container, g);
+		
+		chat.getChatLog().render(container, g);
+		chat.getChatBar().render(container, g);
 		
 	}
 
@@ -90,19 +87,14 @@ public class PlayTestState extends BasicGameState {
 
 		// Chat controls
 		if (input.isKeyPressed(Input.KEY_ENTER)) {
+			input.clearKeyPressedRecord();
 			if (!chatting) {
-				chatBar.setFocus(true);
-				chatBar.setConsumeEvents(true);
+				chat.activateChatBar();
 				chatting = !chatting;
-			} else {
-				
-				chatBar.setFocus(false);
-				chatBar.setConsumeEvents(false);
-				chatMessage = chatBar.getText();
-				dag.getClient().sendMessage(chatMessage);
-				chatBar.setText("");
-				chatting = !chatting;
-				
+			} else {	
+				String message = chat.getChatBarContents();
+				dag.getClient().sendMessage(message);
+				chatting = !chatting;		
 			}
 		}
 		// Temp movement control handling
@@ -143,7 +135,7 @@ public class PlayTestState extends BasicGameState {
 		}
 
 		//
-		for (Projectile b : dag.player_bullets) {
+		for (Projectile b : dag.getPlayer_bullets()) {
 			b.update(delta);
 		}
 
@@ -161,8 +153,9 @@ public class PlayTestState extends BasicGameState {
 			if (!dag.getClient().getMessageLog().isEmpty()) {
 				List<String> newChats = dag.getClient().getMessageLog();
 				for(String message : newChats) {
-					chatLog.setText(chatLog.getText() + "\n" + message);
+					chat.addNewChat(message);
 				}
+				chat.updateChatLog();
 				dag.getClient().getMessageLog().clear();
 			}
 		}

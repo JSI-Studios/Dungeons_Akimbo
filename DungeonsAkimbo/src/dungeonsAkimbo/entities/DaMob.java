@@ -1,7 +1,8 @@
-package dungeonsAkimbo;
+package dungeonsAkimbo.entities;
 
 import org.newdawn.slick.SpriteSheet;
 
+import dungeonsAkimbo.DungeonsAkimboGame;
 import jig.Entity;
 import jig.ResourceManager;
 import jig.Vector;
