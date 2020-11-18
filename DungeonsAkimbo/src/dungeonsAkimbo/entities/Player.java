@@ -11,8 +11,8 @@ public class Player extends Entity {
 	
 	
 	public float speed;
-	public int current_health;
-	public int max_health;
+	private int current_health;
+	private int max_health;
 	public int dodge_timer = 500;
 	
 	boolean dodging;
@@ -21,7 +21,11 @@ public class Player extends Entity {
 	
 	public Player(final float x, final float y) {
 		super(x, y);
-		current_health = this.max_health;
+		// Max health can either be set from constructor, or a be statically 
+		// constant, deal with later
+		setMax_health(100);
+		setCurrent_health(getMax_health());
+		speed = 2f;
 		speed = 1f;
 		this.addImageWithBoundingBox(ResourceManager.getImage(DungeonsAkimboGame.TEMP_PLAYER));
 	}
@@ -77,5 +81,21 @@ public class Player extends Entity {
 		} catch (Exception e) {
 			System.out.println("caught exception when trying to translate player velocity" + e);
 		} 
+	}
+
+	public int getMax_health() {
+		return max_health;
+	}
+
+	public void setMax_health(int max_health) {
+		this.max_health = max_health;
+	}
+
+	public int getCurrent_health() {
+		return current_health;
+	}
+
+	public void setCurrent_health(int current_health) {
+		this.current_health = current_health;
 	}
 }
