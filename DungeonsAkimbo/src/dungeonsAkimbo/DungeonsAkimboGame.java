@@ -27,7 +27,7 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	//Art Macros
 	public static final String TEMP_PLAYER = "dungeonsAkimbo/resource/Projectiles/temp_player.png";
 	public static final String TEMP_BULLET = "dungeonsAkimbo/resource/Projectiles/temp_bullet.png";
-	public static final String MOB_ONE = "dungeonsAkimbo/resource/Mobs/Spoopy.png";
+	public static final String MOB_ZERO = "dungeonsAkimbo/resource/Mobs/Spoopy.png";
 	
 	//State Identitifiers
 	public static final int SPLASHSCREENSTATE = 0;
@@ -75,7 +75,7 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		ResourceManager.loadImage(TEMP_BULLET);
 		
 		// Load images for mobs
-		ResourceManager.loadImage(MOB_ONE);
+		ResourceManager.loadImage(MOB_ZERO);
 		
 		Entity.antiAliasing = false;
 		Entity.setCoarseGrainedCollisionBoundary(Entity.CIRCLE);
