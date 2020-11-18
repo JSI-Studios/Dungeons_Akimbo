@@ -59,7 +59,7 @@ public class PlayTestState extends BasicGameState {
 		gameView.renderMap(g);
 
 		// Simply names from dag
-		ArrayList<DaMob> mobs = dag.mobs;
+		ArrayList<DaMob> mobs = dag.getCurrentMap().mobs;
 
 		dag.player.render(g);
 
@@ -67,7 +67,7 @@ public class PlayTestState extends BasicGameState {
 		mobs.forEach((mob) -> mob.render(g));
 
 		// Render projectile
-		for (Projectile b : dag.getPlayer_bullets()) {
+		for (Projectile b : dag.getCurrentMap().getPlayer_bullets()) {
 			b.render(g);
 		}
 		
@@ -80,7 +80,7 @@ public class PlayTestState extends BasicGameState {
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 
 		// Simply names from dag
-		ArrayList<DaMob> mobs = dag.mobs;
+		ArrayList<DaMob> mobs = dag.getCurrentMap().mobs;
 
 		Vector new_velocity;
 		Input input = container.getInput();
@@ -117,7 +117,7 @@ public class PlayTestState extends BasicGameState {
 				Vector playerPos = dag.player.Get_Position();
 				double shot_angle = playerPos.angleTo(mouseVec);
 				Projectile bullet = dag.player.Shoot(shot_angle);
-				dag.getPlayer_bullets().add(bullet);
+				dag.getCurrentMap().getPlayer_bullets().add(bullet);
 			
 			}
 			
@@ -145,7 +145,7 @@ public class PlayTestState extends BasicGameState {
 		}
 
 		// Check for collision with mobs, and also update projectiles
-		for (Projectile b : dag.getPlayer_bullets()) {
+		for (Projectile b : dag.getCurrentMap().getPlayer_bullets()) {
 			mobs.forEach((mob)->mob.checkCollision(b, false));
 			b.update(delta);
 		}
