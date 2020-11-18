@@ -18,7 +18,8 @@ public class DaWall extends Entity {
 		this.tileX = x;
 		this.tileY = y;
 		this.type = type; //vertical:208 horizontal:216 NEcorner:211 NWcorner:210 SWcorner:218 SEcorner:219
-		addImageWithBoundingBox(tileImage, new Vector(15,15));
+		this.addImageWithBoundingBox(tileImage);
+		this.setCoarseGrainedRadius(this.getCoarseGrainedRadius()/2.15f);
 	}
 
 	
