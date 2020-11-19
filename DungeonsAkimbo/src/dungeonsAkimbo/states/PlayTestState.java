@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -68,7 +69,9 @@ public class PlayTestState extends BasicGameState {
 		chat.getChatBar().render(container, g);
 		
 		//Testing room
+		g.setColor(Color.black);
 		g.drawString("DUNGEONS AKIMBO TESTING AREA, ITS A MESS, WE KNOW....", 400, 10);
+		g.setColor(Color.white);
 	}
 
 	@Override
