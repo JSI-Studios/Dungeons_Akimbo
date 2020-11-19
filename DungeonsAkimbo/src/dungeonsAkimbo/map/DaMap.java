@@ -25,8 +25,8 @@ public class DaMap implements TileBasedMap{
 	private ArrayList<DaTile> tileList;
 	private ArrayList<DaWall> wallList;
 	private DaTile[][] tiles; //2d array of tile entities
-	public ArrayList<DaMob> mobs;
-	ArrayList<Projectile> player_bullets;
+	private ArrayList<DaMob> mobs;
+	private ArrayList<Projectile> player_bullets;
 	
 	//PathFinding variables
 	private Boolean[][] visited;
@@ -72,6 +72,10 @@ public class DaMap implements TileBasedMap{
 	public ArrayList<DaWall> getWallList() {
 		// TODO Auto-generated method stub
 		return wallList;
+	}
+	
+	public ArrayList<DaMob> getMobList(){
+		return mobs;
 	}
 	
 	
