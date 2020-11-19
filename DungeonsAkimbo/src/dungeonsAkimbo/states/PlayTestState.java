@@ -59,7 +59,7 @@ public class PlayTestState extends BasicGameState {
 		gameView.renderMap(g);
 
 		// Simply names from dag
-		ArrayList<DaMob> mobs = dag.getCurrentMap().mobs;
+		ArrayList<DaMob> mobs = dag.getCurrentMap().getMobList();
 
 		dag.player.render(g);
 
@@ -80,7 +80,7 @@ public class PlayTestState extends BasicGameState {
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 
 		// Simply names from dag
-		ArrayList<DaMob> mobs = dag.getCurrentMap().mobs;
+		ArrayList<DaMob> mobs = dag.getCurrentMap().getMobList();
 
 		Vector new_velocity;
 		Input input = container.getInput();
