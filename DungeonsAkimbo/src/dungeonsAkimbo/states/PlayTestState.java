@@ -56,8 +56,9 @@ public class PlayTestState extends BasicGameState {
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 		// TODO Auto-generated method stub
-		g.drawString("DUNGEONS AKIMBO TESTING AREA, ITS A MESS, WE KNOW....", 400, 10);
-
+		
+		
+		//render the camera view and everything within it. layered in the order of calls.
 		gameView.renderMap(g);
 		gameView.renderPlayers(g);
 		gameView.renderMobs(g);
@@ -66,6 +67,8 @@ public class PlayTestState extends BasicGameState {
 		chat.getChatLog().render(container, g);
 		chat.getChatBar().render(container, g);
 		
+		//Testing room
+		g.drawString("DUNGEONS AKIMBO TESTING AREA, ITS A MESS, WE KNOW....", 400, 10);
 	}
 
 	@Override
