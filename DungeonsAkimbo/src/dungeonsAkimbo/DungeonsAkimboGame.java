@@ -82,7 +82,7 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		
 		
 		
-		player = new Player(screenWidth / 2, screenHeight / 3);
+		
 		
 		// Initialize mobs (currently start with one mob)
 		
@@ -125,6 +125,12 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		return (DaClient) client;
 	}
 	
+	public void addPlayer(int playerID) {
+		// TODO Auto-generated method stub
+		if(gameMap.getPlayerList().containsKey(playerID)) return;
+		
+		gameMap.addNewPlayer(playerID);
+	}
 
 	
 	public static void main(String[] args) {
@@ -140,6 +146,7 @@ public class DungeonsAkimboGame extends StateBasedGame {
 			e.printStackTrace();
 		}
 	}
+
 
 }
 

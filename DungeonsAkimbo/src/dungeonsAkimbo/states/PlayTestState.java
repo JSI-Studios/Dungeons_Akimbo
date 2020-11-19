@@ -4,12 +4,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -18,6 +16,7 @@ import dungeonsAkimbo.entities.DaMob;
 import dungeonsAkimbo.entities.Projectile;
 import dungeonsAkimbo.gui.ChatGUI;
 import dungeonsAkimbo.gui.DaCamera;
+import dungeonsAkimbo.netcode.UniqueIdentifier;
 import jig.Vector;
 
 public class PlayTestState extends BasicGameState {
@@ -29,12 +28,14 @@ public class PlayTestState extends BasicGameState {
 	
 	private boolean chatting = false;
 	
-	private DungeonsAkimboGame dag; 
+	private DungeonsAkimboGame dag;
+	
+	private int playerID;
 
 	@Override
 	public void init(GameContainer container, StateBasedGame game) throws SlickException {
 		// TODO Auto-generated method stub
-
+		
 
 	}
 
@@ -45,7 +46,8 @@ public class PlayTestState extends BasicGameState {
 		dag.loadNewTiledMap(1);
 		dag.loadMap();
 		gameView = new DaCamera(dag.getCurrentMap());
-		
+		playerID = dag.getClient().getClientID();
+		dag.addPlayer(playerID);
 		//Chat GUI handling
 		chat = new ChatGUI(0, 768, 1024, 244, container);
 
@@ -57,19 +59,9 @@ public class PlayTestState extends BasicGameState {
 		g.drawString("DUNGEONS AKIMBO TESTING AREA, ITS A MESS, WE KNOW....", 400, 10);
 
 		gameView.renderMap(g);
-
-		// Simply names from dag
-		ArrayList<DaMob> mobs = dag.getCurrentMap().getMobList();
-
-		dag.player.render(g);
-
-		// Render mob if health exists
-		mobs.forEach((mob) -> mob.render(g));
-
-		// Render projectile
-		for (Projectile b : dag.getCurrentMap().getPlayer_bullets()) {
-			b.render(g);
-		}
+		gameView.renderPlayers(g);
+		gameView.renderMobs(g);
+		gameView.renderProjectiles(g);
 		
 		chat.getChatLog().render(container, g);
 		chat.getChatBar().render(container, g);
@@ -101,40 +93,44 @@ public class PlayTestState extends BasicGameState {
 		
 		if (!chatting) {
 			if (input.isKeyDown(Input.KEY_W)) {
-				new_velocity = new Vector(0f, -0.5f * dag.player.speed);
+				new_velocity = new Vector(0f, -0.5f * dag.getCurrentMap().getPlayerList().get(playerID).speed);
 			} else if (input.isKeyDown(Input.KEY_A)) {
-				new_velocity = new Vector(-0.5f * dag.player.speed, 0f);
+				new_velocity = new Vector(-0.5f * dag.getCurrentMap().getPlayerList().get(playerID).speed, 0f);
 			} else if (input.isKeyDown(Input.KEY_S)) {
-				new_velocity = new Vector(0f, 0.5f * dag.player.speed);
+				new_velocity = new Vector(0f, 0.5f * dag.getCurrentMap().getPlayerList().get(playerID).speed);
 			} else if (input.isKeyDown(Input.KEY_D)) {
-				new_velocity = new Vector(0.5f * dag.player.speed, 0f);
+				new_velocity = new Vector(0.5f * dag.getCurrentMap().getPlayerList().get(playerID).speed, 0f);
 			} else {
 				new_velocity = new Vector(0f, 0f);
+			}
+			
+			if (input.isKeyPressed(Input.KEY_P)) {
+				dag.getClient().console(Integer.toString(playerID));
 			}
 
 			if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
 				Vector mouseVec = new Vector(input.getMouseX(), input.getMouseY());
-				Vector playerPos = dag.player.Get_Position();
+				Vector playerPos = dag.getCurrentMap().getPlayerList().get(playerID).Get_Position();
 				double shot_angle = playerPos.angleTo(mouseVec);
-				dag.getCurrentMap().getPlayer_bullets().add(dag.player.Shoot(shot_angle));
+				dag.getCurrentMap().getPlayer_bullets().add(dag.getCurrentMap().getPlayerList().get(playerID).Shoot(shot_angle));
 			
 			}
 			
 			if (input.isKeyPressed(Input.KEY_SPACE)) {
-				dag.player.Do_Dodge(delta, 1);
+				dag.getCurrentMap().getPlayerList().get(playerID).Do_Dodge(delta, 1);
 			}
 			
 			
-			dag.player.Set_Velocity(new_velocity);
+			dag.getCurrentMap().getPlayerList().get(playerID).Set_Velocity(new_velocity);
 		}
 
 		
 
 		// Mob attacking the player
-		mobs.forEach((mob) -> mob.attack(dag.player));
+		mobs.forEach((mob) -> mob.attack(dag.getCurrentMap().getPlayerList().get(playerID)));
 
 		// Mob collision handling
-		mobs.forEach((mob) -> mob.checkCollision(dag.player, true));
+		mobs.forEach((mob) -> mob.checkCollision(dag.getCurrentMap().getPlayerList().get(playerID), true));
 		for (Iterator<DaMob> i = mobs.iterator(); i.hasNext();) {
 			// Check if any mobs lost all their health
 			DaMob mob = i.next();
@@ -150,7 +146,7 @@ public class PlayTestState extends BasicGameState {
 		}
 
 		// Update entities
-		dag.player.update(delta);
+		dag.getCurrentMap().getPlayerList().get(playerID).update(delta);
 		mobs.forEach((mob) -> mob.update(delta));
 		
 		updateChatLog(dag);
