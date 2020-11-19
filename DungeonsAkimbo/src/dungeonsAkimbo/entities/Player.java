@@ -2,6 +2,8 @@ package dungeonsAkimbo.entities;
 
 
 
+import java.util.ArrayList;
+
 import dungeonsAkimbo.DungeonsAkimboGame;
 import jig.Entity;
 import jig.ResourceManager;
@@ -9,11 +11,15 @@ import jig.Vector;
 
 public class Player extends Entity {
 	
+	ArrayList<Weapon> gunBackpack;
+	
+	public Weapon primaryWeapon;
+	
 	
 	public float speed;
-	private int current_health;
+	private int currentHealth;
 	private int max_health;
-	public int dodge_timer = 500;
+	public int dodgeTimer = 500;
 	
 	boolean dodging;
 	
@@ -26,17 +32,21 @@ public class Player extends Entity {
 		setMax_health(100);
 		setCurrent_health(getMax_health());
 		speed = 2f;
-		speed = 1f;
+		
+		primaryWeapon = new DaSniper();
+		
+		gunBackpack = new ArrayList<Weapon>();
+		
 		this.addImageWithBoundingBox(ResourceManager.getImage(DungeonsAkimboGame.TEMP_PLAYER));
+	}
+	
+	public void Gun_Select(int i) {
+		this.primaryWeapon = gunBackpack.get(i);
 	}
 	
 	public Projectile Shoot(double inAngle) {
 		
-		Projectile bullet = new Projectile(this.getX(), this.getY());
-
-		bullet.rotate(inAngle);
-		bullet.Set_Velocity(inAngle);
-		return bullet;
+		return this.primaryWeapon.Attack(inAngle);
 
 		
 	}
@@ -66,14 +76,14 @@ public class Player extends Entity {
 	public void update(final int delta) {
 		
 		if (this.dodging == true) {
-			dodge_timer -= delta;
+			dodgeTimer -= delta;
 			//System.out.println("Player is dodge? " + this.dodging);
 		}
 		
-		if (dodge_timer <= 0) {
+		if (dodgeTimer <= 0) {
 			this.speed = 1f;
 			this.dodging = false;
-			dodge_timer = 500;	
+			dodgeTimer = 500;	
 		}
 		
 		try {
@@ -92,10 +102,10 @@ public class Player extends Entity {
 	}
 
 	public int getCurrent_health() {
-		return current_health;
+		return currentHealth;
 	}
 
 	public void setCurrent_health(int current_health) {
-		this.current_health = current_health;
+		this.currentHealth = current_health;
 	}
 }
