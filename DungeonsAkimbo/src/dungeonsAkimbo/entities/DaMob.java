@@ -102,6 +102,10 @@ public class DaMob extends Entity implements DaEnemy {
 		// Move the sprite
 		translate(this.velocity.scale(delta));
 	}
+	
+	public boolean isDead() {
+		return this.health <= 0;
+	}
 
 	public int getHealth() {
 		return health;
