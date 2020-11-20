@@ -5,13 +5,14 @@ import jig.Vector;
 
 public class DaSniper extends Entity implements Weapon {
 	
-	int ammo, shoot_timer, range;
-	boolean can_shoot;
+	private int ammo, shoot_timer, range, damage;
+	private boolean can_shoot;
 	
 	public DaSniper() {
 		ammo = 20;
 		shoot_timer = 30;
 		range = 20;
+		damage = 40;
 		can_shoot = true;
 		
 		//add in art
@@ -27,12 +28,28 @@ public class DaSniper extends Entity implements Weapon {
 		// TODO Auto-generated method stub
 		this.can_shoot = false;
 		
-		Projectile bullet = new Projectile(this.getX(), this.getY());
+		Projectile bullet = new Projectile(this.getX(), this.getY(), this.damage);
 
 		bullet.rotate(inAngle);
 		bullet.Set_Velocity(inAngle);
 		return bullet;
 		
+	}
+	
+	public int Get_Range() {
+		return this.range;
+	}
+	
+	public void Decrement_Ammo() {
+		this.ammo--;
+	}
+	
+	public int Get_Ammo() {
+		return this.ammo;
+	}
+	
+	public int Get_Damage() {
+		return this.damage;
 	}
 
 	@Override

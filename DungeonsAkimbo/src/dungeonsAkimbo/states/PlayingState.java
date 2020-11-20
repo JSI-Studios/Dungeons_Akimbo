@@ -48,19 +48,6 @@ public class PlayingState extends BasicGameState {
 		Vector new_velocity;
 		Input input = container.getInput();
 		
-		if(input.isKeyDown(Input.KEY_W)) {			
-			new_velocity = new Vector(0f, -0.5f*dg.player.speed);	
-		} else if (input.isKeyDown(Input.KEY_A)) {		
-			new_velocity = new Vector(-0.5f*dg.player.speed, 0f);
-		} else if (input.isKeyDown(Input.KEY_S)) {			
-			new_velocity = new Vector(0f, 0.5f*dg.player.speed);
-		} else if (input.isKeyDown(Input.KEY_D)){			
-			new_velocity = new Vector(0.5f*dg.player.speed, 0f);
-		} else {
-			new_velocity = new Vector(0f,0f);
-		}
-		
-		dg.player.Set_Velocity(new_velocity);
 		
 		dg.player.update(delta);
 	}
