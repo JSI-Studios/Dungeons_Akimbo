@@ -79,7 +79,7 @@ public class PlayTestState extends BasicGameState {
 
 		// Simply names from dag
 		ArrayList<DaMob> mobs = dag.getCurrentMap().getMobList();
-
+		dag.collideCheck(delta);
 		Vector new_velocity;
 		Input input = container.getInput();
 
