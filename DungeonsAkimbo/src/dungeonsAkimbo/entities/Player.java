@@ -11,44 +11,56 @@ import jig.Vector;
 
 public class Player extends Entity {
 	
-	ArrayList<Weapon> gunBackpack;
+	private ArrayList<Weapon> gunBackpack;
 	
-	public Weapon primaryWeapon;
+	private Weapon primaryWeapon;
 	
 	
-	public float speed;
+	private float speed;
 	private int currentHealth;
 	private int max_health;
-	public int dodgeTimer = 500;
+	private int dodgeTimer = 500;
 	
-	boolean dodging;
+	private boolean dodging;
 	
 	private Vector velocity;
 	
-	public Player(final float x, final float y) {
+	public Player(final float x, final float y, int type) {
 		super(x, y);
 		// Max health can either be set from constructor, or a be statically 
 		// constant, deal with later
-		setMax_health(100);
-		setCurrent_health(getMax_health());
-		speed = 2f;
 		
-		primaryWeapon = new DaSniper();
-		
-		gunBackpack = new ArrayList<Weapon>();
-		
-		this.addImageWithBoundingBox(ResourceManager.getImage(DungeonsAkimboGame.TEMP_PLAYER));
+		//class 1
+		if (type==1) {
+			setMax_health(100);
+			setCurrent_health(getMax_health());
+			speed = 2f;		
+			primaryWeapon = new DaSniper();		
+			gunBackpack = new ArrayList<Weapon>();		
+			gunBackpack.add(primaryWeapon);
+			this.addImageWithBoundingBox(ResourceManager.getImage(DungeonsAkimboGame.TEMP_PLAYER));
+		} else if (type==2) {
+			setMax_health(50);
+			setCurrent_health(getMax_health());
+			speed = 4f;		
+			primaryWeapon = new DaSniper();		
+			gunBackpack = new ArrayList<Weapon>();		
+			gunBackpack.add(primaryWeapon);
+		}
 	}
 	
 	public void Gun_Select(int i) {
 		this.primaryWeapon = gunBackpack.get(i);
 	}
 	
-	public Projectile Shoot(double inAngle) {
-		
-		return this.primaryWeapon.Attack(inAngle);
-
-		
+	public Projectile Shoot(double inAngle) {	
+		return this.primaryWeapon.Attack(inAngle);	
+	}
+	
+	public Weapon Swap_Wep(Weapon s) {
+		Weapon temp = this.primaryWeapon;
+		this.primaryWeapon = s;
+		return temp;
 	}
 	
 	public void Do_Dodge(final int delta, int scaler) {
@@ -62,6 +74,14 @@ public class Player extends Entity {
 	
 	public Vector Get_Velocity() {
 		return velocity;
+	}
+	
+	public void Set_Speed(float s) {
+		this.speed = s;
+	}
+	
+	public float Get_Speed() {
+		return this.speed;
 	}
 	
 	public Vector Get_Position() {

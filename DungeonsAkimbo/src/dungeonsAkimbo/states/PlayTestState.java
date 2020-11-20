@@ -99,13 +99,13 @@ public class PlayTestState extends BasicGameState {
 		
 		if (!chatting) {
 			if (input.isKeyDown(Input.KEY_W)) {
-				new_velocity = new Vector(0f, -0.5f * dag.getCurrentMap().getPlayerList().get(playerID).speed);
+				new_velocity = new Vector(0f, -0.5f * dag.getCurrentMap().getPlayerList().get(playerID).Get_Speed());
 			} else if (input.isKeyDown(Input.KEY_A)) {
-				new_velocity = new Vector(-0.5f * dag.getCurrentMap().getPlayerList().get(playerID).speed, 0f);
+				new_velocity = new Vector(-0.5f * dag.getCurrentMap().getPlayerList().get(playerID).Get_Speed(), 0f);
 			} else if (input.isKeyDown(Input.KEY_S)) {
-				new_velocity = new Vector(0f, 0.5f * dag.getCurrentMap().getPlayerList().get(playerID).speed);
+				new_velocity = new Vector(0f, 0.5f * dag.getCurrentMap().getPlayerList().get(playerID).Get_Speed());
 			} else if (input.isKeyDown(Input.KEY_D)) {
-				new_velocity = new Vector(0.5f * dag.getCurrentMap().getPlayerList().get(playerID).speed, 0f);
+				new_velocity = new Vector(0.5f * dag.getCurrentMap().getPlayerList().get(playerID).Get_Speed(), 0f);
 			} else {
 				new_velocity = new Vector(0f, 0f);
 			}
