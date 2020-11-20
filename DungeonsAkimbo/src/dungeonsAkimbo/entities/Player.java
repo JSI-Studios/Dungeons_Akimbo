@@ -110,7 +110,9 @@ public class Player extends Entity {
 			translate(velocity.scale(delta));
 		} catch (Exception e) {
 			System.out.println("caught exception when trying to translate player velocity" + e);
-		} 
+		}
+		
+		this.primaryWeapon.Set_Position(this.getX(), this.getY());
 	}
 
 	public int getMax_health() {
