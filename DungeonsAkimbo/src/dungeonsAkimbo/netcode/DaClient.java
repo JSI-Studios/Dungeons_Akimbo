@@ -8,9 +8,12 @@ public class DaClient extends Thread {
 	private Thread run, listen;
 	private DaClientConnectionHandler DaHandler;
 	private List<String> messageLog = new ArrayList<String>();
-
+	
+	
 	private boolean running;
 
+	private boolean verbose = false;
+	
 	public DaClient(String name, String address, int port) {
 		DaHandler = new DaClientConnectionHandler(name, address, port);
 		boolean connect = DaHandler.openConnnection(address);
@@ -56,7 +59,7 @@ public class DaClient extends Thread {
 						String text = message.substring(3);
 						text = text.split("/e/")[0];
 						
-						console(text);
+						if(verbose) console(text);
 						messageLog.add(text);
 					} else if (message.startsWith("/i/")) {
 						String text = "/i/" + DaHandler.getID() + "/e/";
@@ -69,7 +72,8 @@ public class DaClient extends Thread {
 	}
 	
 	public void console(String message) {
-		message = DaHandler.getClientName() + "( " + DaHandler.getID() + " ): " + message;
+		message = "Client: "+ message;
+		messageLog.add(message);
 		System.out.println("Client: " + message);
 						
 	}
@@ -80,6 +84,10 @@ public class DaClient extends Thread {
 	
 	public void clearMessageLog() {
 		messageLog.clear();
+	}
+	
+	public int getClientID() {
+		return DaHandler.getID();
 	}
 
 }

@@ -1,6 +1,8 @@
 package dungeonsAkimbo.map;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.newdawn.slick.tiled.TiledMap;
 import org.newdawn.slick.util.pathfinding.PathFindingContext;
@@ -8,6 +10,7 @@ import org.newdawn.slick.util.pathfinding.TileBasedMap;
 
 import dungeonsAkimbo.DungeonsAkimboGame;
 import dungeonsAkimbo.entities.DaMob;
+import dungeonsAkimbo.entities.Player;
 import dungeonsAkimbo.entities.Projectile;
 
 public class DaMap implements TileBasedMap{
@@ -25,13 +28,14 @@ public class DaMap implements TileBasedMap{
 	private ArrayList<DaTile> tileList;
 	private ArrayList<DaWall> wallList;
 	private DaTile[][] tiles; //2d array of tile entities
-	public ArrayList<DaMob> mobs;
-	ArrayList<Projectile> player_bullets;
+	private ArrayList<DaMob> mobs;
+	private ArrayList<Projectile> player_bullets;
+	private Map<Integer, Player> playerList;
 	
 	//PathFinding variables
 	private Boolean[][] visited;
 	
-	private final int TILE_SIZE = 32;
+	public final static int TILE_SIZE = 32;
 	
 	public DaMap(TiledMap map) {
 		this.currentMap = map;
@@ -74,6 +78,10 @@ public class DaMap implements TileBasedMap{
 		return wallList;
 	}
 	
+	public ArrayList<DaMob> getMobList(){
+		return mobs;
+	}
+	
 	
 	@Override
 	public void pathFinderVisited(int x, int y) {
@@ -102,8 +110,18 @@ public class DaMap implements TileBasedMap{
 		loadNewMap(currentMap);
 	}
 	
+	public Map<Integer, Player> getPlayerList() {
+		// TODO Auto-generated method stub
+		return playerList;
+	}
+	
 	public ArrayList<Projectile> getPlayer_bullets() {
 		return player_bullets;
+	}
+	
+	public void addNewPlayer(int playerID) {
+		Player player = new Player(DungeonsAkimboGame.WIDTH / 2, DungeonsAkimboGame.HEIGHT / 3);
+		playerList.put(playerID, player);		
 	}
 	
 	public void loadNewMap(TiledMap mapPlan) {
@@ -117,6 +135,7 @@ public class DaMap implements TileBasedMap{
 		tileList = new ArrayList<DaTile>();
 		wallList = new ArrayList<DaWall>();
 		
+		playerList = new HashMap<Integer, Player>();
 		player_bullets = new ArrayList<Projectile>();
 		mobs = new ArrayList<DaMob>();
 		
@@ -143,6 +162,8 @@ public class DaMap implements TileBasedMap{
 		mobs.add(new DaMob(DungeonsAkimboGame.WIDTH / 2, DungeonsAkimboGame.HEIGHT / 2, 0, true));
 		
 	}
+
+
 
 	
 
