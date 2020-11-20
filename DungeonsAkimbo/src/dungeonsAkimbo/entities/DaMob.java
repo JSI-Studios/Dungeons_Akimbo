@@ -1,5 +1,6 @@
 package dungeonsAkimbo.entities;
 
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SpriteSheet;
 
 import dungeonsAkimbo.DungeonsAkimboGame;
@@ -15,8 +16,10 @@ public class DaMob extends Entity implements DaEnemy {
 	private float initX;
 	private float initY;
 	private float bounceCooldown;
+	private int direction;
 	
-	private SpriteSheet sprite;
+	private SpriteSheet spritesheet;
+	private Image sprite;
 	
 	public DaMob(float x, float y, int type, boolean debug) {
 		super(x,y);
@@ -25,15 +28,19 @@ public class DaMob extends Entity implements DaEnemy {
 		setInitY(y);
 		this.setBounceCooldown(0);
 		this.setType(type);
-		this.sprite = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.MOB_ZERO), 32, 32, 0, 0);
+		this.direction = 0;
+		this.spritesheet = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.MOB_ZERO), 32, 32, 0, 0);
 		if(type == 0) {
+			this.sprite = spritesheet.getSprite(1, this.direction);
 			setHealth(20);
-			addImageWithBoundingBox(sprite.getSprite(0, 0).getScaledCopy(.5f));
+			addImageWithBoundingBox(this.sprite.getScaledCopy(.5f));
 		} else {
-			this.sprite = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.MOB_ONE), 32, 32, 0, 0);
+			this.spritesheet = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.MOB_ONE), 32, 32, 0, 0);
+			this.sprite = spritesheet.getSprite(1, this.direction);
 			setHealth(20);
-			addImageWithBoundingBox(sprite.getSprite(1, 0).getScaledCopy(.5f));
+			addImageWithBoundingBox(this.sprite.getScaledCopy(.5f));
 		}
+		this.velocity = new Vector(0, 0);
 	}
 
 	@Override
@@ -56,19 +63,48 @@ public class DaMob extends Entity implements DaEnemy {
 
 	@Override
 	public void attack(Entity player) {
+		Vector distance = this.getPosition().subtract(player.getPosition());
 		if(this.getBounceCooldown() > 0 && type == 0) {
 			// Basic mob collided, stopped and recover
 			this.setBounceCooldown(this.getBounceCooldown() - 1);
 		} else if(type == 0) {
 			// Just track the player and collide with them
-			Vector distance = this.getPosition().subtract(player.getPosition());
 			this.velocity = distance.unit().negate();
 			this.velocity = this.velocity.unit().scale(.05f);
 		}
-		
+
+		// Get angle, determine which direction sprite goes
+		double direction = distance.negate().getRotation();
+		System.out.println(direction);
+		if(this.direction != 0 && (direction >= 45 && direction < 135)) {
+			// Rotate down
+			this.removeImage(this.sprite);
+			this.direction = 0;
+			this.sprite = this.spritesheet.getSprite(1, this.direction);
+			addImage(this.sprite);
+		} else if (this.direction != 1 && (direction < -135 && direction < 135)) {
+			// Rotate right
+			this.removeImage(this.sprite);
+			this.direction = 1;
+			this.sprite = this.spritesheet.getSprite(1, this.direction);
+			addImage(this.sprite);
+		} else if (this.direction != 2 && ( -45 <= direction && direction < 45)) {
+			// Rotate left
+			this.removeImage(this.sprite);
+			this.direction =2;
+			this.sprite = this.spritesheet.getSprite(1, this.direction);
+			addImage(this.sprite);
+		} else if (this.direction != 3 && (direction >= -135 && direction < -45))  {
+			// Rotate up
+			this.removeImage(this.sprite);
+			this.direction =3;
+			this.sprite = this.spritesheet.getSprite(1, this.direction);
+			addImage(this.sprite);
+		}
 	}
 	
 	public void update(final int delta) {
+		// Move the sprite
 		translate(this.velocity.scale(delta));
 	}
 
