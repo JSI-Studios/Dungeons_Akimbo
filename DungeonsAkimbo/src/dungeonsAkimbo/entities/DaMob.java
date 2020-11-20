@@ -46,6 +46,7 @@ public class DaMob extends Entity implements DaEnemy {
 	@Override
 	public void collisionAction(boolean isHit, boolean isPlayer) {
 		if(isHit) {
+			System.out.println(this.health);
 			// Lost health and gain invincibility for a bit
 			this.setHealth(this.getHealth() - 1);
 			this.setBounceCooldown(20);
@@ -74,25 +75,25 @@ public class DaMob extends Entity implements DaEnemy {
 			// Rotate down
 			this.removeImage(this.sprite);
 			this.direction = 0;
-			this.sprite = this.spritesheet.getSprite(1, this.direction);
+			this.sprite = this.spritesheet.getSprite(1, this.direction).getScaledCopy(.5f);
 			addImage(this.sprite);
 		} else if (this.direction != 1 && (direction < -135 && direction < 135)) {
 			// Rotate right
 			this.removeImage(this.sprite);
 			this.direction = 1;
-			this.sprite = this.spritesheet.getSprite(1, this.direction);
+			this.sprite = this.spritesheet.getSprite(1, this.direction).getScaledCopy(.5f);
 			addImage(this.sprite);
 		} else if (this.direction != 2 && ( -45 <= direction && direction < 45)) {
 			// Rotate left
 			this.removeImage(this.sprite);
 			this.direction =2;
-			this.sprite = this.spritesheet.getSprite(1, this.direction);
+			this.sprite = this.spritesheet.getSprite(1, this.direction).getScaledCopy(.5f);
 			addImage(this.sprite);
 		} else if (this.direction != 3 && (direction >= -135 && direction < -45))  {
 			// Rotate up
 			this.removeImage(this.sprite);
 			this.direction =3;
-			this.sprite = this.spritesheet.getSprite(1, this.direction);
+			this.sprite = this.spritesheet.getSprite(1, this.direction).getScaledCopy(.5f);
 			addImage(this.sprite);
 		}
 	}
