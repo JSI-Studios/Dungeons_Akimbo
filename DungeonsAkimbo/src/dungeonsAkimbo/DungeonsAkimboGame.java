@@ -54,7 +54,7 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	public Player player;
 	
 	
-	
+	private DaCollisions masterCollider;
 	private DaMap gameMap;
 	private boolean mapReady = false;
 	private TiledMap mapPlan;
@@ -107,6 +107,7 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		if(mapReady)
 			gameMap = new DaMap(mapPlan);
 			gameMap.loadMap();
+		startCollisions();
 	}
 	
 	public DaMap getCurrentMap() {
@@ -123,6 +124,15 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	
 	public DaClient getClient() {
 		return (DaClient) client;
+	}
+	
+	public void startCollisions() {
+		masterCollider = new DaCollisions(gameMap);
+	}
+	
+	public void collideCheck(int delta) {
+		masterCollider.playerCollsionsTest(delta);
+		masterCollider.enemyCollisionsTest(delta);
 	}
 	
 	public void addPlayer(int playerID) {
