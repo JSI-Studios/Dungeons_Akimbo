@@ -27,7 +27,7 @@ public class ChatGUI {
 		
 		chatLog.setBackgroundColor(Color.transparent);
 		chatLog.setBorderColor(Color.cyan);
-		chatLog.setTextColor(Color.white);
+		chatLog.setTextColor(Color.black);
 		chatLog.deactivate();
 		chatLog.setConsumeEvents(false);
 		chatLog.setAcceptingInput(false);
@@ -36,7 +36,7 @@ public class ChatGUI {
 		chatBar.setBackgroundColor(Color.transparent);
 		chatBar.setBorderColor(Color.cyan);
 		chatBar.setCursorVisible(true);
-		chatBar.setTextColor(Color.white);
+		chatBar.setTextColor(Color.black);
 		chatBar.setMaxLength(112);
 		chatBar.setConsumeEvents(false);
 		chatBar.setAcceptingInput(false);
