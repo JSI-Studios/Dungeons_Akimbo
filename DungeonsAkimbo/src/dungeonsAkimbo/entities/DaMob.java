@@ -44,7 +44,7 @@ public class DaMob extends Entity implements DaEnemy {
 	}
 
 	@Override
-	public boolean checkCollision(Entity object, boolean isPlayer) {
+	public boolean collisionAction(Entity object, boolean isPlayer) {
 		boolean didCollide = false;
 		// Check if mob collided with an entity
 		if(this.collides(object) != null && this.getBounceCooldown() == 0) {

@@ -136,7 +136,7 @@ public class PlayTestState extends BasicGameState {
 		mobs.forEach((mob) -> mob.attack(dag.getCurrentMap().getPlayerList().get(playerID)));
 
 		// Mob collision handling
-		mobs.forEach((mob) -> mob.checkCollision(dag.getCurrentMap().getPlayerList().get(playerID), true));
+		mobs.forEach((mob) -> mob.collisionAction(dag.getCurrentMap().getPlayerList().get(playerID), true));
 		for (Iterator<DaMob> i = mobs.iterator(); i.hasNext();) {
 			// Check if any mobs lost all their health
 			DaMob mob = i.next();
@@ -147,7 +147,7 @@ public class PlayTestState extends BasicGameState {
 
 		// Check for collision with mobs, and also update projectiles
 		for (Projectile b : dag.getCurrentMap().getPlayer_bullets()) {
-			mobs.forEach((mob)->mob.checkCollision(b, false));
+			mobs.forEach((mob)->mob.collisionAction(b, false));
 			b.update(delta);
 		}
 
