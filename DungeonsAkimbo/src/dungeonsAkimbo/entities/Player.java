@@ -11,17 +11,17 @@ import jig.Vector;
 
 public class Player extends Entity {
 	
-	ArrayList<Weapon> gunBackpack;
+	private ArrayList<Weapon> gunBackpack;
 	
-	public Weapon primaryWeapon;
+	private Weapon primaryWeapon;
 	
 	
-	public float speed;
+	private float speed;
 	private int currentHealth;
 	private int max_health;
-	public int dodgeTimer = 500;
+	private int dodgeTimer = 500;
 	
-	boolean dodging;
+	private boolean dodging;
 	
 	private Vector velocity;
 	
