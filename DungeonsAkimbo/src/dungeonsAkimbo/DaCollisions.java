@@ -33,13 +33,12 @@ public class DaCollisions {
 					playerCheck.translate(playerCheck.collides(wall).getMinPenetration().scale(delta/.5f));
 				}
 			}
-			/*
 			for(DaMob mob : mobList) {
 				if(playerCheck.collides(mob) != null) {
-					playerCheck.translate(playerCheck.collides(mob).getMinPenetration().scale(delta/2));
+					mob.collisionAction(true, true);
 				}
 			}
-			*/
+			
 		}
 	}
 	

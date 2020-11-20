@@ -44,11 +44,8 @@ public class DaMob extends Entity implements DaEnemy {
 	}
 
 	@Override
-	public boolean collisionAction(Entity object, boolean isPlayer) {
-		boolean didCollide = false;
-		// Check if mob collided with an entity
-		if(this.collides(object) != null && this.getBounceCooldown() == 0) {
-			System.out.println("Collide!");
+	public void collisionAction(boolean isHit, boolean isPlayer) {
+		if(isHit) {
 			// Lost health and gain invincibility for a bit
 			this.setHealth(this.getHealth() - 1);
 			this.setBounceCooldown(20);
@@ -56,9 +53,7 @@ public class DaMob extends Entity implements DaEnemy {
 			if(isPlayer) {
 				this.velocity = new Vector(0, 0);
 			}
-			didCollide = true;
 		}
-		return didCollide;
 	}
 
 	@Override
