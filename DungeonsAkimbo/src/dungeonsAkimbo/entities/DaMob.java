@@ -75,7 +75,6 @@ public class DaMob extends Entity implements DaEnemy {
 
 		// Get angle, determine which direction sprite goes
 		double direction = distance.negate().getRotation();
-		System.out.println(direction);
 		if(this.direction != 0 && (direction >= 45 && direction < 135)) {
 			// Rotate down
 			this.removeImage(this.sprite);
