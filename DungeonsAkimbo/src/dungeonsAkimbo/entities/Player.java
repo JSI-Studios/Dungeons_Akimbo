@@ -16,6 +16,7 @@ public class Player extends Entity {
 	private Ranged primaryWeapon;
 	
 	
+
 	private float speed;
 	private int currentHealth;
 	private int max_health;
@@ -34,7 +35,7 @@ public class Player extends Entity {
 		if (type==1) {
 			setMax_health(100);
 			setCurrent_health(getMax_health());
-			speed = 2f;		
+			speed = 0.5f;		
 			primaryWeapon = new DaSniper();		
 			gunBackpack = new ArrayList<Weapon>();		
 			gunBackpack.add(primaryWeapon);
@@ -53,7 +54,12 @@ public class Player extends Entity {
 		this.primaryWeapon = (Ranged) gunBackpack.get(i);
 	}
 	
+	public Ranged getPrimaryWeapon() {
+		return primaryWeapon;
+	}
+	
 	public Projectile Shoot(double inAngle) {
+		
 		return (Projectile) this.primaryWeapon.primaryAtk(inAngle);	
 	}
 	
@@ -103,6 +109,8 @@ public class Player extends Entity {
 			this.dodging = false;
 			dodgeTimer = 500;	
 		}
+		
+		this.primaryWeapon.update(delta);
 		
 		try {
 			translate(velocity.scale(delta));
