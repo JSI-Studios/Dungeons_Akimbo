@@ -3,7 +3,7 @@ package dungeonsAkimbo.entities;
 import jig.Entity;
 import jig.Vector;
 
-public class DaSniper extends Entity implements Weapon {
+public class DaSniper extends Entity implements Ranged {
 	
 	private int ammo, shoot_timer, range, damage;
 	private boolean can_shoot;
@@ -18,14 +18,30 @@ public class DaSniper extends Entity implements Weapon {
 		//add in art
 	}
 	
-	public Vector Get_Position() { return this.getPosition(); };
 	
-	public void Set_Position(float x, float y) { this.setPosition(x, y); };
+	public int getRange() {
+		return this.range;
+	}
+	
+	
+	public int getAmmo() {
+		return this.ammo;
+	}
+	
+	public int getDamage() {
+		return this.damage;
+	}
 
 	@Override
-	public Projectile Attack(double inAngle) {
-		
+	public void throwWep() {
 		// TODO Auto-generated method stub
+		
+	}
+	
+
+
+	public Projectile primaryFire(double inAngle) {
+		
 		this.can_shoot = false;
 		
 		Projectile bullet = new Projectile(this.getX(), this.getY(), this.damage);
@@ -33,27 +49,15 @@ public class DaSniper extends Entity implements Weapon {
 		bullet.rotate(inAngle);
 		bullet.Set_Velocity(inAngle);
 		return bullet;
-		
-	}
-	
-	public int Get_Range() {
-		return this.range;
-	}
-	
-	public void Decrement_Ammo() {
-		this.ammo--;
-	}
-	
-	public int Get_Ammo() {
-		return this.ammo;
-	}
-	
-	public int Get_Damage() {
-		return this.damage;
 	}
 
 	@Override
-	public void Throw_Wep() {
+	public Projectile secondaryFire(double inAngle) {
+		return null;
+	}
+
+	@Override
+	public void reload() {
 		// TODO Auto-generated method stub
 		
 	}
