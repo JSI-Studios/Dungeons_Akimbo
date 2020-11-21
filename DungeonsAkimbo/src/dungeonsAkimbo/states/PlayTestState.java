@@ -118,8 +118,10 @@ public class PlayTestState extends BasicGameState {
 				Vector mouseVec = new Vector(input.getMouseX(), input.getMouseY());
 				Vector playerPos = dag.getCurrentMap().getPlayerList().get(playerID).getPosition();
 				double shot_angle = playerPos.angleTo(mouseVec);
-				dag.getCurrentMap().getPlayer_bullets().add(dag.getCurrentMap().getPlayerList().get(playerID).Shoot(shot_angle));
-			
+				
+				if(dag.getCurrentMap().getPlayerList().get(playerID).getPrimaryWeapon().isCan_shoot()){
+					dag.getCurrentMap().getPlayer_bullets().add(dag.getCurrentMap().getPlayerList().get(playerID).Shoot(shot_angle));
+				}			
 			}
 			
 			if (input.isKeyPressed(Input.KEY_SPACE)) {
@@ -128,9 +130,7 @@ public class PlayTestState extends BasicGameState {
 			
 			
 			dag.getCurrentMap().getPlayerList().get(playerID).Set_Velocity(new_velocity);
-		}
-
-		
+		}	
 
 		// Mob attacking the player
 		mobs.forEach((mob) -> mob.attack(dag.getCurrentMap().getPlayerList().get(playerID)));
