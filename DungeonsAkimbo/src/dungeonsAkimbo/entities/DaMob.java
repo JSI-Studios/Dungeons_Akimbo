@@ -44,11 +44,9 @@ public class DaMob extends Entity implements DaEnemy {
 	}
 
 	@Override
-	public boolean checkCollision(Entity object, boolean isPlayer) {
-		boolean didCollide = false;
-		// Check if mob collided with an entity
-		if(this.collides(object) != null && this.getBounceCooldown() == 0) {
-			System.out.println("Collide!");
+	public void collisionAction(boolean isHit, boolean isPlayer) {
+		if(isHit) {
+			System.out.println(this.health);
 			// Lost health and gain invincibility for a bit
 			this.setHealth(this.getHealth() - 1);
 			this.setBounceCooldown(20);
@@ -56,9 +54,7 @@ public class DaMob extends Entity implements DaEnemy {
 			if(isPlayer) {
 				this.velocity = new Vector(0, 0);
 			}
-			didCollide = true;
 		}
-		return didCollide;
 	}
 
 	@Override
@@ -79,25 +75,25 @@ public class DaMob extends Entity implements DaEnemy {
 			// Rotate down
 			this.removeImage(this.sprite);
 			this.direction = 0;
-			this.sprite = this.spritesheet.getSprite(1, this.direction);
+			this.sprite = this.spritesheet.getSprite(1, this.direction).getScaledCopy(.5f);
 			addImage(this.sprite);
 		} else if (this.direction != 1 && (direction < -135 && direction < 135)) {
 			// Rotate right
 			this.removeImage(this.sprite);
 			this.direction = 1;
-			this.sprite = this.spritesheet.getSprite(1, this.direction);
+			this.sprite = this.spritesheet.getSprite(1, this.direction).getScaledCopy(.5f);
 			addImage(this.sprite);
 		} else if (this.direction != 2 && ( -45 <= direction && direction < 45)) {
 			// Rotate left
 			this.removeImage(this.sprite);
 			this.direction =2;
-			this.sprite = this.spritesheet.getSprite(1, this.direction);
+			this.sprite = this.spritesheet.getSprite(1, this.direction).getScaledCopy(.5f);
 			addImage(this.sprite);
 		} else if (this.direction != 3 && (direction >= -135 && direction < -45))  {
 			// Rotate up
 			this.removeImage(this.sprite);
 			this.direction =3;
-			this.sprite = this.spritesheet.getSprite(1, this.direction);
+			this.sprite = this.spritesheet.getSprite(1, this.direction).getScaledCopy(.5f);
 			addImage(this.sprite);
 		}
 	}
@@ -105,6 +101,10 @@ public class DaMob extends Entity implements DaEnemy {
 	public void update(final int delta) {
 		// Move the sprite
 		translate(this.velocity.scale(delta));
+	}
+	
+	public boolean isDead() {
+		return this.health <= 0;
 	}
 
 	public int getHealth() {
