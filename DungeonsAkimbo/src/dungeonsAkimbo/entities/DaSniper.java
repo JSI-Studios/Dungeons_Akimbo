@@ -40,7 +40,7 @@ public class DaSniper extends Entity implements Ranged {
 	
 
 
-	public Projectile primaryFire(double inAngle) {
+	public Projectile primaryAtk(double inAngle) {
 		
 		this.can_shoot = false;
 		
@@ -52,13 +52,19 @@ public class DaSniper extends Entity implements Ranged {
 	}
 
 	@Override
-	public Projectile secondaryFire(double inAngle) {
+	public Projectile secondaryAtk(double inAngle) {
 		return null;
 	}
+	
+
 
 	@Override
 	public void reload() {
 		// TODO Auto-generated method stub
+		
+	}
+	
+	public void getEffect() {
 		
 	}
 	

@@ -1,15 +1,15 @@
 package dungeonsAkimbo.entities;
 
+import jig.Vector;
+
 public interface Ranged extends Weapon{
 	
-	public Object primaryFire(double inAngle);
 	
-	public Object secondaryFire(double inAngle);
+	public void reload();		//reload weapon
 	
-	public void reload();
+	public int getAmmo();		//get current magazine ammo count
 	
-	public int getAmmo();
-	
-	public int getRange();
+	public int getRange();		//get maximum range of this Ranged Weapon
+
 
 }

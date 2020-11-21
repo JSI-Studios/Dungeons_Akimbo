@@ -54,7 +54,7 @@ public class Player extends Entity {
 	}
 	
 	public Projectile Shoot(double inAngle) {
-		return (Projectile) this.primaryWeapon.primaryFire(inAngle);	
+		return (Projectile) this.primaryWeapon.primaryAtk(inAngle);	
 	}
 	
 	public Weapon Swap_Wep(Weapon s) {
