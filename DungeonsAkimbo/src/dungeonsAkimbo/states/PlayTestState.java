@@ -116,7 +116,7 @@ public class PlayTestState extends BasicGameState {
 
 			if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
 				Vector mouseVec = new Vector(input.getMouseX(), input.getMouseY());
-				Vector playerPos = dag.getCurrentMap().getPlayerList().get(playerID).Get_Position();
+				Vector playerPos = dag.getCurrentMap().getPlayerList().get(playerID).getPosition();
 				double shot_angle = playerPos.angleTo(mouseVec);
 				dag.getCurrentMap().getPlayer_bullets().add(dag.getCurrentMap().getPlayerList().get(playerID).Shoot(shot_angle));
 			

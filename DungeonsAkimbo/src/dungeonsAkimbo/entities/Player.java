@@ -13,7 +13,7 @@ public class Player extends Entity {
 	
 	private ArrayList<Weapon> gunBackpack;
 	
-	private Weapon primaryWeapon;
+	private Ranged primaryWeapon;
 	
 	
 	private float speed;
@@ -50,16 +50,16 @@ public class Player extends Entity {
 	}
 	
 	public void Gun_Select(int i) {
-		this.primaryWeapon = gunBackpack.get(i);
+		this.primaryWeapon = (Ranged) gunBackpack.get(i);
 	}
 	
-	public Projectile Shoot(double inAngle) {	
-		return this.primaryWeapon.Attack(inAngle);	
+	public Projectile Shoot(double inAngle) {
+		return (Projectile) this.primaryWeapon.primaryAtk(inAngle);	
 	}
 	
 	public Weapon Swap_Wep(Weapon s) {
 		Weapon temp = this.primaryWeapon;
-		this.primaryWeapon = s;
+		this.primaryWeapon = (Ranged) s;
 		return temp;
 	}
 	
@@ -84,9 +84,7 @@ public class Player extends Entity {
 		return this.speed;
 	}
 	
-	public Vector Get_Position() {
-		return this.getPosition();
-	}
+	
 	
 	public int Get_Hash() {
 		int hash = 17*(int)this.getX()^19 * (int)(this.getY());
@@ -110,7 +108,9 @@ public class Player extends Entity {
 			translate(velocity.scale(delta));
 		} catch (Exception e) {
 			System.out.println("caught exception when trying to translate player velocity" + e);
-		} 
+		}
+		
+		((Entity) this.primaryWeapon).setPosition(this.getPosition());
 	}
 
 	public int getMax_health() {
