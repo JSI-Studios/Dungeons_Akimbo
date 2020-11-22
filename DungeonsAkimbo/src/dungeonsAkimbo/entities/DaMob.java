@@ -34,7 +34,8 @@ public class DaMob extends Entity implements DaEnemy {
 		this.direction = 0;
 		this.setSprite(new Animation(false));
 		this.spritesheet = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.MOB_ZERO), 32, 32, 0, 0);
-		// Begin creating and handling sprites
+		/* Begin handling creation of sprite for the mob */
+		// Add image colliding box to mob before adding actual sprites
 		Image tempSprite = spritesheet.getSprite(1, this.direction).getScaledCopy(.5f);
 		this.addImageWithBoundingBox(tempSprite);
 		this.removeImage(tempSprite);
