@@ -110,7 +110,7 @@ public class Player extends Entity {
 			dodgeTimer = 500;	
 		}
 		
-		this.primaryWeapon.update(delta);
+		
 		
 		try {
 			translate(velocity.scale(delta));

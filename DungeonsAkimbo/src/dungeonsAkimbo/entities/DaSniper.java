@@ -1,12 +1,16 @@
 package dungeonsAkimbo.entities;
 
+import org.newdawn.slick.Image;
+
+import dungeonsAkimbo.DungeonsAkimboGame;
 import jig.Entity;
-import jig.Vector;
+import jig.ResourceManager;
 
 public class DaSniper extends Entity implements Ranged {
 
 	private int ammo, shoot_timer, range, damage;
 	private boolean can_shoot;
+	private Image leftGunImage, rightGunImage;
 
 	public DaSniper() {
 		ammo = 20;
@@ -15,7 +19,10 @@ public class DaSniper extends Entity implements Ranged {
 		damage = 40;
 		can_shoot = true;
 
-		// add in art
+		leftGunImage = ResourceManager.getImage(DungeonsAkimboGame.DA_SNIPER_RSC).getScaledCopy(.075f).getFlippedCopy(false, true);
+		rightGunImage = ResourceManager.getImage(DungeonsAkimboGame.DA_SNIPER_RSC).getScaledCopy(.075f);
+	
+		
 	}
 	
 	public boolean isCan_shoot() {
@@ -66,7 +73,7 @@ public class DaSniper extends Entity implements Ranged {
 	public void getEffect() {
 
 	}
-
+	
 	public void update(final int delta) {
 
 		if (this.can_shoot == false) {
@@ -78,7 +85,19 @@ public class DaSniper extends Entity implements Ranged {
 			this.can_shoot = true;
 			shoot_timer = 2000;
 		}
-
+		
+		System.out.println(Math.abs(this.getRotation()));
+		if(Math.abs(this.getRotation()) < 90) {
+			leftGunImage.setRotation((float) this.getRotation());
+			this.removeImage(leftGunImage);
+			this.addImage(rightGunImage);	
+			
+		}else if(Math.abs(this.getRotation()) > 90){
+			rightGunImage.setRotation((float) this.getRotation());
+			this.removeImage(rightGunImage);
+			this.addImage(leftGunImage);			
+		}
+		
 	}
 
 }

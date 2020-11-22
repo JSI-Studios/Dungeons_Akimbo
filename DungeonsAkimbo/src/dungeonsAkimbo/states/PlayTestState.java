@@ -18,6 +18,7 @@ import dungeonsAkimbo.entities.Projectile;
 import dungeonsAkimbo.gui.ChatGUI;
 import dungeonsAkimbo.gui.DaCamera;
 import dungeonsAkimbo.netcode.UniqueIdentifier;
+import jig.Entity;
 import jig.Vector;
 
 public class PlayTestState extends BasicGameState {
@@ -62,6 +63,7 @@ public class PlayTestState extends BasicGameState {
 		//render the camera view and everything within it. layered in the order of calls.
 		gameView.renderMap(g);
 		gameView.renderPlayers(g);
+		g.flush();
 		gameView.renderMobs(g);
 		gameView.renderProjectiles(g);
 		
@@ -82,6 +84,9 @@ public class PlayTestState extends BasicGameState {
 		dag.collideCheck(delta);
 		Vector new_velocity;
 		Input input = container.getInput();
+		Vector mouseVec = new Vector(input.getMouseX(), input.getMouseY());
+		Vector playerPos = dag.getCurrentMap().getPlayerList().get(playerID).getPosition();
+		double shot_angle = playerPos.angleTo(mouseVec);
 
 		// Chat controls
 		if (input.isKeyPressed(Input.KEY_ENTER)) {
@@ -115,9 +120,7 @@ public class PlayTestState extends BasicGameState {
 			}
 
 			if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-				Vector mouseVec = new Vector(input.getMouseX(), input.getMouseY());
-				Vector playerPos = dag.getCurrentMap().getPlayerList().get(playerID).getPosition();
-				double shot_angle = playerPos.angleTo(mouseVec);
+				
 				
 				if(dag.getCurrentMap().getPlayerList().get(playerID).getPrimaryWeapon().isCan_shoot()){
 					dag.getCurrentMap().getPlayer_bullets().add(dag.getCurrentMap().getPlayerList().get(playerID).Shoot(shot_angle));
@@ -130,8 +133,8 @@ public class PlayTestState extends BasicGameState {
 			
 			
 			dag.getCurrentMap().getPlayerList().get(playerID).Set_Velocity(new_velocity);
-		}	
-
+			((Entity) dag.getCurrentMap().getPlayerList().get(playerID).getPrimaryWeapon()).setRotation(shot_angle);
+		}
 		// Mob attacking the player
 		mobs.forEach((mob) -> mob.attack(dag.getCurrentMap().getPlayerList().get(playerID)));
 
@@ -142,6 +145,7 @@ public class PlayTestState extends BasicGameState {
 
 		// Update entities
 		dag.getCurrentMap().getPlayerList().get(playerID).update(delta);
+		dag.getCurrentMap().getPlayerList().get(playerID).getPrimaryWeapon().update(delta);
 		mobs.forEach((mob) -> mob.update(delta));
 		
 		updateChatLog(dag);
