@@ -4,6 +4,10 @@ package dungeonsAkimbo.entities;
 
 import java.util.ArrayList;
 
+import org.newdawn.slick.Animation;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SpriteSheet;
+
 import dungeonsAkimbo.DungeonsAkimboGame;
 import jig.Entity;
 import jig.ResourceManager;
@@ -26,10 +30,17 @@ public class Player extends Entity {
 	
 	private Vector velocity;
 	
+	private Animation sprite;
+	private SpriteSheet sprites;
+	
 	public Player(final float x, final float y, int type) {
 		super(x, y);
 		// Max health can either be set from constructor, or a be statically 
 		// constant, deal with later
+		
+		this.sprite = new Animation(false);
+		this.sprites = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.DA_PLAYER_RSC), 32, 32, 0, 0);
+		
 		
 		//class 1
 		if (type==1) {
@@ -39,15 +50,15 @@ public class Player extends Entity {
 			primaryWeapon = new DaSniper();		
 			gunBackpack = new ArrayList<Weapon>();		
 			gunBackpack.add(primaryWeapon);
-			this.addImageWithBoundingBox(ResourceManager.getImage(DungeonsAkimboGame.TEMP_PLAYER));
-		} else if (type==2) {
-			setMax_health(50);
-			setCurrent_health(getMax_health());
-			speed = 4f;		
-			primaryWeapon = new DaSniper();		
-			gunBackpack = new ArrayList<Weapon>();		
-			gunBackpack.add(primaryWeapon);
-		}
+			this.addImageWithBoundingBox(this.sprites.getSprite(1, 0));
+			this.removeImage(this.sprites.getSprite(1, 0));
+			this.sprite.addFrame(this.sprites.getSprite(1, 0), 1);		//Player facing down
+			this.sprite.addFrame(this.sprites.getSprite(1, 1), 1);		//Player face left
+			this.sprite.addFrame(this.sprites.getSprite(1, 2), 1);		//Player facing right
+			this.sprite.addFrame(this.sprites.getSprite(1, 3), 1);		//Player facing up
+			
+			this.addAnimation(sprite);
+		} 
 	}
 	
 	public void Gun_Select(int i) {
@@ -110,7 +121,15 @@ public class Player extends Entity {
 			dodgeTimer = 500;	
 		}
 		
-		
+		if (Math.abs(((Entity) this.primaryWeapon).getRotation()) < 45) { 		//Player facing right
+			this.sprite.setCurrentFrame(2);
+		} else if (Math.abs(((Entity) this.primaryWeapon).getRotation()) > 135) {		//Player facing left
+			this.sprite.setCurrentFrame(1);
+		} else if (((Entity) this.primaryWeapon).getRotation() > 45 && ((Entity) this.primaryWeapon).getRotation() < 135) {		//Player facing down
+			this.sprite.setCurrentFrame(0);
+		}else if (((Entity) this.primaryWeapon).getRotation() > -135 && ((Entity) this.primaryWeapon).getRotation() < -45 ) {		//Player facing up
+			this.sprite.setCurrentFrame(3);
+		}
 		
 		try {
 			translate(velocity.scale(delta));
