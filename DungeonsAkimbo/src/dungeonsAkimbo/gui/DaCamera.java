@@ -6,6 +6,8 @@ import java.util.Map;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.tiled.TiledMap;
 
+import jig.Entity;
+
 import dungeonsAkimbo.entities.DaMob;
 import dungeonsAkimbo.entities.Player;
 import dungeonsAkimbo.entities.Projectile;
@@ -74,6 +76,8 @@ public class DaCamera {
 			if((player.getX()/tileWidth) > this.xOffSet && (player.getY()/tileHeight) > this.yOffSet ) {	
 				if(player.getX() < 1024 + (xOffSet*DaMap.TILE_SIZE)) {
 					g.translate(-xOffSet*DaMap.TILE_SIZE,-yOffSet*DaMap.TILE_SIZE);
+					((Entity) player.getPrimaryWeapon()).render(g);
+					
 					player.render(g);
 					g.translate(xOffSet*DaMap.TILE_SIZE, yOffSet*DaMap.TILE_SIZE);
 				}
