@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="32" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="1">
+ <tileset firstgid="1" source="[Base]BaseChip_pipo.tsx"/>
+ <layer id="1" name="Floors" width="32" height="120">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAACu3DMQ0AAAwEoRvfv+La6AAJq6aqqqqqqqqqqqqqqqqqqr54YngnTQA8AAA=
+  </data>
+ </layer>
+ <layer id="2" name="Walls" width="32" height="120">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAACu3WSQqAMBAEwDzOj3sQEbcv6UUISlxAiWIVDIgD3SSnhAAAAAAAAAAAAADAlwzzNImpo+/qQmafyFjPOE+5k7O3O+sof9kX0f8i2t/Vn8p/y/lz97v/vP3uP2+/+9ev/3/9bdi+r5b3U3dD/9P5AMD3TJ2j7BIAPAAA
+  </data>
+ </layer>
+ <layer id="4" name="Decorative Floors" width="32" height="120">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAACu3PoREAIAwEwRj6b5kKEBhOsKuicvMzAAAAAAAAAAAAAMCtdbhf/a/7tXp/3a/V++t+rd5f9wEA4AcbkS58twA8AAA=
+  </data>
+ </layer>
+ <layer id="3" name="Doors" width="32" height="120">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAACu3BMQEAAADCoPVPbQ0PoAAAAAAAAAAAAAAAAAAAgBcD/oDAnAA8AAA=
+  </data>
+ </layer>
+</map>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="120" height="30" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="1">
+ <tileset firstgid="1" source="[Base]BaseChip_pipo.tsx"/>
+ <tileset firstgid="1065" source="../testMap/[Base]BaseChip_pipo.tsx"/>
+ <layer id="1" name="Floors" width="120" height="30">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAACu3DwQkAAAwDodt/4/y6R1Fw1VRVVVVVVVVVVVVVVVXVVw/NKQYpQDgAAA==
+  </data>
+ </layer>
+ <layer id="2" name="Walls" width="120" height="30">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAACu3b2wqDMBAAUUXz/98r9qavkposbC0Oc2CfAoFmUApN13kYxlKf98laZLL2cWLz2M592eabs7WIrH0Us9gXzb5s9mWzL1ur79T5Pe152KMc1ufy28+hulZf3Zt92ezLZl82+7LZl82+bPZlsy+bfdnsy2ZfNvuy2ZfNvmz2Zevpu1butrZ+z6/d09T1evpmPN++I/7Dvmz2ZbMvm33Z9nNv3YF9Jfw3LGMPJz77veQPMajQSEA4AAA=
+  </data>
+ </layer>
+ <layer id="3" name="Darkness" width="120" height="30">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAACu3DMQkAAAwDsD5TUv8e62MkkF5SVVVVVVVVVVVVVVVVVfXVAXOjE0RAOAAA
+  </data>
+ </layer>
+</map>
