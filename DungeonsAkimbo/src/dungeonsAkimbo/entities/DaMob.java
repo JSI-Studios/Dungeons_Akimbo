@@ -1,5 +1,8 @@
 package dungeonsAkimbo.entities;
 
+import java.util.stream.IntStream;
+
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SpriteSheet;
 
@@ -19,7 +22,7 @@ public class DaMob extends Entity implements DaEnemy {
 	private int direction;
 	
 	private SpriteSheet spritesheet;
-	private Image sprite;
+	private Animation sprite;
 	
 	public DaMob(float x, float y, int type, boolean debug) {
 		super(x,y);
@@ -29,24 +32,33 @@ public class DaMob extends Entity implements DaEnemy {
 		this.setBounceCooldown(0);
 		this.setType(type);
 		this.direction = 0;
+		this.setSprite(new Animation(false));
 		this.spritesheet = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.MOB_ZERO), 32, 32, 0, 0);
+		// Begin creating and handling sprites
+		Image tempSprite = spritesheet.getSprite(1, this.direction).getScaledCopy(.5f);
+		this.addImageWithBoundingBox(tempSprite);
+		this.removeImage(tempSprite);
 		if(type == 0) {
-			this.sprite = spritesheet.getSprite(1, this.direction);
-			setHealth(20);
-			addImageWithBoundingBox(this.sprite.getScaledCopy(.5f));
+			// Mob Zero: Spoopy Sprite
+			this.setHealth(35);
+			IntStream.range(0, 4).forEachOrdered(n -> {
+				this.getSprite().addFrame(this.spritesheet.getSprite(1, n).getScaledCopy(.5f), 1);
+			});
 		} else {
+			// Mob One: Mommy Sprite
 			this.spritesheet = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.MOB_ONE), 32, 32, 0, 0);
-			this.sprite = spritesheet.getSprite(1, this.direction);
 			setHealth(20);
-			addImageWithBoundingBox(this.sprite.getScaledCopy(.5f));
+			IntStream.range(0, 4).forEachOrdered(n -> {
+				this.getSprite().addFrame(this.spritesheet.getSprite(1, n).getScaledCopy(.5f), 1);
+			});
 		}
+		this.addAnimation(getSprite());
 		this.velocity = new Vector(0, 0);
 	}
 
 	@Override
 	public void collisionAction(boolean isHit, boolean isPlayer) {
 		if(isHit) {
-			System.out.println(this.health);
 			// Lost health and gain invincibility for a bit
 			this.setHealth(this.getHealth() - 1);
 			this.setBounceCooldown(20);
@@ -70,31 +82,23 @@ public class DaMob extends Entity implements DaEnemy {
 		}
 
 		// Get angle, determine which direction sprite goes
-		double direction = distance.negate().getRotation();
-		if(this.direction != 0 && (direction >= 45 && direction < 135)) {
+		double currentDirection = distance.negate().getRotation();
+		if(this.direction != 0 && (currentDirection >= 45 && currentDirection < 135)) {
 			// Rotate down
-			this.removeImage(this.sprite);
 			this.direction = 0;
-			this.sprite = this.spritesheet.getSprite(1, this.direction).getScaledCopy(.5f);
-			addImage(this.sprite);
-		} else if (this.direction != 1 && (direction < -135 && direction < 135)) {
+			this.getSprite().setCurrentFrame(this.direction);
+		} else if (this.direction != 1 && (currentDirection < -135 && currentDirection < 135)) {
 			// Rotate right
-			this.removeImage(this.sprite);
 			this.direction = 1;
-			this.sprite = this.spritesheet.getSprite(1, this.direction).getScaledCopy(.5f);
-			addImage(this.sprite);
-		} else if (this.direction != 2 && ( -45 <= direction && direction < 45)) {
+			this.getSprite().setCurrentFrame(this.direction);
+		} else if (this.direction != 2 && ( -45 <= currentDirection && currentDirection < 45)) {
 			// Rotate left
-			this.removeImage(this.sprite);
-			this.direction =2;
-			this.sprite = this.spritesheet.getSprite(1, this.direction).getScaledCopy(.5f);
-			addImage(this.sprite);
-		} else if (this.direction != 3 && (direction >= -135 && direction < -45))  {
+			this.direction = 2;
+			this.getSprite().setCurrentFrame(this.direction);
+		} else if (this.direction != 3 && (currentDirection >= -135 && currentDirection < -45))  {
 			// Rotate up
-			this.removeImage(this.sprite);
-			this.direction =3;
-			this.sprite = this.spritesheet.getSprite(1, this.direction).getScaledCopy(.5f);
-			addImage(this.sprite);
+			this.direction = 3;
+			this.getSprite().setCurrentFrame(this.direction);
 		}
 	}
 	
@@ -153,6 +157,14 @@ public class DaMob extends Entity implements DaEnemy {
 
 	public void setBounceCooldown(float bounceCooldown) {
 		this.bounceCooldown = bounceCooldown;
+	}
+
+	public Animation getSprite() {
+		return sprite;
+	}
+
+	public void setSprite(Animation sprite) {
+		this.sprite = sprite;
 	}
 	
 }
