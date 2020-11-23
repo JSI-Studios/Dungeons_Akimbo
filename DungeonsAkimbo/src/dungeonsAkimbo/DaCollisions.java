@@ -15,6 +15,7 @@ public class DaCollisions {
 	private ArrayList<DaMob> mobList;
 	private ArrayList<DaWall> wallList;
 	private ArrayList<Projectile> ProjectileList;
+	private ArrayList<Projectile> enemyAttacks;
 	private Map<Integer, Player> playerList;
 	
 	public DaCollisions (DaMap map) {
@@ -22,7 +23,7 @@ public class DaCollisions {
 		this.wallList = map.getWallList();
 		this.ProjectileList = map.getPlayer_bullets();
 		this.playerList = map.getPlayerList();
-		
+		this.enemyAttacks = map.getEnemyAttacks();
 	}
 	
 	
@@ -32,6 +33,13 @@ public class DaCollisions {
 			for(DaWall wall : wallList) {
 				if(playerCheck.collides(wall) != null) {
 					playerCheck.translate(playerCheck.collides(wall).getMinPenetration().scale(delta/.5f));
+				}
+			}
+			for(Iterator<Projectile> current = this.enemyAttacks.iterator(); current.hasNext();) {
+				Projectile hitbox = current.next();
+				if(playerCheck.collides(hitbox) != null) {
+					playerCheck.setCurrent_health(playerCheck.getCurrent_health() - hitbox.Get_Damage());
+					current.remove();
 				}
 			}
 			for(DaMob mob : mobList) {

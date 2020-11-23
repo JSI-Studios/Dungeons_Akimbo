@@ -30,6 +30,7 @@ public class DaMap implements TileBasedMap{
 	private DaTile[][] tiles; //2d array of tile entities
 	private ArrayList<DaMob> mobs;
 	private ArrayList<Projectile> player_bullets;
+	private ArrayList<Projectile> enemyAttacks;
 	private Map<Integer, Player> playerList;
 	
 	//PathFinding variables
@@ -137,6 +138,7 @@ public class DaMap implements TileBasedMap{
 		
 		playerList = new HashMap<Integer, Player>();
 		player_bullets = new ArrayList<Projectile>();
+		this.setEnemyAttacks(new ArrayList<Projectile>());
 		mobs = new ArrayList<DaMob>();
 		
 		
@@ -162,6 +164,14 @@ public class DaMap implements TileBasedMap{
 		mobs.add(new DaMob(DungeonsAkimboGame.WIDTH / 2, DungeonsAkimboGame.HEIGHT / 2, 0, true));
 		mobs.add(new DaMob(DungeonsAkimboGame.WIDTH / 3, DungeonsAkimboGame.HEIGHT / 3, 1, true));
 		
+	}
+
+	public ArrayList<Projectile> getEnemyAttacks() {
+		return enemyAttacks;
+	}
+
+	public void setEnemyAttacks(ArrayList<Projectile> enemyAttacks) {
+		this.enemyAttacks = enemyAttacks;
 	}
 
 
