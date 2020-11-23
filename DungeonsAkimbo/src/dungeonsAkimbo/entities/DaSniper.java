@@ -98,7 +98,7 @@ public class DaSniper extends Entity implements Ranged {
 			shoot_timer = 2000;
 		}
 		//Print current rotation to console.
-		//System.out.println(Math.abs(this.getRotation()));
+		//System.out.println(this.getRotation());
 		if(Math.abs(this.getRotation()) < 90) {
 			this.sprite.setCurrentFrame(0);
 			

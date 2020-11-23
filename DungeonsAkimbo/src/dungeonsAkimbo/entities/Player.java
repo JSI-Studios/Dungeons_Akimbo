@@ -30,7 +30,7 @@ public class Player extends Entity {
 	
 	private Vector velocity;
 	
-	private Animation sprite;
+	private Animation sprite, walkUp, walkDown, walkLeft, walkRight;
 	private SpriteSheet sprites;
 	
 	public Player(final float x, final float y, int type) {
@@ -40,7 +40,10 @@ public class Player extends Entity {
 		
 		this.sprite = new Animation(false);
 		this.sprites = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.DA_PLAYER_RSC), 32, 32, 0, 0);
-		
+		this.walkUp = new Animation(sprites, 0,3, 2,3, true, 1, true);
+		this.walkDown = new Animation(sprites, 0,0, 2,0, true, 1, true);
+		this.walkLeft = new Animation(sprites, 0,1, 2,1, true, 1, true);
+		this.walkRight = new Animation(sprites, 0,1, 2,1, true, 1, true);
 		
 		//class 1
 		if (type==1) {
@@ -52,10 +55,10 @@ public class Player extends Entity {
 			gunBackpack.add(primaryWeapon);
 			this.addImageWithBoundingBox(this.sprites.getSprite(1, 0));
 			this.removeImage(this.sprites.getSprite(1, 0));
-			this.sprite.addFrame(this.sprites.getSprite(1, 0), 1);		//Player facing down
-			this.sprite.addFrame(this.sprites.getSprite(1, 1), 1);		//Player face left
-			this.sprite.addFrame(this.sprites.getSprite(1, 2), 1);		//Player facing right
-			this.sprite.addFrame(this.sprites.getSprite(1, 3), 1);		//Player facing up
+			this.sprite.addFrame(this.sprites.getSprite(1, 0), 1);		//Player walk down
+			this.sprite.addFrame(this.sprites.getSprite(1, 1), 1);		//Player walk left
+			this.sprite.addFrame(this.sprites.getSprite(1, 2), 1);		//Player walk right
+			this.sprite.addFrame(this.sprites.getSprite(1, 3), 1);		//Player walk up
 			
 			this.addAnimation(sprite);
 		} 
