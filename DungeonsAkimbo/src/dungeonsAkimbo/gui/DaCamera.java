@@ -107,6 +107,16 @@ public class DaCamera {
 				}
 			}
 		}
+
+		for(Projectile projectile : currentGame.getEnemyAttacks()) {
+			if((projectile.getX()/tileWidth) > this.xOffSet && (projectile.getY()/tileHeight) > this.yOffSet ) {	
+				if(projectile.getX() < 1024 + (xOffSet*DaMap.TILE_SIZE)) {
+					g.translate(-xOffSet*DaMap.TILE_SIZE,-yOffSet*DaMap.TILE_SIZE);
+					projectile.render(g);
+					g.translate(xOffSet*DaMap.TILE_SIZE, yOffSet*DaMap.TILE_SIZE);
+				}
+			}
+		}
 	}
 	
 	public void renderMap(Graphics g) {

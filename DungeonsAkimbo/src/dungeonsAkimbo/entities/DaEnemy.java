@@ -8,6 +8,6 @@ public interface DaEnemy {
 	public void collisionAction(boolean isHit, boolean isPlayer);
 	
 	// An implementation line to handle an enemy attack
-	public void attack(Entity player);
+	public Projectile attack(Entity player);
 	
 }

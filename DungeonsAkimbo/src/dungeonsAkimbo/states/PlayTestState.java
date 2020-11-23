@@ -136,7 +136,13 @@ public class PlayTestState extends BasicGameState {
 			((Entity) dag.getCurrentMap().getPlayerList().get(playerID).getPrimaryWeapon()).setRotation(shot_angle);
 		}
 		// Mob attacking the player
-		mobs.forEach((mob) -> mob.attack(dag.getCurrentMap().getPlayerList().get(playerID)));
+		for(DaMob mob: mobs) {
+			Projectile hit = mob.attack(dag.getCurrentMap().getPlayerList().get(playerID));
+			if(hit != null) {
+				System.out.println("Reached");
+				dag.getCurrentMap().getEnemyAttacks().add(hit);
+			}
+		}
 
 		// Check for collision with mobs, and also update projectiles
 		for (Projectile b : dag.getCurrentMap().getPlayer_bullets()) {
@@ -146,6 +152,7 @@ public class PlayTestState extends BasicGameState {
 		// Update entities
 		dag.getCurrentMap().getPlayerList().get(playerID).update(delta);
 		dag.getCurrentMap().getPlayerList().get(playerID).getPrimaryWeapon().update(delta);
+		dag.getCurrentMap().getEnemyAttacks().forEach((hitbox) -> hitbox.update(delta));
 		mobs.forEach((mob) -> mob.update(delta));
 		
 		updateChatLog(dag);

@@ -71,19 +71,10 @@ public class DaMob extends Entity implements DaEnemy {
 	}
 
 	@Override
-	public void attack(Entity player) {
+	public Projectile attack(Entity player) {
 		Vector distance = this.getPosition().subtract(player.getPosition());
-		if(this.getBounceCooldown() > 0 && type == 0) {
-			// Basic mob collided, stopped and recover
-			this.setBounceCooldown(this.getBounceCooldown() - 1);
-		} else if(type == 0) {
-			// Just track the player and collide with them
-			this.velocity = distance.unit().negate();
-			this.velocity = this.velocity.unit().scale(.05f);
-		}
-
-		// Get angle, determine which direction sprite goes
 		double currentDirection = distance.negate().getRotation();
+		// Get angle, determine which direction sprite goes
 		if(this.direction != 0 && (currentDirection >= 45 && currentDirection < 135)) {
 			// Rotate down
 			this.direction = 0;
@@ -101,6 +92,25 @@ public class DaMob extends Entity implements DaEnemy {
 			this.direction = 3;
 			this.getSprite().setCurrentFrame(this.direction);
 		}
+		// Actual attack interaction
+		Projectile attacked = null;
+		if(this.getBounceCooldown() > 0) {
+			// Basic mob collided, stopped and recover
+			this.setBounceCooldown(this.getBounceCooldown() - 1);
+		} else if(type == 0) {
+			// Just track the player and collide with them
+			this.velocity = distance.unit().negate();
+			this.velocity = this.velocity.unit().scale(.05f);
+		} else if(type == 1) {
+			// Mob One will shoot at the player
+			attacked = new Projectile(this.getX(), this.getY(), 20, 50);
+			attacked.rotate(currentDirection);
+			attacked.Set_Velocity(currentDirection);
+			this.setBounceCooldown(30);
+		} else if(type == 2) {
+			// Mob will melee attack the player, use Projectile/Hitbox to deal with collision
+		}
+		return attacked;
 	}
 	
 	public void update(final int delta) {
