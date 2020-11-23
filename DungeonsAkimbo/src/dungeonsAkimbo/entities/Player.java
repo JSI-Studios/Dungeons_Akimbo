@@ -30,7 +30,7 @@ public class Player extends Entity {
 	
 	private Vector velocity;
 	
-	private Animation sprite, walkUp, walkDown, walkLeft, walkRight;
+	private Animation sprite, walkUp, walkDown, walkLeft, walkRight, current;
 	private SpriteSheet sprites;
 	
 	public Player(final float x, final float y, int type) {
@@ -38,15 +38,12 @@ public class Player extends Entity {
 		// Max health can either be set from constructor, or a be statically 
 		// constant, deal with later
 		
-		this.sprite = new Animation(false);
-		this.sprites = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.DA_PLAYER_RSC), 32, 32, 0, 0);
-		this.walkUp = new Animation(sprites, 0,3, 2,3, true, 1, true);
-		this.walkDown = new Animation(sprites, 0,0, 2,0, true, 1, true);
-		this.walkLeft = new Animation(sprites, 0,1, 2,1, true, 1, true);
-		this.walkRight = new Animation(sprites, 0,1, 2,1, true, 1, true);
+		
 		
 		//class 1
 		if (type==1) {
+			this.sprite = new Animation(false);
+			this.sprites = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.DA_PLAYER_RSC), 32, 32, 0, 0);
 			setMax_health(100);
 			setCurrent_health(getMax_health());
 			speed = 0.5f;		
@@ -55,12 +52,21 @@ public class Player extends Entity {
 			gunBackpack.add(primaryWeapon);
 			this.addImageWithBoundingBox(this.sprites.getSprite(1, 0));
 			this.removeImage(this.sprites.getSprite(1, 0));
-			this.sprite.addFrame(this.sprites.getSprite(1, 0), 1);		//Player walk down
-			this.sprite.addFrame(this.sprites.getSprite(1, 1), 1);		//Player walk left
-			this.sprite.addFrame(this.sprites.getSprite(1, 2), 1);		//Player walk right
-			this.sprite.addFrame(this.sprites.getSprite(1, 3), 1);		//Player walk up
 			
-			this.addAnimation(sprite);
+			this.sprite.addFrame(this.sprites.getSprite(1, 0), 1);		//Player face down
+			this.sprite.addFrame(this.sprites.getSprite(1, 1), 1);		//Player face left
+			this.sprite.addFrame(this.sprites.getSprite(1, 2), 1);		//Player face right
+			this.sprite.addFrame(this.sprites.getSprite(1, 3), 1);		//Player face up
+			
+			this.walkDown = new Animation(sprites, 0,0, 2,0, true, 2, true);		//Player walk down
+			this.walkLeft = new Animation(sprites, 0,1, 2,1, true, 2, true);	//Player walk left	
+			this.walkRight = new Animation(sprites, 0,2, 2,2, true, 2, true);	//Player walk right
+			this.walkUp = new Animation(sprites, 0,3, 2,3, true, 2, true);	//Player walk up
+			
+			this.current = walkDown;
+			this.addAnimation(current);
+			
+			
 		} 
 	}
 	
@@ -125,13 +131,54 @@ public class Player extends Entity {
 		}
 		
 		if (Math.abs(((Entity) this.primaryWeapon).getRotation()) < 45) { 		//Player facing right
-			this.sprite.setCurrentFrame(2);
+			if(current.equals(walkRight) &&  velocity.length() != 0) {
+				current.start();				
+			}else if( current.equals(walkRight) && velocity.length() == 0) {
+				current.stop();
+				current.setCurrentFrame(1);
+			}else if(!current.equals(walkRight)) {
+				current.stop();
+				this.removeAnimation(current);
+				this.addAnimation(walkRight);
+				current = walkRight;
+			}		
+			
 		} else if (Math.abs(((Entity) this.primaryWeapon).getRotation()) > 135) {		//Player facing left
-			this.sprite.setCurrentFrame(1);
+			if(current.equals(walkLeft) &&  velocity.length() != 0) {
+				current.start();				
+			}else if( current.equals(walkLeft) && velocity.length() == 0) {
+				current.stop();
+				current.setCurrentFrame(1);
+			}else if(!current.equals(walkLeft)) {
+				current.stop();
+				this.removeAnimation(current);
+				this.addAnimation(walkLeft);
+				current = walkLeft;
+			}
 		} else if (((Entity) this.primaryWeapon).getRotation() > 45 && ((Entity) this.primaryWeapon).getRotation() < 135) {		//Player facing down
-			this.sprite.setCurrentFrame(0);
+			if(current.equals(walkDown) &&  velocity.length() != 0) {
+				current.start();				
+			}else if( current.equals(walkDown) && velocity.length() == 0) {
+				current.stop();
+				current.setCurrentFrame(1);
+			}else if(!current.equals(walkDown)) {
+				current.stop();
+				this.removeAnimation(current);
+				this.addAnimation(walkDown);
+				current = walkDown;
+			}
 		}else if (((Entity) this.primaryWeapon).getRotation() > -135 && ((Entity) this.primaryWeapon).getRotation() < -45 ) {		//Player facing up
-			this.sprite.setCurrentFrame(3);
+			if(current.equals(walkUp) &&  velocity.length() != 0) {
+				current.start();				
+			}else if( current.equals(walkUp) && velocity.length() == 0) {
+				current.stop();
+				current.setCurrentFrame(1);
+			}else if(!current.equals(walkUp)) {
+				current.stop();
+				this.removeAnimation(current);
+				this.addAnimation(walkUp);
+				current = walkUp;
+			}
 		}
 		
 		try {
