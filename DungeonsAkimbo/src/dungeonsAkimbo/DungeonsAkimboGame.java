@@ -15,6 +15,7 @@ import dungeonsAkimbo.map.DaMap;
 import dungeonsAkimbo.netcode.DaClient;
 import dungeonsAkimbo.netcode.DaServer;
 import dungeonsAkimbo.states.MainMenuState;
+import dungeonsAkimbo.states.NetMenuState;
 import dungeonsAkimbo.states.PlayTestState;
 import dungeonsAkimbo.states.PlayingState;
 import dungeonsAkimbo.states.StartSplashState;
@@ -38,7 +39,7 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	public static final int MAINMENUSTATE = 1;
 	public static final int PLAYINGSTATE = 2;
 	public static final int PLAYTESTSTATE = 3;
-	
+	public static final int NETMENUSTATE = 4;
 	
 	public static final String DA_TESTMAP_RSC = "dungeonsAkimbo/resource/Maps/testMap/DaTestMapSmall.tmx";
 	public static final String DA_TESTMAP_TILESET_RSC = "dungeonsAkimbo/resource/Maps/testmap/";
@@ -47,6 +48,7 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	public static final int HEIGHT = 1024;
 	public static final int FPS = 60;
 	public static final double VERSION = .01;
+	
 	
 	
 	public final int screenWidth;
@@ -71,10 +73,12 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		addState(new MainMenuState());
 		addState(new PlayingState());
 		addState(new PlayTestState());
+		addState(new NetMenuState());
 		ResourceManager.setFilterMethod(ResourceManager.FILTER_LINEAR);
 		
 		ResourceManager.loadImage(TEMP_PLAYER);
 		ResourceManager.loadImage(TEMP_BULLET);
+		ResourceManager.loadImage(DA_PLAYER_RSC);
 		
 		// Load weapon sprites
 		ResourceManager.loadImage(DA_SNIPER_RSC);
@@ -124,8 +128,8 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		server = new DaServer(8989);		
 	}
 	
-	public void startClient() {
-		client = new DaClient("DaUser","localhost", 8989);		
+	public void startClient(String userName, String address, int port) {
+		client = new DaClient(userName,address, 8989);		
 	}
 	
 	public DaClient getClient() {
