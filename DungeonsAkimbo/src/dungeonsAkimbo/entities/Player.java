@@ -124,6 +124,7 @@ public class Player extends Entity {
 	
 public void update(final int delta) {
 		
+
 		if (this.dodging == true) {
 			dodgeTimer -= delta;
 			//System.out.println("Player is dodge? " + this.dodging);
@@ -185,5 +186,13 @@ public void update(final int delta) {
 				current = walkUp;
 			}
 		}
+		
+		try {
+			translate(velocity.scale(delta));
+		} catch (Exception e) {
+			System.out.println("caught exception when trying to translate player velocity" + e);
+		}
+		
+		((Entity) this.primaryWeapon).setPosition(this.getPosition());
 	}
 }
