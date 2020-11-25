@@ -37,40 +37,32 @@ public class Player extends Entity {
 		super(x, y);
 		// Max health can either be set from constructor, or a be statically 
 		// constant, deal with later
+		this.sprite = new Animation(false);
+		this.sprites = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.DA_PLAYER_RSC), 32, 32, 0, 0);
+		setMax_health(100);
+		setCurrent_health(getMax_health());
+		speed = 0.5f;		
+		primaryWeapon = new DaSniper();		
+		gunBackpack = new ArrayList<Weapon>();		
+		gunBackpack.add(primaryWeapon);
+		this.addImageWithBoundingBox(this.sprites.getSprite(1, 0));
+		this.removeImage(this.sprites.getSprite(1, 0));
 		
+		this.sprite.addFrame(this.sprites.getSprite(1, 0), 1);		//Player face down
+		this.sprite.addFrame(this.sprites.getSprite(1, 1), 1);		//Player face left
+		this.sprite.addFrame(this.sprites.getSprite(1, 2), 1);		//Player face right
+		this.sprite.addFrame(this.sprites.getSprite(1, 3), 1);		//Player face up
 		
+		this.walkDown = new Animation(sprites, 0,0, 2,0, true, 2, true);		//Player walk down
+		this.walkLeft = new Animation(sprites, 0,1, 2,1, true, 2, true);	//Player walk left	
+		this.walkRight = new Animation(sprites, 0,2, 2,2, true, 2, true);	//Player walk right
+		this.walkUp = new Animation(sprites, 0,3, 2,3, true, 2, true);	//Player walk up
 		
-		//class 1
-		if (type==1) {
-			this.sprite = new Animation(false);
-			this.sprites = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.DA_PLAYER_RSC), 32, 32, 0, 0);
-			setMax_health(100);
-			setCurrent_health(getMax_health());
-			speed = 0.5f;		
-			primaryWeapon = new DaSniper();		
-			gunBackpack = new ArrayList<Weapon>();		
-			gunBackpack.add(primaryWeapon);
-			this.addImageWithBoundingBox(this.sprites.getSprite(1, 0));
-			this.removeImage(this.sprites.getSprite(1, 0));
-			
-			this.sprite.addFrame(this.sprites.getSprite(1, 0), 1);		//Player face down
-			this.sprite.addFrame(this.sprites.getSprite(1, 1), 1);		//Player face left
-			this.sprite.addFrame(this.sprites.getSprite(1, 2), 1);		//Player face right
-			this.sprite.addFrame(this.sprites.getSprite(1, 3), 1);		//Player face up
-			
-			this.walkDown = new Animation(sprites, 0,0, 2,0, true, 2, true);		//Player walk down
-			this.walkLeft = new Animation(sprites, 0,1, 2,1, true, 2, true);	//Player walk left	
-			this.walkRight = new Animation(sprites, 0,2, 2,2, true, 2, true);	//Player walk right
-			this.walkUp = new Animation(sprites, 0,3, 2,3, true, 2, true);	//Player walk up
-			
-			this.current = walkDown;
-			this.addAnimation(current);
-			
-			
-		} 
+		this.current = walkDown;
+		this.addAnimation(current);
 	}
 	
-	public void Gun_Select(int i) {
+	public void gunSelect(int i) {
 		this.primaryWeapon = (Ranged) gunBackpack.get(i);
 	}
 	
@@ -79,45 +71,58 @@ public class Player extends Entity {
 	}
 	
 	public Projectile Shoot(double inAngle) {
-		
 		return (Projectile) this.primaryWeapon.primaryAtk(inAngle);	
 	}
 	
-	public Weapon Swap_Wep(Weapon s) {
+	public Weapon swapWep(Weapon s) {
 		Weapon temp = this.primaryWeapon;
 		this.primaryWeapon = (Ranged) s;
 		return temp;
 	}
 	
-	public void Do_Dodge(final int delta, int scaler) {
+	public void doDodge(final int delta, int scaler) {
 		this.speed = scaler*this.speed;
 		this.dodging = true;
 	}
 	
-	public void Set_Velocity(final Vector v) {
+	public void setVelocity(final Vector v) {
 		velocity = v;
 	}
 	
-	public Vector Get_Velocity() {
+	public Vector getVelocity() {
 		return velocity;
 	}
 	
-	public void Set_Speed(float s) {
+	public void setSpeed(float s) {
 		this.speed = s;
 	}
 	
-	public float Get_Speed() {
+	public float getSpeed() {
 		return this.speed;
 	}
 	
-	
-	
-	public int Get_Hash() {
+	public int getHash() {
 		int hash = 17*(int)this.getX()^19 * (int)(this.getY());
 		return hash;
 	}
 	
-	public void update(final int delta) {
+	public int getMax_health() {
+		return max_health;
+	}
+
+	public void setMax_health(int max_health) {
+		this.max_health = max_health;
+	}
+
+	public int getCurrent_health() {
+		return currentHealth;
+	}
+
+	public void setCurrent_health(int current_health) {
+		this.currentHealth = current_health;
+	}
+	
+public void update(final int delta) {
 		
 		if (this.dodging == true) {
 			dodgeTimer -= delta;
@@ -180,29 +185,5 @@ public class Player extends Entity {
 				current = walkUp;
 			}
 		}
-		
-		try {
-			translate(velocity.scale(delta));
-		} catch (Exception e) {
-			System.out.println("caught exception when trying to translate player velocity" + e);
-		}
-		
-		((Entity) this.primaryWeapon).setPosition(this.getPosition());
-	}
-
-	public int getMax_health() {
-		return max_health;
-	}
-
-	public void setMax_health(int max_health) {
-		this.max_health = max_health;
-	}
-
-	public int getCurrent_health() {
-		return currentHealth;
-	}
-
-	public void setCurrent_health(int current_health) {
-		this.currentHealth = current_health;
 	}
 }
