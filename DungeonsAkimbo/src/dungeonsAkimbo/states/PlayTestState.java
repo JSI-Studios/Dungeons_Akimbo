@@ -104,13 +104,13 @@ public class PlayTestState extends BasicGameState {
 		
 		if (!chatting) {
 			if (input.isKeyDown(Input.KEY_W)) {
-				new_velocity = new Vector(0f, -0.5f * dag.getCurrentMap().getPlayerList().get(playerID).Get_Speed());
+				new_velocity = new Vector(0f, -0.5f * dag.getCurrentMap().getPlayerList().get(playerID).getSpeed());
 			} else if (input.isKeyDown(Input.KEY_A)) {
-				new_velocity = new Vector(-0.5f * dag.getCurrentMap().getPlayerList().get(playerID).Get_Speed(), 0f);
+				new_velocity = new Vector(-0.5f * dag.getCurrentMap().getPlayerList().get(playerID).getSpeed(), 0f);
 			} else if (input.isKeyDown(Input.KEY_S)) {
-				new_velocity = new Vector(0f, 0.5f * dag.getCurrentMap().getPlayerList().get(playerID).Get_Speed());
+				new_velocity = new Vector(0f, 0.5f * dag.getCurrentMap().getPlayerList().get(playerID).getSpeed());
 			} else if (input.isKeyDown(Input.KEY_D)) {
-				new_velocity = new Vector(0.5f * dag.getCurrentMap().getPlayerList().get(playerID).Get_Speed(), 0f);
+				new_velocity = new Vector(0.5f * dag.getCurrentMap().getPlayerList().get(playerID).getSpeed(), 0f);
 			} else {
 				new_velocity = new Vector(0f, 0f);
 			}
@@ -128,11 +128,11 @@ public class PlayTestState extends BasicGameState {
 			}
 			
 			if (input.isKeyPressed(Input.KEY_SPACE)) {
-				dag.getCurrentMap().getPlayerList().get(playerID).Do_Dodge(delta, 1);
+				dag.getCurrentMap().getPlayerList().get(playerID).doDodge(delta, 1);
 			}
 			
 			
-			dag.getCurrentMap().getPlayerList().get(playerID).Set_Velocity(new_velocity);
+			dag.getCurrentMap().getPlayerList().get(playerID).setVelocity(new_velocity);
 			((Entity) dag.getCurrentMap().getPlayerList().get(playerID).getPrimaryWeapon()).setRotation(shot_angle);
 		}
 		// Mob attacking the player
