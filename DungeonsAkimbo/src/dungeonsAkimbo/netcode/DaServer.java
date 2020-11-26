@@ -90,7 +90,12 @@ public class DaServer extends Thread {
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-					process(packet);
+					try {
+						process(packet);
+					} catch (ClassNotFoundException | IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}
 		};
@@ -129,7 +134,7 @@ public class DaServer extends Thread {
 		send(message.getBytes(), address, port);
 	}
 	
-	private void process(DatagramPacket packet) {
+	private void process(DatagramPacket packet) throws ClassNotFoundException, IOException {
 		String string = new String(packet.getData());
 		if (raw) System.out.println(string);
 		if (string.startsWith("/c/")) {
@@ -148,8 +153,14 @@ public class DaServer extends Thread {
 		} else if (string.startsWith("/i/")) {
 			if(verbose) System.out.println("Keep Alive revieved from " + packet.getAddress().toString().split("/")[1] + ":" + packet.getPort());
 			clientResponse.add(Integer.parseInt(string.split("/i/|/e/")[1]));
-		} else if (string.endsWith("/u/")) {
+		} else if (string.startsWith("/u/")) {
 			System.out.println("player update recieved");
+			UpdatePacket update = UpdateHandler.recieveUpdate(string.split("/u/|/e/")[1].getBytes());
+			System.out.println(update.getFrame());
+			System.out.println(update.getPlayerID());
+			System.out.println(update.getPlayerPos().getX()+ " , " + update.getPlayerPos().getY());
+			System.out.println(update.getPlayerVel().getX() + " , " + update.getPlayerVel().getY());
+			
 		} else {
 			System.out.println(string);
 		}
