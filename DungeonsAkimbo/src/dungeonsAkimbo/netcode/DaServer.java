@@ -159,8 +159,8 @@ public class DaServer extends Thread {
 			disconnect(Integer.parseInt(id), true);
 		} else if (string.startsWith("/i/")) {
 			rttFinish = new GregorianCalendar().getTimeInMillis();
-			if(verbose) System.out.println("Keep Alive revieved from " + packet.getAddress().toString().split("/")[1] + ":" + packet.getPort());
-			System.out.println("Ping time for " + (Integer.parseInt(string.split("/i/|/e/")[1]) + ": " + (rttFinish - rttStart + "ms")));
+			if(verbose) System.out.print("Keep Alive revieved from " + packet.getAddress().toString().split("/")[1] + ":" + packet.getPort());
+			System.out.print("\tPing time for " + (Integer.parseInt(string.split("/i/|/e/")[1]) + ": " + (rttFinish - rttStart + "ms \n")));
 			clientResponse.add(Integer.parseInt(string.split("/i/|/e/")[1]));
 		} else if (string.startsWith("/u/")) {
 			System.out.println("player update recieved");
