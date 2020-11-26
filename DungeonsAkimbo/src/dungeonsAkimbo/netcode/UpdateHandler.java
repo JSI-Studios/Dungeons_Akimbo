@@ -9,22 +9,35 @@ import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 
 public class UpdateHandler {
+	
+	UpdatePacket previousIn, currentIn;
+	byte [] previousOut, currentOut;
+	
+	public UpdateHandler() {
+		
+	}
 
-	public static UpdatePacket recieveUpdate(byte[] updateBytes) throws IOException, ClassNotFoundException {
-		UpdatePacket update;
+	public UpdatePacket recieveUpdate(byte[] updateBytes) throws IOException, ClassNotFoundException {
 		try(ByteArrayInputStream bis = new ByteArrayInputStream(updateBytes);
 	            ObjectInput in = new ObjectInputStream(bis);) {
-
-	      update = (UpdatePacket) in.readObject(); 
+		 
+				currentIn = (UpdatePacket) in.readObject();
 
 	    } finally {
 
 	    }
-		return update;
+		try(ByteArrayInputStream bis = new ByteArrayInputStream(updateBytes);
+	            ObjectInput in = new ObjectInputStream(bis);) {
+		 
+				previousIn = (UpdatePacket) in.readObject();
+
+	    } finally {
+
+	    }
+		return currentIn;
 	}
 
-	public static byte[] sendUpdate(UpdatePacket update) throws IOException {
-		byte[] updatePacket;
+	public byte[] sendUpdate(UpdatePacket update) throws IOException {
 		byte[] updateBytes;
 		String prefix = "/u/";
 		String postfix = "/e/";
@@ -42,12 +55,13 @@ public class UpdateHandler {
 			fbos.write(updateBytes);
 			fbos.write(postfix.getBytes());
 			
-			updatePacket = fbos.toByteArray();
+			currentOut = fbos.toByteArray();
+			previousOut = fbos.toByteArray();
 		}
 		
 		
-		
-		return updatePacket;
+		System.out.println(currentOut.length);
+		return currentOut;
 	}
 
 }

@@ -8,14 +8,16 @@ public class DaClient extends Thread {
 	private Thread run, listen;
 	private DaClientConnectionHandler DaHandler;
 	private List<String> messageLog = new ArrayList<String>();
+	private UpdateHandler gameUpdater;
 	
 	
 	private boolean running;
 
 	private boolean verbose = false;
 	
-	public DaClient(String name, String address, int port) {
+	public DaClient(String name, String address, int port, UpdateHandler clientUpdater) {
 		DaHandler = new DaClientConnectionHandler(name, address, port);
+		this.gameUpdater = clientUpdater;
 		boolean connect = DaHandler.openConnnection(address);
 		if (!connect) {
 			System.err.println("Connection failed!");

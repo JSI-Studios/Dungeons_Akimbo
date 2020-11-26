@@ -1,6 +1,7 @@
 package dungeonsAkimbo.netcode;
 
 import java.io.Serializable;
+import java.util.GregorianCalendar;
 
 import jig.Vector;
 
@@ -13,8 +14,10 @@ public class UpdatePacket implements Serializable{
 	
 	private int playerID, frame;
 	private Vector playerPos, playerVel;
+	private long time;
 	
 	public UpdatePacket(int playerID, Vector playerPos, Vector playerVel, int frame) {
+		this.time = new GregorianCalendar().getTimeInMillis();
 		this.frame = frame;
 		this.playerID = playerID;
 		this.playerPos = playerPos;
@@ -35,6 +38,10 @@ public class UpdatePacket implements Serializable{
 
 	public int getFrame() {
 		return frame;
+	}
+
+	public long getTime() {
+		return time;
 	}
 	
 

@@ -142,7 +142,7 @@ public class PlayTestState extends BasicGameState {
 				byte[] updateBytes = null;
 				UpdatePacket update = new UpdatePacket(thisID, playerNetPos, playerVel, frameCount);
 				try {
-					updateBytes = UpdateHandler.sendUpdate(update);
+					updateBytes = dag.getClientUpdater().sendUpdate(update);
 					
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
