@@ -46,6 +46,10 @@ public class DaClient extends Thread {
 	public void sendMessage(String message) {
 		send(message, true);
 	}
+	
+	public void sendData(byte[] data) {
+		DaHandler.send(data);
+	}
 
 	public void listen() {
 		listen = new Thread("Listen") {

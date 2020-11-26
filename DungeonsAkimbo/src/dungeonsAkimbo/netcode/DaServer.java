@@ -148,6 +148,8 @@ public class DaServer extends Thread {
 		} else if (string.startsWith("/i/")) {
 			if(verbose) System.out.println("Keep Alive revieved from " + packet.getAddress().toString().split("/")[1] + ":" + packet.getPort());
 			clientResponse.add(Integer.parseInt(string.split("/i/|/e/")[1]));
+		} else if (string.endsWith("/u/")) {
+			System.out.println("player update recieved");
 		} else {
 			System.out.println(string);
 		}

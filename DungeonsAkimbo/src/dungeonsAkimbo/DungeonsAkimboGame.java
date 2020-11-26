@@ -24,6 +24,7 @@ import jig.ResourceManager;
 
 public class DungeonsAkimboGame extends StateBasedGame {
 	
+	
 
 	//Art Macros
 	public static final String TEMP_PLAYER = "dungeonsAkimbo/resource/Projectiles/temp_player.png";
@@ -63,6 +64,7 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	private DaMap gameMap;
 	private boolean mapReady = false;
 	private TiledMap mapPlan;
+	private int framecount = 0;
 	
 	// Keep track of mobs
 	
@@ -152,6 +154,13 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		gameMap.addNewPlayer(playerID);
 	}
 
+	public int getFramecount() {
+		return framecount;
+	}
+	
+	public void updateFramecount() {
+		this.framecount = framecount + 1;
+	}
 	
 	public static void main(String[] args) {
 		try {
@@ -166,6 +175,7 @@ public class DungeonsAkimboGame extends StateBasedGame {
 			e.printStackTrace();
 		}
 	}
+
 
 
 }
