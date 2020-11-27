@@ -63,6 +63,7 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	private DaMap gameMap;
 	private boolean mapReady = false;
 	private TiledMap mapPlan;
+	private DaLogic gameLogic;
 	
 	// Keep track of mobs
 	
@@ -117,9 +118,13 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		if(mapReady)
 			gameMap = new DaMap(mapPlan);
 			gameMap.loadMap();
-		startCollisions();
+		startLogic();
 	}
 	
+	private void startLogic() {
+		gameLogic = new DaLogic(gameMap);
+	}
+
 	public DaMap getCurrentMap() {
 		return gameMap;		
 	}
@@ -136,14 +141,11 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		return (DaClient) client;
 	}
 	
-	public void startCollisions() {
-		masterCollider = new DaCollisions(gameMap);
+	public DaLogic getLogic() {
+		return gameLogic;
 	}
 	
-	public void collideCheck(int delta) {
-		masterCollider.playerCollsionsTest(delta);
-		masterCollider.enemyCollisionsTest(delta);
-	}
+	
 	
 	public void addPlayer(int playerID) {
 		// TODO Auto-generated method stub

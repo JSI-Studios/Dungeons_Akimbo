@@ -79,8 +79,6 @@ public class PlayTestState extends BasicGameState {
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 
 		// Simply names from dag
-		ArrayList<DaMob> mobs = dag.getCurrentMap().getMobList();
-		dag.collideCheck(delta);
 		Vector new_velocity;
 		Input input = container.getInput();
 		Vector mouseVec = new Vector(input.getMouseX(), input.getMouseY());
@@ -134,26 +132,8 @@ public class PlayTestState extends BasicGameState {
 			dag.getCurrentMap().getPlayerList().get(playerID).setVelocity(new_velocity);
 			((Entity) dag.getCurrentMap().getPlayerList().get(playerID).getPrimaryWeapon()).setRotation(shot_angle);
 		}
-		// Mob attacking the player
-		for (DaMob mob : mobs) {
-			Projectile hit = mob.attack(dag.getCurrentMap().getPlayerList().get(playerID));
-			if (hit != null) {
-				//System.out.println("Reached");
-				dag.getCurrentMap().getEnemyAttacks().add(hit);
-			}
-		}
-
-		// Check for collision with mobs, and also update projectiles
-		for (Projectile b : dag.getCurrentMap().getPlayer_bullets()) {
-			b.update(delta);
-		}
-
-		// Update entities
-		dag.getCurrentMap().getPlayerList().get(playerID).update(delta);
-		dag.getCurrentMap().getPlayerList().get(playerID).getPrimaryWeapon().update(delta);
-		dag.getCurrentMap().getEnemyAttacks().forEach((hitbox) -> hitbox.update(delta));
-		mobs.forEach((mob) -> mob.update(delta));
-
+		//update Logic
+		dag.getLogic().clientUpdate(playerID, delta);
 		updateChatLog(dag);
 
 	}
