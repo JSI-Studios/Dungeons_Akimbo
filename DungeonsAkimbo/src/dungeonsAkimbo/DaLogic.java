@@ -15,12 +15,19 @@ public class DaLogic {
 		this.map = gameMap;
 		startCollisions();
 	}
-
+	
+	
+	//logic update to be used by client until we can remove the need for playerID
+	//currently just updating entities and checking collisions
+	//this should get get called in the playstate's update()
+	//and used by the server to update it's map.
+	
 	public void clientUpdate(int playerID, int delta) {
 		clientUpdateEntities(playerID, delta);
 		collideCheck(delta);
 	}
-
+	
+	//update entities 
 	private void clientUpdateEntities(int playerID, int delta) {
 		// Mob attacking the player
 		ArrayList<DaMob> mobs = map.getMobList();
@@ -44,12 +51,12 @@ public class DaLogic {
 		mobs.forEach((mob) -> mob.update(delta));
 
 	}
-
+	//start up a collision handler for the map
 	public void startCollisions() {
 		bonkHandler = new DaCollisions(map);
 	}
-
-	public void collideCheck(int delta) {
+	//check for collisions in this update
+	public void collideCheck(int delta) {	
 		bonkHandler.playerCollsionsTest(delta);
 		bonkHandler.enemyCollisionsTest(delta);
 	}
