@@ -25,20 +25,19 @@ public class PlayTestState extends BasicGameState {
 
 	public DaCamera gameView;
 	private ChatGUI chat;
-	
+
 	private String chatMessage = "";
-	
+
 	private boolean chatting = false;
-	
+
 	private DungeonsAkimboGame dag;
-	
+
 	private int playerID;
 
 	@Override
 	public void init(GameContainer container, StateBasedGame game) throws SlickException {
 		// TODO Auto-generated method stub
-		
-
+		playerID = -1;
 	}
 
 	@Override
@@ -48,9 +47,9 @@ public class PlayTestState extends BasicGameState {
 		dag.loadNewTiledMap(1);
 		dag.loadMap();
 		gameView = new DaCamera(dag.getCurrentMap());
-		playerID = dag.getClient().getClientID();
+		if(dag.getClient() != null)	playerID = dag.getClient().getClientID();
 		dag.addPlayer(playerID);
-		//Chat GUI handling
+		// Chat GUI handling
 		chat = new ChatGUI(0, 768, 1024, 244, container);
 
 	}
@@ -58,19 +57,19 @@ public class PlayTestState extends BasicGameState {
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 		// TODO Auto-generated method stub
-		
-		
-		//render the camera view and everything within it. layered in the order of calls.
+
+		// render the camera view and everything within it. layered in the order of
+		// calls.
 		gameView.renderMap(g);
 		gameView.renderPlayers(g);
 		g.flush();
 		gameView.renderMobs(g);
 		gameView.renderProjectiles(g);
-		
+
 		chat.getChatLog().render(container, g);
 		chat.getChatBar().render(container, g);
-		
-		//Testing room
+
+		// Testing room
 		g.setColor(Color.black);
 		g.drawString("DUNGEONS AKIMBO TESTING AREA, ITS A MESS, WE KNOW....", 400, 10);
 		g.setColor(Color.white);
@@ -80,8 +79,6 @@ public class PlayTestState extends BasicGameState {
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 
 		// Simply names from dag
-		ArrayList<DaMob> mobs = dag.getCurrentMap().getMobList();
-		dag.collideCheck(delta);
 		Vector new_velocity;
 		Input input = container.getInput();
 		Vector mouseVec = new Vector(input.getMouseX(), input.getMouseY());
@@ -94,14 +91,15 @@ public class PlayTestState extends BasicGameState {
 			if (!chatting) {
 				chat.activateChatBar();
 				chatting = !chatting;
-			} else {	
+			} else {
 				String message = chat.getChatBarContents();
-				if(message != null)	dag.getClient().sendMessage(message);
-				chatting = !chatting;		
+				if (message != null)
+					dag.getClient().sendMessage(message);
+				chatting = !chatting;
 			}
 		}
 		// Temp movement control handling
-		
+
 		if (!chatting) {
 			if (input.isKeyDown(Input.KEY_W)) {
 				new_velocity = new Vector(0f, -0.5f * dag.getCurrentMap().getPlayerList().get(playerID).getSpeed());
@@ -114,57 +112,38 @@ public class PlayTestState extends BasicGameState {
 			} else {
 				new_velocity = new Vector(0f, 0f);
 			}
-			
+
 			if (input.isKeyPressed(Input.KEY_P)) {
 				dag.getClient().console(Integer.toString(playerID));
 			}
 
 			if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-				
-				
-				if(dag.getCurrentMap().getPlayerList().get(playerID).getPrimaryWeapon().isCan_shoot()){
-					dag.getCurrentMap().getPlayer_bullets().add(dag.getCurrentMap().getPlayerList().get(playerID).Shoot(shot_angle));
-				}			
+
+				if (dag.getCurrentMap().getPlayerList().get(playerID).getPrimaryWeapon().isCan_shoot()) {
+					dag.getCurrentMap().getPlayer_bullets()
+							.add(dag.getCurrentMap().getPlayerList().get(playerID).Shoot(shot_angle));
+				}
 			}
-			
+
 			if (input.isKeyPressed(Input.KEY_SPACE)) {
 				dag.getCurrentMap().getPlayerList().get(playerID).doDodge(delta, 1);
 			}
-			
-			
+
 			dag.getCurrentMap().getPlayerList().get(playerID).setVelocity(new_velocity);
 			((Entity) dag.getCurrentMap().getPlayerList().get(playerID).getPrimaryWeapon()).setRotation(shot_angle);
 		}
-		// Mob attacking the player
-		for(DaMob mob: mobs) {
-			Projectile hit = mob.attack(dag.getCurrentMap().getPlayerList().get(playerID));
-			if(hit != null) {
-				System.out.println("Reached");
-				dag.getCurrentMap().getEnemyAttacks().add(hit);
-			}
-		}
-
-		// Check for collision with mobs, and also update projectiles
-		for (Projectile b : dag.getCurrentMap().getPlayer_bullets()) {
-			b.update(delta);
-		}
-
-		// Update entities
-		dag.getCurrentMap().getPlayerList().get(playerID).update(delta);
-		dag.getCurrentMap().getPlayerList().get(playerID).getPrimaryWeapon().update(delta);
-		dag.getCurrentMap().getEnemyAttacks().forEach((hitbox) -> hitbox.update(delta));
-		mobs.forEach((mob) -> mob.update(delta));
-		
+		//update Logic
+		dag.getLogic().clientUpdate(playerID, delta);
 		updateChatLog(dag);
 
 	}
 
 	private void updateChatLog(DungeonsAkimboGame dag) {
 		// TODO Auto-generated method stub
-		if(dag.getClient() != null) {
+		if (dag.getClient() != null) {
 			if (!dag.getClient().getMessageLog().isEmpty()) {
 				List<String> newChats = dag.getClient().getMessageLog();
-				for(String message : newChats) {
+				for (String message : newChats) {
 					chat.addNewChat(message);
 				}
 				chat.updateChatLog();
@@ -184,6 +163,5 @@ public class PlayTestState extends BasicGameState {
 		// TODO Auto-generated method stub
 		return DungeonsAkimboGame.PLAYTESTSTATE;
 	}
-
 
 }
