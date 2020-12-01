@@ -34,8 +34,8 @@ public class DaShotty extends Entity implements Ranged {
 		 * frames based on our rotation in update().
 		 */
 		sprite = new Animation(false);
-		sprite.addFrame(ResourceManager.getImage(DungeonsAkimboGame.DA_PISTOL_RSC).getScaledCopy(.075f), 1);
-		sprite.addFrame(ResourceManager.getImage(DungeonsAkimboGame.DA_PISTOL_RSC).getScaledCopy(.075f).getFlippedCopy(false, true), 1);
+		sprite.addFrame(ResourceManager.getImage(DungeonsAkimboGame.DA_SHOTTY_RSC).getScaledCopy(.075f), 1);
+		sprite.addFrame(ResourceManager.getImage(DungeonsAkimboGame.DA_SHOTTY_RSC).getScaledCopy(.075f).getFlippedCopy(false, true), 1);
 		this.addAnimation(sprite);
 	}
 	
