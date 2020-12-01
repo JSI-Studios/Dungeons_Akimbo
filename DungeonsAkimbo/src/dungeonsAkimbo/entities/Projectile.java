@@ -44,9 +44,9 @@ public class Projectile extends Entity {
 		addImageWithBoundingBox(ResourceManager.getImage(DungeonsAkimboGame.TEMP_BULLET));
 	}
 	
-	public void decreaseTimer() {
+	public void decreaseTimer(final int delta) {
 		// Dedicated function that decrements the duration of the projectile
-		this.setTimer(this.getTimer() - 1);
+		this.timer -= delta;
 	}
 	
 	public void Set_Velocity(double inAngle) {
