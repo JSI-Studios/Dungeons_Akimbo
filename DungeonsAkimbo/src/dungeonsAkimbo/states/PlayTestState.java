@@ -121,6 +121,10 @@ public class PlayTestState extends BasicGameState {
 				dag.getCurrentMap().getPlayerList().get(playerID).gunSelect(0);
 			} else if (input.isKeyPressed(Input.KEY_2)) {
 				dag.getCurrentMap().getPlayerList().get(playerID).gunSelect(1);
+			} else if (input.isKeyPressed(Input.KEY_3)) {
+				dag.getCurrentMap().getPlayerList().get(playerID).gunSelect(2);
+			} else if (input.isKeyPressed(Input.KEY_4)) {
+				dag.getCurrentMap().getPlayerList().get(playerID).gunSelect(3);
 			}
 
 			if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
