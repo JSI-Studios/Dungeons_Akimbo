@@ -1,6 +1,7 @@
 package dungeonsAkimbo;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import dungeonsAkimbo.entities.DaMob;
 import dungeonsAkimbo.entities.Projectile;
@@ -40,8 +41,16 @@ public class DaLogic {
 		}
 
 		// Check for collision with mobs, and also update projectiles
-		for (Projectile b : map.getPlayer_bullets()) {
+		//Iterator<Bullet> bulletIter = cg.bullet_array.iterator(); bulletIter.hasNext();
+		for (Iterator<Projectile> bIter = map.getPlayer_bullets().iterator(); bIter.hasNext();) {
+			Projectile b = bIter.next();
+			
 			b.update(delta);
+			b.decreaseTimer(delta);
+			
+			if (b.getTimer() <= 0) {
+				bIter.remove();
+			}
 		}
 
 		// Update entities
