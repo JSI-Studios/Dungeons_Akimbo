@@ -1,24 +1,22 @@
 package dungeonsAkimbo.entities;
 
 import org.newdawn.slick.Animation;
-import org.newdawn.slick.Image;
 
 import dungeonsAkimbo.DungeonsAkimboGame;
 import jig.Entity;
 import jig.ResourceManager;
 
-public class DaSniper extends Entity implements Ranged {
-
-	private int ammo, shootTimer, range, damage;
+public class DaPistol extends Entity implements Ranged {
+	private int ammo, shoot_timer, range, damage;
 	final int maxTimer;
 	private boolean canShoot;
 	private Animation sprite;
-
-	public DaSniper() {
+	
+	public DaPistol() {
 		ammo = 20;
-		shootTimer = 2000;
-		maxTimer = 2000;
-		range = 20;
+		shoot_timer = 500;
+		maxTimer = 500;
+		range = 1500;
 		damage = 40;
 		canShoot = true;
 
@@ -33,46 +31,44 @@ public class DaSniper extends Entity implements Ranged {
 		 * frames based on our rotation in update().
 		 */
 		sprite = new Animation(false);
-		sprite.addFrame(ResourceManager.getImage(DungeonsAkimboGame.DA_SNIPER_RSC).getScaledCopy(.075f), 1);
-		sprite.addFrame(ResourceManager.getImage(DungeonsAkimboGame.DA_SNIPER_RSC).getScaledCopy(.075f).getFlippedCopy(false, true), 1);
+		sprite.addFrame(ResourceManager.getImage(DungeonsAkimboGame.DA_PISTOL_RSC).getScaledCopy(.075f), 1);
+		sprite.addFrame(ResourceManager.getImage(DungeonsAkimboGame.DA_PISTOL_RSC).getScaledCopy(.075f).getFlippedCopy(false, true), 1);
 		this.addAnimation(sprite);
-		
 	}
 	
-	public boolean isCan_shoot() {
-		return canShoot;
-	}
-
-	public int getRange() {
-		return this.range;
-	}
-
-	public int getAmmo() {
-		return this.ammo;
-	}
-
-	public int getDamage() {
-		return this.damage;
-	}
-
-	@Override
-	public void throwWep() {
-		// TODO Auto-generated method stub
-
-	}
-
 	public Object primaryAtk(double inAngle) {
 		
 		Projectile bullet;
 		
-		bullet = new Projectile(this.getX(), this.getY(), this.damage);
+		bullet = new Projectile(this.getX(), this.getY(), this.damage, this.range);
 		bullet.rotate(inAngle);
 		bullet.Set_Velocity(inAngle);
 		
 		this.canShoot = false;
 		return bullet;
 	}
+	
+	public void getEffect() {
 
+	}
+	
+	public boolean isCan_shoot() {
+		return canShoot;
+	}
+	
+	public int getRange() {
+		return this.range;
+	}
+	
+	public int getAmmo() {
+		return this.ammo;
+	}
+	
+	public void throwWep() {
+		// TODO Auto-generated method stub
+
+	}
+	
 	@Override
 	public Projectile secondaryAtk(double inAngle) {
 		return null;
@@ -83,21 +79,17 @@ public class DaSniper extends Entity implements Ranged {
 		// TODO Auto-generated method stub
 
 	}
-
-	public void getEffect() {
-
-	}
 	
 	public void update(final int delta) {
 
 		if (this.canShoot == false) {
-			shootTimer -= delta;
+			shoot_timer -= delta;
 			// System.out.println("Player is dodge? " + this.dodging);
 		}
 
-		if (shootTimer <= 0) {
+		if (shoot_timer <= 0) {
 			this.canShoot = true;
-			shootTimer = 2000;
+			shoot_timer = this.maxTimer;
 		}
 		//Print current rotation to console.
 		//System.out.println(this.getRotation());
@@ -109,5 +101,4 @@ public class DaSniper extends Entity implements Ranged {
 		}
 		
 	}
-
 }

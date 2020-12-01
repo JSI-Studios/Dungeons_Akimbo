@@ -77,6 +77,7 @@ public class DaCamera {
 				if(player.getX() < 1024 + (xOffSet*DaMap.TILE_SIZE)) {
 					g.translate(-xOffSet*DaMap.TILE_SIZE,-yOffSet*DaMap.TILE_SIZE);
 					((Entity) player.getPrimaryWeapon()).render(g);
+					System.out.println("primary weapon type" + player.getPrimaryWeapon().getClass());
 					
 					player.render(g);
 					g.translate(xOffSet*DaMap.TILE_SIZE, yOffSet*DaMap.TILE_SIZE);
