@@ -18,6 +18,10 @@ public class Player extends Entity {
 	private ArrayList<Weapon> gunBackpack;
 	
 	private Ranged primaryWeapon;
+	private Ranged shotty;
+	private Ranged sniper;
+	private Ranged pistol;
+	private Ranged smg;
 	
 	
 
@@ -37,14 +41,29 @@ public class Player extends Entity {
 		super(x, y);
 		// Max health can either be set from constructor, or a be statically 
 		// constant, deal with later
+		
+		gunBackpack = new ArrayList<Weapon>();
+		
 		this.sprite = new Animation(false);
-		this.sprites = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.DA_PLAYER_RSC), 32, 32, 0, 0);
+		this.sprites = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.DA_PLAYER_RSC).getScaledCopy(0.5f), 16, 16, 0, 0);
 		setMax_health(100);
 		setCurrent_health(getMax_health());
-		speed = 0.5f;		
-		primaryWeapon = new DaSniper();		
-		gunBackpack = new ArrayList<Weapon>();		
-		gunBackpack.add(primaryWeapon);
+		speed = 0.5f;
+		
+		shotty = new DaShotty();
+		sniper = new DaSniper();
+		pistol = new DaPistol();
+		smg = new DaSMG();
+		
+		this.primaryWeapon = shotty;
+		
+		gunBackpack = new ArrayList<Weapon>();
+		
+		gunBackpack.add(shotty);
+		gunBackpack.add(pistol);
+		gunBackpack.add(smg);
+		gunBackpack.add(sniper);
+		
 		this.addImageWithBoundingBox(this.sprites.getSprite(1, 0));
 		this.removeImage(this.sprites.getSprite(1, 0));
 		
@@ -63,6 +82,7 @@ public class Player extends Entity {
 	}
 	
 	public void gunSelect(int i) {
+		this.primaryWeapon = null;
 		this.primaryWeapon = (Ranged) gunBackpack.get(i);
 	}
 	
@@ -70,14 +90,13 @@ public class Player extends Entity {
 		return primaryWeapon;
 	}
 	
-	public Projectile Shoot(double inAngle) {
-		return (Projectile) this.primaryWeapon.primaryAtk(inAngle);	
+	public Object Shoot(double inAngle) {
+		
+		return this.primaryWeapon.primaryAtk(inAngle);	
 	}
 	
-	public Weapon swapWep(Weapon s) {
-		Weapon temp = this.primaryWeapon;
+	public void swapWep(Weapon s) {
 		this.primaryWeapon = (Ranged) s;
-		return temp;
 	}
 	
 	public void doDodge(final int delta, int scaler) {

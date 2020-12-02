@@ -116,13 +116,34 @@ public class PlayTestState extends BasicGameState {
 			if (input.isKeyPressed(Input.KEY_P)) {
 				dag.getClient().console(Integer.toString(playerID));
 			}
+			
+			if (input.isKeyPressed(Input.KEY_1)) {
+				dag.getCurrentMap().getPlayerList().get(playerID).gunSelect(0);
+			} else if (input.isKeyPressed(Input.KEY_2)) {
+				dag.getCurrentMap().getPlayerList().get(playerID).gunSelect(1);
+			} else if (input.isKeyPressed(Input.KEY_3)) {
+				dag.getCurrentMap().getPlayerList().get(playerID).gunSelect(2);
+			} else if (input.isKeyPressed(Input.KEY_4)) {
+				dag.getCurrentMap().getPlayerList().get(playerID).gunSelect(3);
+			}
 
-			if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+			if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
 
 				if (dag.getCurrentMap().getPlayerList().get(playerID).getPrimaryWeapon().isCan_shoot()) {
-					dag.getCurrentMap().getPlayer_bullets()
-							.add(dag.getCurrentMap().getPlayerList().get(playerID).Shoot(shot_angle));
+					Object bulletReturn = dag.getCurrentMap().getPlayerList().get(playerID).Shoot(shot_angle);
+					
+					if (bulletReturn instanceof ArrayList) {
+						for (Object b : (ArrayList<Projectile>) bulletReturn) {
+							//System.out.println("itering ;LKJA:LKJDF:LKJ'");
+							dag.getCurrentMap().getPlayer_bullets().add((Projectile) b);
+						}
+					} else if (bulletReturn instanceof Projectile) {
+						dag.getCurrentMap().getPlayer_bullets().add((Projectile) bulletReturn);
+					}
+					
 				}
+				
+				
 			}
 
 			if (input.isKeyPressed(Input.KEY_SPACE)) {
