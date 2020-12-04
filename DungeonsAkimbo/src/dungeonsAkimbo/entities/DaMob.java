@@ -104,20 +104,22 @@ public class DaMob extends Entity implements DaEnemy {
 			this.setBounceCooldown(30);
 		} else if(type == 2) {
 			// Mob will melee attack the player, use Projectile/Hitbox to deal with collision
-			if(this.direction == 0) {
-				// Face down, attack down
-				attacked = new Projectile(this.getX(), this.getY() + 16, 0, 20, 30, true);
-			} else if(this.direction == 1) {
-				// Face left, attack left
-				attacked = new Projectile(this.getX() - 16, this.getY(), 0, 20, 30, true);
-			} else if(this.direction == 2) {
-				// Face right, attack right
-				attacked = new Projectile(this.getX() + 16, this.getY(), 0, 20, 30, true);
-			} else  {
-				// Face up, attack up
-				attacked = new Projectile(this.getX(), this.getY() - 16, 0, 20, 30, true);
+			if(distance.length() <= 100) {
+				if(this.direction == 0) {
+					// Face down, attack down
+					attacked = new Projectile(this.getX(), this.getY() + 16, 0, 20, 30, true);
+				} else if(this.direction == 1) {
+					// Face left, attack left
+					attacked = new Projectile(this.getX() - 16, this.getY(), 0, 20, 30, true);
+				} else if(this.direction == 2) {
+					// Face right, attack right
+					attacked = new Projectile(this.getX() + 16, this.getY(), 0, 20, 30, true);
+				} else  {
+					// Face up, attack up
+					attacked = new Projectile(this.getX(), this.getY() - 16, 0, 20, 30, true);
+				}
+				this.setBounceCooldown(30);
 			}
-			this.setBounceCooldown(30);
 			
 		}
 		return attacked;
