@@ -52,6 +52,18 @@ public class DaLogic {
 				bIter.remove();
 			}
 		}
+		for(Iterator<Projectile> attacks = map.getEnemyAttacks().iterator(); attacks.hasNext();) {
+			Projectile attack = attacks.next();
+			
+			// update attack (move if it has speed, decrease timer duration)
+			attack.update(delta);
+			attack.decreaseTimer(delta);
+			
+			// Check if duration of attack is over
+			if(attack.getTimer() <= 0) {
+				attacks.remove();
+			}
+		}
 
 		// Update entities
 		map.getPlayerList().get(playerID).update(delta);
