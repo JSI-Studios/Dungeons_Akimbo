@@ -36,9 +36,9 @@ public class DaCollisions {
 				}
 			}
 			for(Iterator<Projectile> current = this.enemyAttacks.iterator(); current.hasNext();) {
-				Projectile hitbox = current.next();
-				if(playerCheck.collides(hitbox) != null) {
-					playerCheck.setCurrent_health(playerCheck.getCurrent_health() - hitbox.Get_Damage());
+				Projectile attackHitBox = current.next();
+				if(playerCheck.collides(attackHitBox) != null) {
+					playerCheck.setCurrent_health(playerCheck.getCurrent_health() - attackHitBox.Get_Damage());
 					current.remove();
 				}
 			}
