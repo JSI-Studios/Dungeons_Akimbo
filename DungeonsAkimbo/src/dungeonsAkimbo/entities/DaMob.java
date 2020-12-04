@@ -98,7 +98,7 @@ public class DaMob extends Entity implements DaEnemy {
 			this.velocity = this.velocity.unit().scale(.05f);
 		} else if(type == 1) {
 			// Mob One will shoot at the player
-			attacked = new Projectile(this.getX(), this.getY(), 20, 100);
+			attacked = new Projectile(this.getX(), this.getY(), 20);
 			attacked.rotate(currentDirection);
 			attacked.Set_Velocity(currentDirection);
 			this.setBounceCooldown(30);
