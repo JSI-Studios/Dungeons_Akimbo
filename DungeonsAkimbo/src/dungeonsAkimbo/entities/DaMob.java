@@ -45,9 +45,16 @@ public class DaMob extends Entity implements DaEnemy {
 			IntStream.range(0, 4).forEachOrdered(n -> {
 				this.getSprite().addFrame(this.spritesheet.getSprite(1, n).getScaledCopy(.5f), 1);
 			});
-		} else {
+		} else if(type == 1){
 			// Mob One: Mommy Sprite
 			this.spritesheet = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.MOB_ONE), 32, 32, 0, 0);
+			setHealth(20);
+			IntStream.range(0, 4).forEachOrdered(n -> {
+				this.getSprite().addFrame(this.spritesheet.getSprite(1, n).getScaledCopy(.5f), 1);
+			});
+		} else {
+			// Mob One: Skully Sprite
+			this.spritesheet = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.MOB_TWO), 32, 32, 0, 0);
 			setHealth(20);
 			IntStream.range(0, 4).forEachOrdered(n -> {
 				this.getSprite().addFrame(this.spritesheet.getSprite(1, n).getScaledCopy(.5f), 1);
