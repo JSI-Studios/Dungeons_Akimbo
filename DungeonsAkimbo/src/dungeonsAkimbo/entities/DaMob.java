@@ -45,9 +45,16 @@ public class DaMob extends Entity implements DaEnemy {
 			IntStream.range(0, 4).forEachOrdered(n -> {
 				this.getSprite().addFrame(this.spritesheet.getSprite(1, n).getScaledCopy(.5f), 1);
 			});
-		} else {
+		} else if(type == 1){
 			// Mob One: Mommy Sprite
 			this.spritesheet = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.MOB_ONE), 32, 32, 0, 0);
+			setHealth(20);
+			IntStream.range(0, 4).forEachOrdered(n -> {
+				this.getSprite().addFrame(this.spritesheet.getSprite(1, n).getScaledCopy(.5f), 1);
+			});
+		} else {
+			// Mob One: Skully Sprite
+			this.spritesheet = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.MOB_TWO), 32, 32, 0, 0);
 			setHealth(20);
 			IntStream.range(0, 4).forEachOrdered(n -> {
 				this.getSprite().addFrame(this.spritesheet.getSprite(1, n).getScaledCopy(.5f), 1);
@@ -72,26 +79,14 @@ public class DaMob extends Entity implements DaEnemy {
 
 	@Override
 	public Projectile attack(Entity player) {
+		
+		// Calculate vectors needed to locate the mob relative to the player
 		Vector distance = this.getPosition().subtract(player.getPosition());
-		double currentDirection = distance.negate().getRotation();
-		// Get angle, determine which direction sprite goes
-		if(this.direction != 0 && (currentDirection >= 45 && currentDirection < 135)) {
-			// Rotate down
-			this.direction = 0;
-			this.getSprite().setCurrentFrame(this.direction);
-		} else if (this.direction != 1 && (currentDirection < -135 && currentDirection < 135)) {
-			// Rotate right
-			this.direction = 1;
-			this.getSprite().setCurrentFrame(this.direction);
-		} else if (this.direction != 2 && ( -45 <= currentDirection && currentDirection < 45)) {
-			// Rotate left
-			this.direction = 2;
-			this.getSprite().setCurrentFrame(this.direction);
-		} else if (this.direction != 3 && (currentDirection >= -135 && currentDirection < -45))  {
-			// Rotate up
-			this.direction = 3;
-			this.getSprite().setCurrentFrame(this.direction);
-		}
+		double currentDirection = distance.negate().getRotation();		// Remove if not used later
+		
+		// Face the player
+		this.facePlayer(distance);
+		
 		// Actual attack interaction
 		Projectile attacked = null;
 		if(this.getBounceCooldown() > 0) {
@@ -103,14 +98,56 @@ public class DaMob extends Entity implements DaEnemy {
 			this.velocity = this.velocity.unit().scale(.05f);
 		} else if(type == 1) {
 			// Mob One will shoot at the player
-			attacked = new Projectile(this.getX(), this.getY(), 20, 50);
+			attacked = new Projectile(this.getX(), this.getY(), 20);
 			attacked.rotate(currentDirection);
 			attacked.Set_Velocity(currentDirection);
 			this.setBounceCooldown(30);
 		} else if(type == 2) {
 			// Mob will melee attack the player, use Projectile/Hitbox to deal with collision
+			if(distance.length() <= 100) {
+				if(this.direction == 0) {
+					// Face down, attack down
+					attacked = new Projectile(this.getX(), this.getY() + 16, 0, 20, 30, true);
+				} else if(this.direction == 1) {
+					// Face left, attack left
+					attacked = new Projectile(this.getX() - 16, this.getY(), 0, 20, 30, true);
+				} else if(this.direction == 2) {
+					// Face right, attack right
+					attacked = new Projectile(this.getX() + 16, this.getY(), 0, 20, 30, true);
+				} else  {
+					// Face up, attack up
+					attacked = new Projectile(this.getX(), this.getY() - 16, 0, 20, 30, true);
+				}
+				this.setBounceCooldown(30);
+			}
+			
 		}
 		return attacked;
+	}
+	
+	// Given the distance between the player and the mob with respect to the mob, adjust the
+	// direction of the mob to face the player
+	public void facePlayer(Vector distance) {
+		// Current direction is the angle that the player is relative to the current mob
+		double currentDirection = distance.negate().getRotation();
+		if(this.direction != 0 && (currentDirection >= 45 && currentDirection < 135)) {
+			// Rotate down
+			this.direction = 0;
+			this.getSprite().setCurrentFrame(this.direction);
+		} else if (this.direction != 1 && (currentDirection < -135 && currentDirection < 135)) {
+			// Rotate left
+			this.direction = 1;
+			this.getSprite().setCurrentFrame(this.direction);
+		} else if (this.direction != 2 && ( -45 <= currentDirection && currentDirection < 45)) {
+			// Rotate right
+			this.direction = 2;
+			this.getSprite().setCurrentFrame(this.direction);
+		} else if (this.direction != 3 && (currentDirection >= -135 && currentDirection < -45))  {
+			// Rotate up
+			this.direction = 3;
+			this.getSprite().setCurrentFrame(this.direction);
+		}
+		
 	}
 	
 	public void update(final int delta) {
