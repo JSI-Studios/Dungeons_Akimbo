@@ -41,10 +41,10 @@ public class DaLogic {
 	
 	
 	public Path getPathToTarget(Mover mover, Entity target) {
-		int moverX = Math.round(((Entity) mover).getX());
-		int moverY = Math.round(((Entity) mover).getY());
-		int targetX = Math.round(target.getX());
-		int targetY = Math.round(target.getY());
+		int moverX = Math.round(((Entity) mover).getX()/32);
+		int moverY = Math.round(((Entity) mover).getY()/32);
+		int targetX = Math.round(target.getX()/32);
+		int targetY = Math.round(target.getY()/32);
 		
 		Path path = DaWey.findPath(mover, moverX, moverY, targetX, targetY);
 		
@@ -53,11 +53,11 @@ public class DaLogic {
 	}
 	
 	
-	public Path getPathToTile(Mover mover, int tx, int ty) {
-		int moverX = Math.round(((Entity) mover).getX());
-		int moverY = Math.round(((Entity) mover).getY());
+	public Path getPathToTile(Mover mover, int tX, int tY) {
+		int moverX = Math.round(((Entity) mover).getX()/32);
+		int moverY = Math.round(((Entity) mover).getY()/32);
 		
-		Path path = DaWey.findPath(mover, moverX, moverY, tx, ty);
+		Path path = DaWey.findPath(mover, moverX, moverY, tX, tY);
 		
 		return path;
 	}
