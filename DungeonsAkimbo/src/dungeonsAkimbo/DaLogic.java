@@ -1,19 +1,29 @@
 package dungeonsAkimbo;
 
+
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import org.newdawn.slick.util.pathfinding.AStarPathFinder;
+import org.newdawn.slick.util.pathfinding.Mover;
+import org.newdawn.slick.util.pathfinding.Path;
+import org.newdawn.slick.util.pathfinding.heuristics.ManhattanHeuristic;
 
 import dungeonsAkimbo.entities.DaMob;
 import dungeonsAkimbo.entities.Projectile;
 import dungeonsAkimbo.map.DaMap;
+import jig.Entity;
 
 public class DaLogic {
 
 	DaMap map;
 	DaCollisions bonkHandler;
+	AStarPathFinder DaWey;
+	
 
 	public DaLogic(DaMap gameMap) {
 		this.map = gameMap;
+		DaWey = new AStarPathFinder(map, 500, true, new ManhattanHeuristic(0));
 		startCollisions();
 	}
 	
@@ -27,6 +37,34 @@ public class DaLogic {
 		clientUpdateEntities(playerID, delta);
 		collideCheck(delta);
 	}
+	
+	
+	
+	public Path getPathToTarget(Mover mover, Entity target) {
+		int moverX = Math.round(((Entity) mover).getX());
+		int moverY = Math.round(((Entity) mover).getY());
+		int targetX = Math.round(target.getX());
+		int targetY = Math.round(target.getY());
+		
+		Path path = DaWey.findPath(mover, moverX, moverY, targetX, targetY);
+		
+		return path;
+		
+	}
+	
+	
+	public Path getPathToTile(Mover mover, int tx, int ty) {
+		int moverX = Math.round(((Entity) mover).getX());
+		int moverY = Math.round(((Entity) mover).getY());
+		
+		Path path = DaWey.findPath(mover, moverX, moverY, tx, ty);
+		
+		return path;
+	}
+	
+	
+	
+	
 	
 	//update entities 
 	private void clientUpdateEntities(int playerID, int delta) {
