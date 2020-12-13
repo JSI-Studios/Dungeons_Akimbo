@@ -1,6 +1,7 @@
 package dungeonsAkimbo;
 
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -68,17 +69,37 @@ public class DaLogic {
 	
 	//update entities 
 	private void clientUpdateEntities(int playerID, int delta) {
-		// Mob attacking the player
+		/* Mob attacking the player, and updating pathing if certain type
+		 * of mob stays still
+		 */
+		// Get current player as an Entity (change to player later if needed)
+		Entity currentPlayer = map.getPlayerList().get(playerID);
+		
 		ArrayList<DaMob> mobs = map.getMobList();
 		for (DaMob mob : mobs) {
-			Projectile hit = mob.attack(map.getPlayerList().get(playerID));
+			// Handle Attack
+			Projectile hit = mob.attack(currentPlayer);
 			if (hit != null) {
-				// System.out.println("Reached");
 				map.getEnemyAttacks().add(hit);
+			}
+			// Handling pathing
+			if(mob.getPath() == null && mob.getType() == 2) {
+				// Get pathing to the player using Slick2D
+				ArrayDeque<Path.Step> newPath =  new ArrayDeque<Path.Step>();
+				Path tempPath = this.getPathToTarget(mob, currentPlayer);
+				if(tempPath.getLength() > 0) {
+					// Path received, push every new step to the newPath
+					for(int i = 0; i < tempPath.getLength(); i++) {
+						newPath.push(tempPath.getStep(i));
+					}
+				} else {
+					newPath = null;
+				}
+				mob.setPath(newPath);
 			}
 		}
 
-		// Check for collision with mobs, and also update projectiles
+		/* Check for collision with mobs, and also update projectiles */
 		//Iterator<Bullet> bulletIter = cg.bullet_array.iterator(); bulletIter.hasNext();
 		for (Iterator<Projectile> bIter = map.getPlayer_bullets().iterator(); bIter.hasNext();) {
 			Projectile b = bIter.next();
