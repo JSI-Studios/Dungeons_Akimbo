@@ -4,13 +4,17 @@ package dungeonsAkimbo;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.util.pathfinding.AStarPathFinder;
 import org.newdawn.slick.util.pathfinding.Mover;
 import org.newdawn.slick.util.pathfinding.Path;
 import org.newdawn.slick.util.pathfinding.heuristics.ManhattanHeuristic;
 
+import dungeonsAkimbo.entities.DaAssault;
 import dungeonsAkimbo.entities.DaMob;
+import dungeonsAkimbo.entities.Player;
 import dungeonsAkimbo.entities.Projectile;
+import dungeonsAkimbo.entities.Ranged;
 import dungeonsAkimbo.map.DaMap;
 import jig.Entity;
 
@@ -19,6 +23,9 @@ public class DaLogic {
 	DaMap map;
 	DaCollisions bonkHandler;
 	AStarPathFinder DaWey;
+	DungeonsAkimboGame dag;
+	
+	
 	
 
 	public DaLogic(DaMap gameMap) {
@@ -119,5 +126,22 @@ public class DaLogic {
 		bonkHandler.playerCollsionsTest(delta);
 		bonkHandler.enemyCollisionsTest(delta);
 	}
-
+	
+	public void assaultBurst(StateBasedGame game, int playerID, double inAngle) {
+		dag = (DungeonsAkimboGame) game;
+		Player player = dag.getCurrentMap().getPlayerList().get(playerID);
+		DaAssault wep = ((DaAssault) dag.getCurrentMap().getPlayerList().get(playerID).getPrimaryWeapon());
+		
+		if (wep.isCanFireBullet()) {
+			Projectile bullet = new Projectile(player.getX(), player.getY(), wep.getDamage(), wep.getRange());
+			bullet.rotate(inAngle);
+			bullet.Set_Velocity(inAngle);
+			dag.getCurrentMap().getPlayer_bullets().add((Projectile) bullet);
+			
+			wep.setIsBursting(false);
+			wep.setCanFireBullet(false);
+			
+			wep.decrementBurstAmount();
+		}	
+	}
 }
