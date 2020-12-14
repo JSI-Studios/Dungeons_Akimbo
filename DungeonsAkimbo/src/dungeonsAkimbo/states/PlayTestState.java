@@ -13,7 +13,9 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import dungeonsAkimbo.DungeonsAkimboGame;
+import dungeonsAkimbo.entities.DaAssault;
 import dungeonsAkimbo.entities.DaMob;
+import dungeonsAkimbo.entities.Player;
 import dungeonsAkimbo.entities.Projectile;
 import dungeonsAkimbo.gui.ChatGUI;
 import dungeonsAkimbo.gui.DaCamera;
@@ -83,7 +85,7 @@ public class PlayTestState extends BasicGameState {
 		Input input = container.getInput();
 		Vector mouseVec = new Vector(input.getMouseX(), input.getMouseY());
 		Vector playerPos = dag.getCurrentMap().getPlayerList().get(playerID).getPosition();
-		double shot_angle = playerPos.angleTo(mouseVec);
+		double shotAngle = playerPos.angleTo(mouseVec);
 
 		// Chat controls
 		if (input.isKeyPressed(Input.KEY_ENTER)) {
@@ -125,22 +127,30 @@ public class PlayTestState extends BasicGameState {
 				dag.getCurrentMap().getPlayerList().get(playerID).gunSelect(2);
 			} else if (input.isKeyPressed(Input.KEY_4)) {
 				dag.getCurrentMap().getPlayerList().get(playerID).gunSelect(3);
+			} else if (input.isKeyPressed(Input.KEY_5)) {
+				dag.getCurrentMap().getPlayerList().get(playerID).gunSelect(4);
 			}
 
 			if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
 
-				if (dag.getCurrentMap().getPlayerList().get(playerID).getPrimaryWeapon().isCan_shoot()) {
-					Object bulletReturn = dag.getCurrentMap().getPlayerList().get(playerID).Shoot(shot_angle);
+				//if player can shoot and primary weapon is no assault
+				if (dag.getCurrentMap().getPlayerList().get(playerID).getPrimaryWeapon().isCan_shoot() && dag.getCurrentMap().getPlayerList().get(playerID).getPrimaryWeapon() instanceof DaAssault == false ) {
+					Object bulletReturn = dag.getCurrentMap().getPlayerList().get(playerID).Shoot(shotAngle);
 					
+					//if arraylist is returned from shotty
 					if (bulletReturn instanceof ArrayList) {
 						for (Object b : (ArrayList<Projectile>) bulletReturn) {
 							//System.out.println("itering ;LKJA:LKJDF:LKJ'");
 							dag.getCurrentMap().getPlayer_bullets().add((Projectile) b);
 						}
+					//Case for every other gun
 					} else if (bulletReturn instanceof Projectile) {
 						dag.getCurrentMap().getPlayer_bullets().add((Projectile) bulletReturn);
 					}
 					
+				// if player can shoot and primary weapon is assault rifle
+				} else if ( dag.getCurrentMap().getPlayerList().get(playerID).getPrimaryWeapon().isCan_shoot() && dag.getCurrentMap().getPlayerList().get(playerID).getPrimaryWeapon() instanceof DaAssault == true) {
+					dag.getCurrentMap().getPlayerList().get(playerID).Shoot(shotAngle);
 				}
 				
 				
@@ -151,9 +161,12 @@ public class PlayTestState extends BasicGameState {
 			}
 
 			dag.getCurrentMap().getPlayerList().get(playerID).setVelocity(new_velocity);
-			((Entity) dag.getCurrentMap().getPlayerList().get(playerID).getPrimaryWeapon()).setRotation(shot_angle);
+			((Entity) dag.getCurrentMap().getPlayerList().get(playerID).getPrimaryWeapon()).setRotation(shotAngle);
 		}
 		//update Logic
+		if (dag.getCurrentMap().getPlayerList().get(playerID).getPrimaryWeapon() instanceof DaAssault) {
+			dag.getLogic().assaultBurst(dag, playerID, shotAngle);
+		}
 		dag.getLogic().clientUpdate(playerID, delta);
 		updateChatLog(dag);
 

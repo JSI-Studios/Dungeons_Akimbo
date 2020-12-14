@@ -9,14 +9,17 @@ import jig.ResourceManager;
 
 public class DaSniper extends Entity implements Ranged {
 
-	private int ammo, shootTimer, range, damage;
+	private int ammo, maxAmmo, shootTimer, range, damage, reloadTimer, maxReloadTimer;
+	double angle;
 	final int maxTimer;
-	private boolean canShoot;
+	private boolean canShoot, isReloading;
 	private Animation sprite;
 
 	public DaSniper() {
 		ammo = 20;
-		shootTimer = 2000;
+		maxAmmo = 20;
+		shootTimer = 100;
+		reloadTimer = 2000;
 		maxTimer = 2000;
 		range = 20;
 		damage = 40;
@@ -90,14 +93,32 @@ public class DaSniper extends Entity implements Ranged {
 	
 	public void update(final int delta) {
 
-		if (this.canShoot == false) {
-			shootTimer -= delta;
-			// System.out.println("Player is dodge? " + this.dodging);
+		if (this.ammo <= 0) {
+			this.isReloading = true;
+		}
+		
+		if (this.isReloading == true) {
+			this.reloadTimer -= delta;
+		}
+		
+		if (this.reloadTimer <= 0) {
+			this.ammo = this.maxAmmo;
+			this.isReloading = false;
+			this.reloadTimer = 2000;
 		}
 
-		if (shootTimer <= 0) {
-			this.canShoot = true;
-			shootTimer = 2000;
+		if (this.canShoot == false) {
+			this.shootTimer -= delta;
+			// System.out.println("Player is dodge? " + this.dodging);
+		}
+	
+		if (this.isReloading == false) {
+			if (this.ammo > 0) {
+				if (this.shootTimer <= 0) {
+					this.canShoot = true;
+					this.shootTimer = this.maxTimer;
+				}
+			}
 		}
 		//Print current rotation to console.
 		//System.out.println(this.getRotation());
@@ -107,6 +128,12 @@ public class DaSniper extends Entity implements Ranged {
 		}else if(Math.abs(this.getRotation()) > 90){
 			this.sprite.setCurrentFrame(1);			
 		}
+		
+	}
+
+	@Override
+	public void primaryAtk() {
+		// TODO Auto-generated method stub
 		
 	}
 
