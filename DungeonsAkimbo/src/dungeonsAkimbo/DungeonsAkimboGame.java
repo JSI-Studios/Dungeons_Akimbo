@@ -37,6 +37,7 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	public static final String DA_SMG_RSC = "dungeonsAkimbo/resource/Weapons/SMG/smg.png";
 	public static final String DA_PISTOL_RSC = "dungeonsAkimbo/resource/Weapons/Pistol/pistol3.png";
 	public static final String DA_SHOTTY_RSC = "dungeonsAkimbo/resource/Weapons/Shotty/shotgun.png";
+	public static final String DA_ASSAULT_RSC = "dungeonsAkimbo/resource/Weapons/Assault/assaultrifle.png";
 	
 	public static final String DA_PLAYER_RSC = "dungeonsAkimbo/resource/Mobs/Male 01-1.png";
 	
@@ -93,6 +94,7 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		ResourceManager.loadImage(DA_SMG_RSC);
 		ResourceManager.loadImage(DA_PISTOL_RSC);
 		ResourceManager.loadImage(DA_SHOTTY_RSC);
+		ResourceManager.loadImage(DA_ASSAULT_RSC);
 		
 		// Load images for mobs
 		ResourceManager.loadImage(MOB_ZERO);

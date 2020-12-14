@@ -22,6 +22,7 @@ public class Player extends Entity {
 	private Ranged sniper;
 	private Ranged pistol;
 	private Ranged smg;
+	private Ranged assault;
 	
 	
 
@@ -45,7 +46,7 @@ public class Player extends Entity {
 		gunBackpack = new ArrayList<Weapon>();
 		
 		this.sprite = new Animation(false);
-		this.sprites = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.DA_PLAYER_RSC).getScaledCopy(0.5f), 16, 16, 0, 0);
+		this.sprites = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.DA_PLAYER_RSC), 32, 32, 0, 0);
 		setMax_health(100);
 		setCurrent_health(getMax_health());
 		speed = 0.5f;
@@ -54,11 +55,13 @@ public class Player extends Entity {
 		sniper = new DaSniper();
 		pistol = new DaPistol();
 		smg = new DaSMG();
+		assault = new DaAssault();
 		
 		this.primaryWeapon = shotty;
 		
 		gunBackpack = new ArrayList<Weapon>();
 		
+		gunBackpack.add(assault);
 		gunBackpack.add(shotty);
 		gunBackpack.add(pistol);
 		gunBackpack.add(smg);
@@ -92,6 +95,9 @@ public class Player extends Entity {
 	
 	public Object Shoot(double inAngle) {
 		
+		if (this.primaryWeapon == assault) {
+			this.primaryWeapon.primaryAtk();
+		}
 		return this.primaryWeapon.primaryAtk(inAngle);	
 	}
 	
