@@ -165,14 +165,13 @@ public class DaMob extends Entity implements DaEnemy, Mover {
 	private Vector followPath() {
 		if(this.path != null) {
 			// Peek at the top of the path stack and get positions
-			Step nextStep = this.path.peek();
-			System.out.print("(" + nextStep.getX() + ", " + nextStep.getY() + ") " + "\n");
+			Step nextStep = this.path.peekLast();
 			Vector currentPosition = new Vector(this.getX(), this.getY());
 			Vector targetPosition =  new Vector((nextStep.getX() * tileSize) + tileCenter, (nextStep.getY() * tileSize) + tileCenter);
 			// Return vector to next position, update the pathing if a tile has been reached
 			final double angleToStepTo = currentPosition.angleTo(targetPosition);
 			if(currentPosition.epsilonEquals(targetPosition, 10f)) {
-				this.path.pop();
+				this.path.pollLast();
 			}
 			Vector nextPosition = Vector.getVector(angleToStepTo, .1f);
 			return nextPosition;
