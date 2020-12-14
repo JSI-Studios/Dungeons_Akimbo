@@ -1,17 +1,21 @@
 package dungeonsAkimbo.entities;
 
+import java.util.ArrayDeque;
 import java.util.stream.IntStream;
 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SpriteSheet;
+import org.newdawn.slick.util.pathfinding.Mover;
+import org.newdawn.slick.util.pathfinding.Path;
+import org.newdawn.slick.util.pathfinding.Path.Step;
 
 import dungeonsAkimbo.DungeonsAkimboGame;
 import jig.Entity;
 import jig.ResourceManager;
 import jig.Vector;
 
-public class DaMob extends Entity implements DaEnemy {
+public class DaMob extends Entity implements DaEnemy, Mover {
 
 	private int health;
 	private int type;
@@ -20,6 +24,9 @@ public class DaMob extends Entity implements DaEnemy {
 	private float initY;
 	private float bounceCooldown;
 	private int direction;
+	private ArrayDeque<Path.Step> path;
+	private int tileSize = 32;
+	private int tileCenter = tileSize / 2;
 	
 	private SpriteSheet spritesheet;
 	private Animation sprite;
@@ -62,6 +69,7 @@ public class DaMob extends Entity implements DaEnemy {
 		}
 		this.addAnimation(getSprite());
 		this.velocity = new Vector(0, 0);
+		this.setPath(null);
 	}
 
 	@Override
@@ -104,6 +112,10 @@ public class DaMob extends Entity implements DaEnemy {
 			this.setBounceCooldown(30);
 		} else if(type == 2) {
 			// Mob will melee attack the player, use Projectile/Hitbox to deal with collision
+			if(this.path != null && this.path.isEmpty()) {
+				// Reset path to null for DaLogic to give new path
+				this.path = null;
+			}
 			if(distance.length() <= 100) {
 				if(this.direction == 0) {
 					// Face down, attack down
@@ -150,9 +162,35 @@ public class DaMob extends Entity implements DaEnemy {
 		
 	}
 	
+	private Vector followPath() {
+		if(this.path != null) {
+			// Peek at the top of the path stack and get positions
+			Step nextStep = this.path.peek();
+			System.out.print("(" + nextStep.getX() + ", " + nextStep.getY() + ") " + "\n");
+			Vector currentPosition = new Vector(this.getX(), this.getY());
+			Vector targetPosition =  new Vector((nextStep.getX() * tileSize) + tileCenter, (nextStep.getY() * tileSize) + tileCenter);
+			// Return vector to next position, update the pathing if a tile has been reached
+			final double angleToStepTo = currentPosition.angleTo(targetPosition);
+			if(currentPosition.epsilonEquals(targetPosition, 10f)) {
+				this.path.pop();
+			}
+			Vector nextPosition = Vector.getVector(angleToStepTo, .1f);
+			return nextPosition;
+		} else {
+			// Return a still Vector (don't move)
+			return new Vector(0, 0);
+		}
+	}
+	
 	public void update(final int delta) {
 		// Move the sprite
-		translate(this.velocity.scale(delta));
+		if(this.path != null && !this.path.isEmpty()) {
+			// Update using pathing rules
+			translate(this.followPath().scale(delta));
+		} else {
+			// Move the sprite
+			translate(this.velocity.scale(delta));
+		}
 	}
 	
 	public boolean isDead() {
@@ -213,6 +251,14 @@ public class DaMob extends Entity implements DaEnemy {
 
 	public void setSprite(Animation sprite) {
 		this.sprite = sprite;
+	}
+
+	public ArrayDeque<Path.Step> getPath() {
+		return path;
+	}
+
+	public void setPath(ArrayDeque<Path.Step> path) {
+		this.path = path;
 	}
 	
 }
