@@ -5,6 +5,7 @@ import org.newdawn.slick.Image;
 import dungeonsAkimbo.DungeonsAkimboGame;
 import jig.Entity;
 import jig.ResourceManager;
+import jig.Vector;
 
 public class DaSwitch extends Entity {
 	
@@ -17,6 +18,7 @@ public class DaSwitch extends Entity {
 	public DaSwitch(float px, float py, int doorId) {
 		this.doorId = doorId;
 		this.state = false;
+		this.setPosition(new Vector(px, py));
 		onSprite = ResourceManager.getImage(DungeonsAkimboGame.DA_SWITCH_RSC);
 		offSprite = ResourceManager.getImage(DungeonsAkimboGame.DA_SWITCH_RSC).getFlippedCopy(true, false);
 		this.addImageWithBoundingBox(offSprite);
