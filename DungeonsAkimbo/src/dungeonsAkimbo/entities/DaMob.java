@@ -25,6 +25,8 @@ public class DaMob extends Entity implements DaEnemy, Mover {
 	private float bounceCooldown;
 	private int direction;
 	private ArrayDeque<Path.Step> path;
+	private int tileSize = 32;
+	private int tileCenter = tileSize / 2;
 	
 	private SpriteSheet spritesheet;
 	private Animation sprite;
@@ -110,6 +112,10 @@ public class DaMob extends Entity implements DaEnemy, Mover {
 			this.setBounceCooldown(30);
 		} else if(type == 2) {
 			// Mob will melee attack the player, use Projectile/Hitbox to deal with collision
+			if(this.path != null && this.path.isEmpty()) {
+				// Reset path to null for DaLogic to give new path
+				this.path = null;
+			}
 			if(distance.length() <= 100) {
 				if(this.direction == 0) {
 					// Face down, attack down
@@ -161,7 +167,8 @@ public class DaMob extends Entity implements DaEnemy, Mover {
 			// Peek at the top of the stack
 			Step nextStep = this.path.peek();
 			Vector currentPosition = new Vector(this.getX(), this.getY());
-			Vector targetPosition =  new Vector((nextStep.getX() * 64) + 32, (nextStep.getY() * 64) + 32);
+			System.out.println(nextStep.getX() + " " + nextStep.getY());
+			Vector targetPosition =  new Vector((nextStep.getX() * tileSize) + tileCenter, (nextStep.getY() * tileSize) + tileCenter);
 			final double angleToStepTo = currentPosition.angleTo(targetPosition);
 			if(currentPosition.epsilonEquals(targetPosition, 10f)) {
 				this.path.pop();
