@@ -35,7 +35,7 @@ public class PlayingState extends BasicGameState {
 		DungeonsAkimboGame dg = (DungeonsAkimboGame) game;
 		
 		
-		dg.player.render(g);
+		//dg.player.render(g);
 		
 	}
 
@@ -49,7 +49,7 @@ public class PlayingState extends BasicGameState {
 		Input input = container.getInput();
 		
 		
-		dg.player.update(delta);
+		//dg.player.update(delta);
 	}
 
 	
