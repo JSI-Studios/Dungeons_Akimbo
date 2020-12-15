@@ -90,6 +90,14 @@ public class DaMap implements TileBasedMap{
 		visited[x][y] = true;
 		
 	}
+	
+	public void clearVisited() {
+        for(int x=0; x < getWidthInTiles(); x++) {
+            for (int y = 0; y < getHeightInTiles(); y++) {
+                visited[x][y] = false;
+            }
+        }
+    }
 
 	@Override
 	public boolean blocked(PathFindingContext context, int tx, int ty) {
