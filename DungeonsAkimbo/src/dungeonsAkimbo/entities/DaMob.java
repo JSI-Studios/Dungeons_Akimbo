@@ -136,6 +136,18 @@ public class DaMob extends Entity implements DaEnemy, Mover {
 				this.setBounceCooldown(30);
 			}
 			
+		} else if(type == 3) {
+			// Mob Three will shoot at the player slower
+			attacked = new Projectile(this.getX(), this.getY(), 20);
+			attacked.rotate(currentDirection);
+			attacked.Set_Velocity(currentDirection);
+			this.setBounceCooldown(80);
+			// Move away from the player if they get too close
+			if(distance.length() <= 200) {
+				this.velocity = distance.unit().scale(0.1f);
+			} else if(this.velocity.length() != 0) {
+				this.velocity = new Vector(0, 0);
+			}
 		}
 		return attacked;
 	}
