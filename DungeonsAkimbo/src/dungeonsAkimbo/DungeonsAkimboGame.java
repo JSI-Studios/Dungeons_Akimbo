@@ -28,6 +28,7 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	public static final String MOB_ONE = "dungeonsAkimbo/resource/Mobs/Mommy.png";
 	public static final String MOB_TWO = "dungeonsAkimbo/resource/Mobs/Skully.png";
 	public static final String MOB_THREE = "dungeonsAkimbo/resource/Mobs/Spoopy-Season-Two.png";
+	public static final String MINI_BOSS = "dungeonsAkimbo/resource/Mobs/Mini-Boss.png";
 	
 	//Weapon Macros
 	public static final String DA_SNIPER_RSC = "dungeonsAkimbo/resource/Weapons/Sniper/sniper.png";
@@ -107,6 +108,7 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		ResourceManager.loadImage(MOB_ONE);
 		ResourceManager.loadImage(MOB_TWO);
 		ResourceManager.loadImage(MOB_THREE);
+		ResourceManager.loadImage(MINI_BOSS);
 		
 		// Load item sprites
 		ResourceManager.loadImage(DA_HEALTH_RSC);

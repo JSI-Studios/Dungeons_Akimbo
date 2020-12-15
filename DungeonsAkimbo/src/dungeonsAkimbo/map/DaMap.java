@@ -9,6 +9,7 @@ import org.newdawn.slick.util.pathfinding.PathFindingContext;
 import org.newdawn.slick.util.pathfinding.TileBasedMap;
 
 import dungeonsAkimbo.DungeonsAkimboGame;
+import dungeonsAkimbo.entities.DaMiniBoi;
 import dungeonsAkimbo.entities.DaMob;
 import dungeonsAkimbo.entities.Player;
 import dungeonsAkimbo.entities.Projectile;
@@ -23,15 +24,18 @@ public class DaMap implements TileBasedMap{
 	private int tileWidth;	//a single tile's width in pixels
 	private int tileHeight; //a single tile's height in pixels
 	
-	//Entities and tiles
+	//Tiles
 	private TiledMap currentMap;
 	private ArrayList<DaTile> tileList;
 	private ArrayList<DaWall> wallList;
 	private DaTile[][] tiles; //2d array of tile entities
+	
+	// Game entities
 	private ArrayList<DaMob> mobs;
 	private ArrayList<Projectile> player_bullets;
 	private ArrayList<Projectile> enemyAttacks;
 	private Map<Integer, Player> playerList;
+	private DaMiniBoi miniBoss;
 	
 	//PathFinding variables
 	private Boolean[][] visited;
@@ -174,6 +178,8 @@ public class DaMap implements TileBasedMap{
 		mobs.add(new DaMob(DungeonsAkimboGame.WIDTH / 3, DungeonsAkimboGame.HEIGHT / 3 + 100, 2, true));
 		mobs.add(new DaMob(DungeonsAkimboGame.WIDTH / 5, DungeonsAkimboGame.HEIGHT / 5, 3, true));
 		
+		// Begin including mini boss
+		setMiniBoss(new DaMiniBoi(DungeonsAkimboGame.WIDTH / 5 + 100, DungeonsAkimboGame.HEIGHT / 5 + 300, false));
 	}
 
 	public ArrayList<Projectile> getEnemyAttacks() {
@@ -184,8 +190,12 @@ public class DaMap implements TileBasedMap{
 		this.enemyAttacks = enemyAttacks;
 	}
 
+	public DaMiniBoi getMiniBoss() {
+		return miniBoss;
+	}
 
-
-	
+	public void setMiniBoss(DaMiniBoi miniBoss) {
+		this.miniBoss = miniBoss;
+	}
 
 }
