@@ -39,6 +39,12 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	public static final String DA_SHOTTY_RSC = "dungeonsAkimbo/resource/Weapons/Shotty/shotgun.png";
 	public static final String DA_ASSAULT_RSC = "dungeonsAkimbo/resource/Weapons/Assault/assaultrifle.png";
 	
+	//item macros
+	public static final String DA_HEALTH_RSC = "dungeonsAkimbo/resource/items/ammobox.png";
+	public static final String DA_AMMO_RSC = "dungeonsAkimbo/resource/items/candy_02g.png";
+	public static final String DA_CANDYRELOAD_RSC = "dungeonsAkimbo/resource/items/lever2.png";
+	public static final String DA_SWITCH_RSC = "dungeonsAkimbo/resource/items/potion_03a.png";
+	
 	public static final String DA_PLAYER_RSC = "dungeonsAkimbo/resource/Mobs/Male 01-1.png";
 	
 	
@@ -100,6 +106,13 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		ResourceManager.loadImage(MOB_ZERO);
 		ResourceManager.loadImage(MOB_ONE);
 		ResourceManager.loadImage(MOB_TWO);
+		
+		// Load item sprites
+		ResourceManager.loadImage(DA_HEALTH_RSC);
+		ResourceManager.loadImage(DA_AMMO_RSC);
+		ResourceManager.loadImage(DA_CANDYRELOAD_RSC);
+		ResourceManager.loadImage(DA_SWITCH_RSC);
+	
 		
 		Entity.antiAliasing = false;
 		Entity.setCoarseGrainedCollisionBoundary(Entity.CIRCLE);
