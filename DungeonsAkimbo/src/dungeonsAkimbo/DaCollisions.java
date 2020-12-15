@@ -3,6 +3,7 @@ package dungeonsAkimbo;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.stream.IntStream;
 
 import dungeonsAkimbo.entities.DaMob;
 import dungeonsAkimbo.entities.Player;
@@ -56,7 +57,8 @@ public class DaCollisions {
 			DaMob mob = current.next();
 			for(DaWall wall : wallList) {
 				// Handle wall collision first
-				if(mob.collides(wall) != null) {
+				int[] ignoreMob = {0, 3};
+				if(mob.collides(wall) != null && !IntStream.of(ignoreMob).anyMatch(i -> i == mob.getType())) {
 					mob.translate(mob.collides(wall).getMinPenetration().scale(delta/8));
 				}
 			}
