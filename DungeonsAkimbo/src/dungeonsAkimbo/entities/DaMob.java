@@ -112,10 +112,6 @@ public class DaMob extends Entity implements DaEnemy, Mover {
 			this.setBounceCooldown(30);
 		} else if(type == 2) {
 			// Mob will melee attack the player, use Projectile/Hitbox to deal with collision
-			if(this.path != null && this.path.isEmpty()) {
-				// Reset path to null for DaLogic to give new path
-				this.path = null;
-			}
 			if(distance.length() <= 100) {
 				if(this.direction == 0) {
 					// Face down, attack down
@@ -163,7 +159,7 @@ public class DaMob extends Entity implements DaEnemy, Mover {
 	}
 	
 	private Vector followPath() {
-		if(this.path != null) {
+		if(this.path != null && !this.path.isEmpty()) {
 			// Peek at the top of the path stack and get positions
 			Step nextStep = this.path.peekLast();
 			Vector currentPosition = new Vector(this.getX(), this.getY());
@@ -177,13 +173,14 @@ public class DaMob extends Entity implements DaEnemy, Mover {
 			return nextPosition;
 		} else {
 			// Return a still Vector (don't move)
+			this.path = null;
 			return new Vector(0, 0);
 		}
 	}
 	
 	public void update(final int delta) {
 		// Move the sprite
-		if(this.path != null && !this.path.isEmpty()) {
+		if(this.path != null) {
 			// Update using pathing rules
 			translate(this.followPath().scale(delta));
 		} else {
