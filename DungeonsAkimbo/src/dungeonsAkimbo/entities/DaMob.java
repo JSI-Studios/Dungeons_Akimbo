@@ -59,13 +59,20 @@ public class DaMob extends Entity implements DaEnemy, Mover {
 			IntStream.range(0, 4).forEachOrdered(n -> {
 				this.getSprite().addFrame(this.spritesheet.getSprite(1, n).getScaledCopy(.5f), 1);
 			});
-		} else {
+		} else if(type == 2){
 			// Mob One: Skully Sprite
 			this.spritesheet = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.MOB_TWO), 32, 32, 0, 0);
 			setHealth(20);
 			IntStream.range(0, 4).forEachOrdered(n -> {
 				this.getSprite().addFrame(this.spritesheet.getSprite(1, n).getScaledCopy(.5f), 1);
 			});
+		} else {
+			this.spritesheet = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.MOB_THREE), 32, 32, 0, 0);
+			setHealth(20);
+			IntStream.range(0, 4).forEachOrdered(n -> {
+				this.getSprite().addFrame(this.spritesheet.getSprite(1, n).getScaledCopy(.5f), 1);
+			});
+			
 		}
 		this.addAnimation(getSprite());
 		this.velocity = new Vector(0, 0);
