@@ -45,6 +45,8 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	
 	public static final String DA_PLAYER_RSC = "dungeonsAkimbo/resource/Mobs/Male 01-1.png";
 	
+	// BGM macros
+	public static final String TEMP_BGM = "dungeonsAkimbo/resource/bgm/Final Boss Battle 6 V2.WAV";
 	
 	//State Identitifiers
 	public static final int SPLASHSCREENSTATE = 0;
@@ -116,6 +118,8 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		ResourceManager.loadImage(DA_CANDYRELOAD_RSC);
 		ResourceManager.loadImage(DA_SWITCH_RSC);
 	
+		// Load bgm
+		ResourceManager.loadSound(TEMP_BGM);
 		
 		Entity.antiAliasing = false;
 		Entity.setCoarseGrainedCollisionBoundary(Entity.CIRCLE);
