@@ -71,8 +71,31 @@ public class DaLogic {
 	}
 	
 	
-	
-	
+	public void resetPath(int playerID) {		/* Mob attacking the player, and updating pathing if certain type
+		 * of mob stays still
+		 */
+		// Get current player as an Entity (change to player later if needed)
+		Player currentPlayer = map.getPlayerList().get(playerID);
+		
+		ArrayList<DaMob> mobs = map.getMobList();
+		for (DaMob mob : mobs) {
+			if(mob.getType() == 2 && (!((Player)currentPlayer).isRest() || mob.getPath() == null)) {
+				// Get pathing to the player using Slick2D
+				ArrayDeque<Path.Step> newPath =  new ArrayDeque<Path.Step>();
+				Path tempPath = this.getPathToTarget(mob, currentPlayer);
+				if(tempPath.getLength() > 0) {
+					// Path received, push every new step to the newPath
+					for(int i = 0; i < tempPath.getLength(); i++) {
+						newPath.push(tempPath.getStep(i));
+					}
+				} else {
+					newPath = null;
+				}
+				mob.setPath(newPath);
+			}
+		}
+		
+	}
 	
 	//update entities 
 	private void clientUpdateEntities(int playerID, int delta) {
@@ -89,23 +112,7 @@ public class DaLogic {
 			if (hit != null) {
 				map.getEnemyAttacks().add(hit);
 			}
-			// Handling pathing
-			if(mob.getPath() == null && mob.getType() == 2) {
-				// Get pathing to the player using Slick2D
-				ArrayDeque<Path.Step> newPath =  new ArrayDeque<Path.Step>();
-				Path tempPath = this.getPathToTarget(mob, currentPlayer);
-				if(tempPath.getLength() > 0) {
-					// Path received, push every new step to the newPath
-					for(int i = 0; i < tempPath.getLength(); i++) {
-						newPath.push(tempPath.getStep(i));
-					}
-				} else {
-					newPath = null;
-				}
-				mob.setPath(newPath);
-			}
 		}
-
 		/* Check for collision with mobs, and also update projectiles */
 		//Iterator<Bullet> bulletIter = cg.bullet_array.iterator(); bulletIter.hasNext();
 		for (Iterator<Projectile> bIter = map.getPlayer_bullets().iterator(); bIter.hasNext();) {

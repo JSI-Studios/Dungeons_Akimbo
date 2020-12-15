@@ -115,16 +115,16 @@ public class DaMob extends Entity implements DaEnemy, Mover {
 			if(distance.length() <= 100) {
 				if(this.direction == 0) {
 					// Face down, attack down
-					attacked = new Projectile(this.getX(), this.getY() + 16, 0, 20, 30, true);
+					attacked = new Projectile(this.getX(), this.getY() + 16, 1, 20, 30, true);
 				} else if(this.direction == 1) {
 					// Face left, attack left
-					attacked = new Projectile(this.getX() - 16, this.getY(), 0, 20, 30, true);
+					attacked = new Projectile(this.getX() - 16, this.getY(), 1, 20, 30, true);
 				} else if(this.direction == 2) {
 					// Face right, attack right
-					attacked = new Projectile(this.getX() + 16, this.getY(), 0, 20, 30, true);
+					attacked = new Projectile(this.getX() + 16, this.getY(), 1, 20, 30, true);
 				} else  {
 					// Face up, attack up
-					attacked = new Projectile(this.getX(), this.getY() - 16, 0, 20, 30, true);
+					attacked = new Projectile(this.getX(), this.getY() - 16, 1, 20, 30, true);
 				}
 				this.setBounceCooldown(30);
 			}
