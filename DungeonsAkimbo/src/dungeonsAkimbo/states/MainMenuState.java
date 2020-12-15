@@ -52,7 +52,7 @@ public class MainMenuState extends BasicGameState {
 				game.enterState(DungeonsAkimboGame.PLAYTESTSTATE);
 			}
 			if (multiPlayer.contains(mouseX, mouseY)) {
-				game.enterState(DungeonsAkimboGame.NETMENUSTATE);
+				game.enterState(DungeonsAkimboGame.MULTIMENUSTATE);
 			}
 		}
 
