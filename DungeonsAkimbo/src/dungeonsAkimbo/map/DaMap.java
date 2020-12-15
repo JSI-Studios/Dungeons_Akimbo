@@ -179,7 +179,7 @@ public class DaMap implements TileBasedMap{
 		mobs.add(new DaMob(DungeonsAkimboGame.WIDTH / 5, DungeonsAkimboGame.HEIGHT / 5, 3, true));
 		
 		// Begin including mini boss
-		setMiniBoss(new DaMiniBoi(DungeonsAkimboGame.WIDTH / 2, DungeonsAkimboGame.HEIGHT / 2, false));
+		setMiniBoss(new DaMiniBoi(DungeonsAkimboGame.WIDTH / 2, DungeonsAkimboGame.HEIGHT / 2, true));
 	}
 
 	public ArrayList<Projectile> getEnemyAttacks() {

@@ -24,7 +24,7 @@ public class DaMiniBoi extends Entity implements DaEnemy {
 		super.setDebug(debug);
 		this.initX = x;
 		this.initY = y;
-		this.spritesheet = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.MINI_BOSS), 96, 96, 0, 0);
+		this.spritesheet = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.MINI_BOSS), 70, 70, 0, 0);
 		// Add image colliding box to mob 
 		Image tempSprite = spritesheet.getSprite(1, 0);
 		this.addImageWithBoundingBox(tempSprite);
