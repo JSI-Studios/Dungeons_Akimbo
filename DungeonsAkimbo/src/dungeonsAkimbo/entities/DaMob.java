@@ -142,9 +142,11 @@ public class DaMob extends Entity implements DaEnemy, Mover {
 			attacked.rotate(currentDirection);
 			attacked.Set_Velocity(currentDirection);
 			this.setBounceCooldown(80);
-			// Move away from the player if they get too close
-			if(distance.length() <= 200) {
-				this.velocity = distance.unit().scale(0.1f);
+			// Move away from the player if they get too close, but not too far
+			if(distance.length() < 200) {
+				this.velocity = distance.unit().scale(0.13f);
+			} else if(distance.length() >350) {
+				this.velocity = distance.unit().negate().scale(0.1f);
 			} else if(this.velocity.length() != 0) {
 				this.velocity = new Vector(0, 0);
 			}
