@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.stream.IntStream;
 
+import dungeonsAkimbo.entities.DaMiniBoi;
 import dungeonsAkimbo.entities.DaMob;
 import dungeonsAkimbo.entities.Player;
 import dungeonsAkimbo.entities.Projectile;
@@ -18,6 +19,7 @@ public class DaCollisions {
 	private ArrayList<Projectile> ProjectileList;
 	private ArrayList<Projectile> enemyAttacks;
 	private Map<Integer, Player> playerList;
+	private DaMiniBoi miniBoss;
 	
 	public DaCollisions (DaMap map) {
 		this.mobList = map.getMobList();
@@ -25,6 +27,7 @@ public class DaCollisions {
 		this.ProjectileList = map.getPlayer_bullets();
 		this.playerList = map.getPlayerList();
 		this.enemyAttacks = map.getEnemyAttacks();
+		this.miniBoss = map.getMiniBoss();
 	}
 	
 	
@@ -72,6 +75,13 @@ public class DaCollisions {
 			if(mob.isDead()) {
 				// mob is dead
 				current.remove();
+			}
+		}
+		for(Map.Entry<Integer, Player> uniquePlayer: playerList.entrySet()) {
+			Player player = uniquePlayer.getValue();
+			// Handle collision with player, tell player to decrease health later
+			if(player.collides(miniBoss) != null) {
+				player.translate(player.collides(miniBoss).getMinPenetration().scale(delta/.5f));
 			}
 		}
 	}
