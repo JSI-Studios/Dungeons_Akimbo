@@ -69,7 +69,7 @@ public class DaMiniBoi extends Entity implements DaEnemy {
 		// Actual attack interaction
 		Projectile attacked = null;
 		if(this.attackCooldown <= 0 && this.rest < 30) {
-			attacked = new Projectile(this.getX(), this.getY(), 20);
+			attacked = new Projectile(this.getX(), this.getY(), 20, 900);
 			attacked.rotate(currentDirection);
 			attacked.Set_Velocity(currentDirection);
 			this.attackCooldown = 10;
