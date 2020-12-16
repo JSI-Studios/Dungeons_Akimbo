@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.stream.IntStream;
 
 import dungeonsAkimbo.entities.DaBoi;
+import dungeonsAkimbo.entities.DaChest;
 import dungeonsAkimbo.entities.DaMiniBoi;
 import dungeonsAkimbo.entities.DaMob;
 import dungeonsAkimbo.entities.DaSpawner;
@@ -24,6 +25,7 @@ public class DaCollisions {
 	private ArrayList<DaMiniBoi> miniBoss;
 	private ArrayList<DaBoi> boss;
 	private ArrayList<DaSpawner> spawns;
+	private ArrayList<DaChest> chests;
 	
 	public DaCollisions (DaMap map) {
 		this.mobList = map.getMobList();
@@ -34,6 +36,7 @@ public class DaCollisions {
 		this.miniBoss = map.getMiniBoss();
 		this.boss = map.getBoss();
 		this.spawns = map.getSpawnList();
+		this.chests = map.getChestList();
 	}
 	
 	
@@ -60,6 +63,33 @@ public class DaCollisions {
 			for(DaMob mob : mobList) {
 				if(playerCheck.collides(mob) != null) {
 					playerCheck.setCurrent_health(playerCheck.getCurrent_health() - 1);
+				}
+			}
+			for(Iterator<DaChest> currentChest = this.chests.iterator(); currentChest.hasNext();) {
+				DaChest chest = currentChest.next();
+				if(playerCheck.collides(chest) != null) {
+					playerCheck.translate(playerCheck.collides(chest).getMinPenetration().scale(delta/.5f));
+					int[] openChest = chest.open();
+					if(openChest != null) {
+						for(Integer objects: openChest) {
+							if(objects == 1) {
+								// Add health
+								playerCheck.setCurrent_health(playerCheck.getCurrent_health() + 10);
+							} else if (objects == 2) {
+								// Add ammo
+								
+							} else if (objects == 3) {
+								// Add powerups
+								
+							} else if (objects == 4) {
+								// Add gold bags/puch
+								playerCheck.setPoints(playerCheck.getPoints() + 25);
+							} else {
+								// Add gold
+								playerCheck.setPoints(playerCheck.getPoints() + 5);
+							}
+						}
+					}
 				}
 			}
 			
