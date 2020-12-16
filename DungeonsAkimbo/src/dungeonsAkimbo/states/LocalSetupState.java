@@ -64,7 +64,7 @@ public class LocalSetupState extends BasicGameState {
         for (int j = 0; j < 4; j++) {
             // connect up to four right joy-cons (some of the listeners will be set to empty joycons if less are actually connected)
             Joycon newJoycon = new Joycon(JoyconConstant.JOYCON_RIGHT);
-            DaJoyconListener newListener = new DaJoyconListener(true);
+            DaJoyconListener newListener = new DaJoyconListener(false);
             newJoycon.setListener(newListener);
             inactiveListeners.add(newListener);
         }
@@ -121,25 +121,25 @@ public class LocalSetupState extends BasicGameState {
                     case 0: {
                         g.fill(p1);
                         g.setColor(Color.red);
-                        g.drawString("P1", 175, 820);
+                        g.drawString("P1", 190, 828);
                         break;
                     }
                     case 1: {
                         g.fill(p2);
                         g.setColor(Color.blue);
-                        g.drawString("P2", 375, 820);
+                        g.drawString("P2", 390, 828);
                         break;
                     }
                     case 2: {
                         g.fill(p3);
                         g.setColor(Color.yellow);
-                        g.drawString("P3", 575, 820);
+                        g.drawString("P3", 590, 828);
                         break;
                     }
                     case 3: {
                         g.fill(p4);
                         g.setColor(Color.green);
-                        g.drawString("P4", 775, 820);
+                        g.drawString("P4", 790, 828);
                         break;
                     }
                     default: break;
