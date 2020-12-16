@@ -2,6 +2,7 @@ package dungeonsAkimbo.states;
 
 import dungeonsAkimbo.DungeonsAkimboGame;
 import dungeonsAkimbo.InputListeners.DaJoyconListener;
+import dungeonsAkimbo.entities.DaAssault;
 import dungeonsAkimbo.entities.Projectile;
 import dungeonsAkimbo.gui.ChatGUI;
 import dungeonsAkimbo.gui.DaCamera;
@@ -98,12 +99,13 @@ public class MultiPlayTestState extends BasicGameState {
         // Temp movement control handling
 
         for (int playerID : dag.getCurrentMap().getPlayerList().keySet()) {
+            double shotAngle = 0.0;
             if (playerID == dag.getKeyboardMouseIndex()) {
                 // if this player is controlled via a keyboard and mouse
                 Vector new_velocity;
                 Vector mouseVec = new Vector(input.getMouseX(), input.getMouseY());
                 Vector playerPos = dag.getCurrentMap().getPlayerList().get(playerID).getPosition();
-                double shot_angle = playerPos.angleTo(mouseVec);
+                shotAngle = playerPos.angleTo(mouseVec);
 
                 if (input.isKeyDown(Input.KEY_W)) {
                     new_velocity = new Vector(0f, -0.5f * dag.getCurrentMap().getPlayerList().get(playerID).getSpeed());
@@ -134,7 +136,7 @@ public class MultiPlayTestState extends BasicGameState {
                 if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
 
                     if (dag.getCurrentMap().getPlayerList().get(playerID).getPrimaryWeapon().isCan_shoot()) {
-                        Object bulletReturn = dag.getCurrentMap().getPlayerList().get(playerID).Shoot(shot_angle);
+                        Object bulletReturn = dag.getCurrentMap().getPlayerList().get(playerID).Shoot(shotAngle);
 
                         if (bulletReturn instanceof ArrayList) {
                             for (Object b : (ArrayList<Projectile>) bulletReturn) {
@@ -155,7 +157,7 @@ public class MultiPlayTestState extends BasicGameState {
                 }
 
                 dag.getCurrentMap().getPlayerList().get(playerID).setVelocity(new_velocity);
-                ((Entity) dag.getCurrentMap().getPlayerList().get(playerID).getPrimaryWeapon()).setRotation(shot_angle);
+                ((Entity) dag.getCurrentMap().getPlayerList().get(playerID).getPrimaryWeapon()).setRotation(shotAngle);
             }
             else {
                 // if the player is being controlled by a joy-con
@@ -166,7 +168,7 @@ public class MultiPlayTestState extends BasicGameState {
                     continue;
                 }
                 Vector shot_dir = new Vector(activeListeners[playerID].getX(), activeListeners[playerID].getY());
-                double shot_angle = shot_dir.getRotation();
+                shotAngle = shot_dir.getRotation();
                 Vector new_velocity = new Vector(0, 0);
 
                 if (activeListeners[playerID].isButtonPressed(3)) {
@@ -188,7 +190,7 @@ public class MultiPlayTestState extends BasicGameState {
 
                 if (activeListeners[playerID].isButtonPressed(5)) {
                     if (dag.getCurrentMap().getPlayerList().get(playerID).getPrimaryWeapon().isCan_shoot()) {
-                        Object bulletReturn = dag.getCurrentMap().getPlayerList().get(playerID).Shoot(shot_angle);
+                        Object bulletReturn = dag.getCurrentMap().getPlayerList().get(playerID).Shoot(shotAngle);
 
                         if (bulletReturn instanceof ArrayList) {
                             for (Object b : (ArrayList<Projectile>) bulletReturn) {
@@ -206,9 +208,13 @@ public class MultiPlayTestState extends BasicGameState {
                     dag.getCurrentMap().getPlayerList().get(playerID).doDodge(delta, 1);
                 }
             }
+            if (dag.getCurrentMap().getPlayerList().get(playerID).getPrimaryWeapon() instanceof DaAssault) {
+                dag.getLogic().assaultBurst(dag, playerID, shotAngle);
+            }
         }
         //update Logic
-
+        dag.getLogic().localUpdate(delta);
+        updateChatLog(dag);
     }
 
     private void updateChatLog(DungeonsAkimboGame dag) {
@@ -234,6 +240,6 @@ public class MultiPlayTestState extends BasicGameState {
     @Override
     public int getID() {
         // TODO Auto-generated method stub
-        return DungeonsAkimboGame.PLAYTESTSTATE;
+        return DungeonsAkimboGame.MULTIPLAYTESTSTATE;
     }
 }

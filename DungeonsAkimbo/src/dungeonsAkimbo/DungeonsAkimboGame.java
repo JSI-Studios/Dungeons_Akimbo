@@ -52,6 +52,8 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	
 	// BGM macros
 	public static final String TEMP_BGM = "dungeonsAkimbo/resource/bgm/Final Boss Battle 6 V2.WAV";
+	public static final String BGM = "dungeonsAkimbo/resource/bgm/Theme Song 8-bit V1 _looping.WAV";
+	public static final String BOSS_BGM = "dungeonsAkimbo/resource/bgm/Boss Battle #2 V1.WAV";
 	
 	//State Identitifiers
 	public static final int SPLASHSCREENSTATE = 0;
@@ -61,6 +63,7 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	public static final int NETMENUSTATE = 4;
 	public static final int MULTIMENUSTATE = 5;
 	public static final int LOCALSETUPSTATE = 6;
+	public static final int MULTIPLAYTESTSTATE = 7;
 	
 	public static final String DA_TESTMAP_RSC = "dungeonsAkimbo/resource/Maps/testMap/DaTestMapSmall.tmx";
 	public static final String DA_TESTMAP_TILESET_RSC = "dungeonsAkimbo/resource/Maps/testmap/";
@@ -97,6 +100,7 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		addState(new NetMenuState());
 		addState(new MultiMenuState());
 		addState(new LocalSetupState());
+		addState(new MultiPlayTestState());
 		ResourceManager.setFilterMethod(ResourceManager.FILTER_LINEAR);
 		
 		// Load projectiles
@@ -129,7 +133,8 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		ResourceManager.loadImage(DA_MISCSHEET_RSC);
 	
 		// Load bgm
-		ResourceManager.loadSound(TEMP_BGM);
+		ResourceManager.loadSound(BGM);
+		ResourceManager.loadSound(BOSS_BGM);
 		
 		Entity.antiAliasing = false;
 		Entity.setCoarseGrainedCollisionBoundary(Entity.CIRCLE);

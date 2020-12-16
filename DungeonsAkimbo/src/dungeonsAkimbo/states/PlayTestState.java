@@ -57,7 +57,7 @@ public class PlayTestState extends BasicGameState {
 		
 		// Handle BGM
 		container.setSoundOn(true);
-		ResourceManager.getSound(DungeonsAkimboGame.TEMP_BGM).loop(1.1f, 0.2f);
+		ResourceManager.getSound(DungeonsAkimboGame.BGM).loop(1f, 0.2f);
 	}
 
 	@Override
@@ -142,6 +142,8 @@ public class PlayTestState extends BasicGameState {
 				dag.getCurrentMap().getPlayerList().get(playerID).gunSelect(3);
 			} else if (input.isKeyPressed(Input.KEY_5)) {
 				dag.getCurrentMap().getPlayerList().get(playerID).gunSelect(4);
+			} else if (input.isKeyPressed(Input.KEY_Q)) {
+				dag.getCurrentMap().getPlayerList().get(playerID).getNextGun();
 			}
 
 			if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
