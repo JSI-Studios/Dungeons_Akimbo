@@ -16,6 +16,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import dungeonsAkimbo.DungeonsAkimboGame;
 import dungeonsAkimbo.entities.DaAssault;
 import dungeonsAkimbo.entities.DaMob;
+import dungeonsAkimbo.entities.DaStairs;
 import dungeonsAkimbo.entities.Player;
 import dungeonsAkimbo.entities.Projectile;
 import dungeonsAkimbo.gui.ChatGUI;
@@ -24,6 +25,8 @@ import dungeonsAkimbo.netcode.UniqueIdentifier;
 import jig.Entity;
 import jig.ResourceManager;
 import jig.Vector;
+import org.newdawn.slick.state.transition.FadeInTransition;
+import org.newdawn.slick.state.transition.FadeOutTransition;
 
 public class PlayTestState extends BasicGameState {
 
@@ -226,6 +229,21 @@ public class PlayTestState extends BasicGameState {
 		}
 		dag.getLogic().localUpdate(delta);
 		updateChatLog(dag);
+		
+		// Check for a clear room
+		if(dag.getCurrentMap().getSpawnList().size() <= 0 && dag.getCurrentMap().getBoss().size() <= 0 && dag.getCurrentMap().getMiniBoss().size() <= 0 &&
+				dag.getCurrentMap().getMobList().size() <= 0) {
+			dag.getCurrentMap().getStairs().forEach((stairs) -> stairs.setStatus(true));
+		}
+		
+		// If room is clear, and player collides with stairs, transition to next room
+		for(DaStairs stair: dag.getCurrentMap().getStairs()) {
+			if(stair.isStatus() && dag.getCurrentMap().getPlayerList().get(playerID).collides(stair) != null) {
+				input.clearKeyPressedRecord();
+				currentSound.stop();
+				game.enterState(DungeonsAkimboGame.PLAYTESTSTATE, new FadeOutTransition(), new FadeInTransition());
+			}
+		}
 		
 		// Check player hp, if 0 go to game over state
 		if(dag.getCurrentMap().getPlayerList().get(playerID).getCurrent_health() <= 0) {

@@ -93,6 +93,7 @@ public class Player extends Entity {
 		}
 		
 		this.addImageWithBoundingBox(this.sprites.getSprite(1, 0));
+		this.setCoarseGrainedRadius(10);
 		this.removeImage(this.sprites.getSprite(1, 0));
 		
 		this.sprite.addFrame(this.sprites.getSprite(1, 0), 1);		//Player face down
