@@ -95,7 +95,7 @@ public class PlayTestState extends BasicGameState {
 		// Simply names from dag
 		Vector new_velocity;
 		Input input = container.getInput();
-		Vector mouseVec = new Vector(input.getMouseX(), input.getMouseY());
+		Vector mouseVec = new Vector(input.getMouseX(), input.getMouseY()).add(new Vector(gameView.getCameraX(), gameView.getCameraY()));
 		Vector playerPos = dag.getCurrentMap().getPlayerList().get(playerID).getPosition();
 		double shotAngle = playerPos.angleTo(mouseVec);
 

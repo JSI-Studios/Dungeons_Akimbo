@@ -32,7 +32,7 @@ public class MultiPlayTestState extends BasicGameState {
     
 	private Sound currentSound;
 
-	private int[] cameraDirection;
+	private boolean[] cameraDirection;
 	
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
@@ -44,7 +44,7 @@ public class MultiPlayTestState extends BasicGameState {
     public void enter(GameContainer container, StateBasedGame game) throws SlickException {
         // TODO Auto-generated method stub
         dag = (DungeonsAkimboGame) game;
-        dag.loadNewTiledMap(1);
+        dag.loadNewTiledMap(dag.getCurrentMapNum());
         dag.loadMap();
         gameView = new DaCamera(dag.getCurrentMap());
         DaJoyconListener[] activeListeners = dag.getActiveJoycons();
@@ -64,7 +64,7 @@ public class MultiPlayTestState extends BasicGameState {
 		container.setSoundOn(true);
 		currentSound = ResourceManager.getSound(DungeonsAkimboGame.BGM);
 		currentSound.loop(1f, 0.2f);
-		cameraDirection = new int[]{0, 0, 0, 0};
+		cameraDirection = new boolean[]{false, false, false, false};
 
     }
 
@@ -118,7 +118,7 @@ public class MultiPlayTestState extends BasicGameState {
             if (playerID == dag.getKeyboardMouseIndex()) {
                 // if this player is controlled via a keyboard and mouse
                 Vector new_velocity;
-                Vector mouseVec = new Vector(input.getMouseX(), input.getMouseY());
+                Vector mouseVec = new Vector(input.getMouseX(), input.getMouseY()).add(new Vector(gameView.getCameraX(), gameView.getCameraY()));
                 Vector playerPos = dag.getCurrentMap().getPlayerList().get(playerID).getPosition();
                 shotAngle = playerPos.angleTo(mouseVec);
 
@@ -146,6 +146,8 @@ public class MultiPlayTestState extends BasicGameState {
                     dag.getCurrentMap().getPlayerList().get(playerID).gunSelect(2);
                 } else if (input.isKeyPressed(Input.KEY_4)) {
                     dag.getCurrentMap().getPlayerList().get(playerID).gunSelect(3);
+                } else if (input.isKeyPressed(Input.KEY_5)) {
+                    dag.getCurrentMap().getPlayerList().get(playerID).gunSelect(4);
                 } else if (input.isKeyPressed(Input.KEY_Q)) {
                     dag.getCurrentMap().getPlayerList().get(playerID).getNextGun();
                 }
@@ -234,17 +236,17 @@ public class MultiPlayTestState extends BasicGameState {
         	// Handle camera movement based on number of players
             Player player = dag.getCurrentMap().getPlayerList().get(playerID);
             if(player.getVelocity().length() > 0) {
-	            if(player.getY() - (gameView.getCameraY() * 64) < 512 && gameView.getCameraY() > 0) {
-	            		this.cameraDirection[0]++;
+	            if(player.getY() - (gameView.getCameraY() * 64) < 128 && gameView.getCameraY() > 0) {
+	            		this.cameraDirection[0] = true;
 	            }
-	            if(player.getY() - (gameView.getCameraY() * 64) > 512 && gameView.getCameraY() < dag.getCurrentMap().getHeightInTiles()) {
-	            		this.cameraDirection[1]++;
+	            if(player.getY() - (gameView.getCameraY() * 64) > 128 && gameView.getCameraY() < dag.getCurrentMap().getHeightInTiles()) {
+	            		this.cameraDirection[1] = true;
 	            }
-	            if(player.getX() - (gameView.getCameraX() * 64) < 512 && gameView.getCameraX() > 0) {
-	            		this.cameraDirection[2]++;
+	            if(player.getX() - (gameView.getCameraX() * 64) < 128 && gameView.getCameraX() > 0) {
+	            		this.cameraDirection[2] = true;
 	            }
-	            if(player.getX() - (gameView.getCameraX() * 64) > 512 && gameView.getCameraX() < dag.getCurrentMap().getWidthInTiles()) {
-	            		this.cameraDirection[3]++;
+	            if(player.getX() - (gameView.getCameraX() * 64) > 128 && gameView.getCameraX() < dag.getCurrentMap().getWidthInTiles()) {
+	            		this.cameraDirection[3] = true;
 	            }
             }
             
@@ -253,21 +255,21 @@ public class MultiPlayTestState extends BasicGameState {
         /* Handle camera movement */
         
         //  Handle y axis
-        if(cameraDirection[0] == 1) {
+        if(cameraDirection[0]) {
         	gameView.moveCameraY(-1, delta);
         }
-        if(cameraDirection[1] == 1) {
+        if(cameraDirection[1]) {
         	gameView.moveCameraY(1, delta);
         }
         // Handle x axis
-        if(cameraDirection[2] == 1) {
+        if(cameraDirection[2]) {
         	gameView.moveCameraX(-1, delta);
         }
-        if(cameraDirection[3] == 1) {
+        if(cameraDirection[3]) {
         	gameView.moveCameraX(1, delta);
         }
         // Reset camera direction
-        this.cameraDirection = new int[] {0, 0, 0, 0};
+        Arrays.fill(cameraDirection, false);
         
         //update Logic
         dag.getLogic().localUpdate(delta);
