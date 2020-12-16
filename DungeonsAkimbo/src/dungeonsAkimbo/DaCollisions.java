@@ -7,6 +7,8 @@ import java.util.stream.IntStream;
 
 import dungeonsAkimbo.entities.DaBoi;
 import dungeonsAkimbo.entities.DaChest;
+import dungeonsAkimbo.entities.DaGold;
+import dungeonsAkimbo.entities.DaGoldPouch;
 import dungeonsAkimbo.entities.DaMiniBoi;
 import dungeonsAkimbo.entities.DaMob;
 import dungeonsAkimbo.entities.DaSpawner;
@@ -27,6 +29,8 @@ public class DaCollisions {
 	private ArrayList<DaBoi> boss;
 	private ArrayList<DaSpawner> spawns;
 	private ArrayList<DaChest> chests;
+	private ArrayList<DaGoldPouch> pouch;
+	private ArrayList<DaGold> gold;
 	
 	public DaCollisions (DaMap map) {
 		this.mobList = map.getMobList();
@@ -38,6 +42,8 @@ public class DaCollisions {
 		this.boss = map.getBoss();
 		this.spawns = map.getSpawnList();
 		this.chests = map.getChestList();
+		this.pouch = map.getgoldPouchList();
+		this.gold = map.getGoldList();
 	}
 	
 	
@@ -80,7 +86,6 @@ public class DaCollisions {
 								// Add ammo
 								Ranged current = playerCheck.getPrimaryWeapon();
 								playerCheck.getPrimaryWeapon().setAmmo(current.getAmmo() + 20);
-								
 							} else if (objects == 3) {
 								// Add powerups
 								
@@ -95,7 +100,22 @@ public class DaCollisions {
 					}
 				}
 			}
-			
+			// Handle gold pouch
+			for(Iterator<DaGoldPouch> currentPouch = this.pouch.iterator(); currentPouch.hasNext();) {
+				DaGoldPouch goldPouch = currentPouch.next();
+				if(playerCheck.collides(goldPouch) != null) {
+					playerCheck.setPoints(playerCheck.getPoints() + goldPouch.pickUp());
+					currentPouch.remove();
+				}
+			}
+			// Handle individual gold
+			for(Iterator<DaGold> currentGold = this.gold.iterator(); currentGold.hasNext();) {
+				DaGold golden = currentGold.next();
+				if(playerCheck.collides(golden) != null) {
+					playerCheck.setPoints(playerCheck.getPoints() + golden.pickUp());
+					currentGold.remove();
+				}
+			}
 		}
 	}
 	
