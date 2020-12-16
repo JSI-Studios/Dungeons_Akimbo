@@ -43,7 +43,12 @@ public class DaCollisions {
 				Projectile attackHitBox = current.next();
 				if(playerCheck.collides(attackHitBox) != null) {
 					playerCheck.setCurrent_health(playerCheck.getCurrent_health() - attackHitBox.Get_Damage());
-					current.remove();
+					if(attackHitBox.getSpriteType() <= 0) {
+						current.remove();
+					} else {
+						// Don't continuously damage the player, but allow animation to render completely
+						attackHitBox.setDamage(0);
+					}
 				}
 			}
 			for(DaMob mob : mobList) {
@@ -68,6 +73,7 @@ public class DaCollisions {
 			for(Map.Entry<Integer, Player> uniquePlayer : playerList.entrySet()) {
 				// Deal collision will player
 				if(mob.collides(uniquePlayer.getValue()) != null) {
+					// If mob type == 0, return true for isPlayer to pause the mob
 					mob.collisionAction(true, mob.getType() == 0);
 					mob.translate(mob.collides(uniquePlayer.getValue()).getMinPenetration().scale(delta));
 				}
@@ -82,6 +88,7 @@ public class DaCollisions {
 			// Handle collision with player, tell player to decrease health later
 			if(player.collides(miniBoss) != null) {
 				player.translate(player.collides(miniBoss).getMinPenetration().scale(delta/.5f));
+				miniBoss.collisionAction(true, true);
 			}
 		}
 	}

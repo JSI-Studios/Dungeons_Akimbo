@@ -37,6 +37,9 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	public static final String DA_SHOTTY_RSC = "dungeonsAkimbo/resource/Weapons/Shotty/shotgun.png";
 	public static final String DA_ASSAULT_RSC = "dungeonsAkimbo/resource/Weapons/Assault/assaultrifle.png";
 	
+	// Enemy Attack Macros
+	public static final String BANG = "dungeonsAkimbo/resource/Projectiles/explosion.png";
+	
 	//item macros
 	public static final String DA_HEALTH_RSC = "dungeonsAkimbo/resource/items/ammobox.png";
 	public static final String DA_AMMO_RSC = "dungeonsAkimbo/resource/items/candy_02g.png";
@@ -94,8 +97,12 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		addState(new LocalSetupState());
 		ResourceManager.setFilterMethod(ResourceManager.FILTER_LINEAR);
 		
+		// Load projectiles
 		ResourceManager.loadImage(TEMP_PLAYER);
 		ResourceManager.loadImage(TEMP_BULLET);
+		ResourceManager.loadImage(BANG);
+		
+		// Load player resources
 		ResourceManager.loadImage(DA_PLAYER_RSC);
 		
 		// Load weapon sprites

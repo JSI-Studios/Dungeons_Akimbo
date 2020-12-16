@@ -1,5 +1,7 @@
 package dungeonsAkimbo.entities;
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SpriteSheet;
@@ -10,11 +12,15 @@ import jig.ResourceManager;
 import jig.Vector;
 
 public class DaMiniBoi extends Entity implements DaEnemy {
+	
+	private int dimensions = 96;
 
 	private int health;
 	private Vector velocity;
 	private float initX;
 	private float initY;
+	
+	private boolean playerPunish;
 	
 	private Animation sprite;
 	private SpriteSheet spritesheet;
@@ -30,10 +36,11 @@ public class DaMiniBoi extends Entity implements DaEnemy {
 		this.addImageWithBoundingBox(tempSprite);
 		this.removeImage(tempSprite);
 		// Add animated sprite
-		this.sprite = new Animation(ResourceManager.getSpriteSheet(DungeonsAkimboGame.MINI_BOSS, 96, 96), 0, 3, 2, 3, true, 200, true);
+		this.sprite = new Animation(ResourceManager.getSpriteSheet(DungeonsAkimboGame.MINI_BOSS, dimensions, dimensions), 0, 3, 2, 3, true, 200, true);
 		sprite.setLooping(true);
 		addAnimation(sprite);
 		this.health = 200;
+		this.playerPunish = false;
 	}
 	
 	@Override
@@ -43,6 +50,7 @@ public class DaMiniBoi extends Entity implements DaEnemy {
 			// If collide to player, stop and pause
 			if(isPlayer) {
 				// Trigger special attack (call multiple mobs maybe?)
+				playerPunish = true;
 			}
 		}
 	}
@@ -50,6 +58,17 @@ public class DaMiniBoi extends Entity implements DaEnemy {
 	@Override
 	public Projectile attack(Entity player) {
 		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	public ArrayList<Projectile> multiAttack(){
+		if(this.playerPunish) {
+			// Return new attack after collision
+			ArrayList<Projectile> attack = new ArrayList<Projectile>();
+			attack.add(new Projectile(this.getX(), this.getY() + 80, 10, 50, 1));
+			this.playerPunish = false;
+			return attack;
+		}
 		return null;
 	}
 	
