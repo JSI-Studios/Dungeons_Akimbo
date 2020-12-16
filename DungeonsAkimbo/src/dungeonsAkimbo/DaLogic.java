@@ -13,6 +13,7 @@ import org.newdawn.slick.util.pathfinding.Path;
 import org.newdawn.slick.util.pathfinding.heuristics.ManhattanHeuristic;
 
 import dungeonsAkimbo.entities.DaAssault;
+import dungeonsAkimbo.entities.DaBoi;
 import dungeonsAkimbo.entities.DaMiniBoi;
 import dungeonsAkimbo.entities.DaMob;
 import dungeonsAkimbo.entities.Player;
@@ -118,6 +119,7 @@ public class DaLogic {
 	
 	//things that happened during update() for mobs go here
 	private void mobUpdate(int playerID, int delta) {
+		
 		// Get current player as an Entity (change to player later if needed)
 		Entity currentPlayer = map.getPlayerList().get(playerID);
 		
@@ -130,6 +132,7 @@ public class DaLogic {
 				map.getEnemyAttacks().add(hit);
 			}
 		}
+		
 		// Handle miniboss attack
 		DaMiniBoi miniBoss = map.getMiniBoss();
 		Projectile miniBossAttack = miniBoss.attack(currentPlayer);
@@ -142,7 +145,13 @@ public class DaLogic {
 			// Iterate through the list of multi attacks
 			miniBossMultiAttack.forEach((hit) -> map.getEnemyAttacks().add(hit));
 		}
+		
+		// Handle boss attack
+		DaBoi boss = map.getBoss();
+		
+		// Update enemies based on their updates
 		mobs.forEach((mob) -> mob.update(delta));
+		boss.update(delta);
 	}
 	
 	//things that happened during update() for projectiles go here

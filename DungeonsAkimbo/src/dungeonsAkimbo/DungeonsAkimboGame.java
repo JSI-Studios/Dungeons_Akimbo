@@ -29,6 +29,11 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	public static final String MOB_TWO = "dungeonsAkimbo/resource/Mobs/Skully.png";
 	public static final String MOB_THREE = "dungeonsAkimbo/resource/Mobs/Spoopy-Season-Two.png";
 	public static final String MINI_BOSS = "dungeonsAkimbo/resource/Mobs/Mini-Boss.png";
+	public static final String STALL_ONE = "dungeonsAkimbo/resource/Mobs/Cosmic_06.png";
+	public static final String STALL_TWO = "dungeonsAkimbo/resource/Mobs/Cosmic_07.png";
+	public static final String STALL_THREE = "dungeonsAkimbo/resource/Mobs/Cosmic_08.png";
+	public static final String STALL_FOUR = "dungeonsAkimbo/resource/Mobs/Cosmic_09.png";
+	public static final String STALL_FIVE = "dungeonsAkimbo/resource/Mobs/Cosmic_10.png";
 	
 	//Weapon Macros
 	public static final String DA_SNIPER_RSC = "dungeonsAkimbo/resource/Weapons/Sniper/sniper.png";
@@ -123,7 +128,14 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		ResourceManager.loadImage(MOB_ONE);
 		ResourceManager.loadImage(MOB_TWO);
 		ResourceManager.loadImage(MOB_THREE);
+		
+		// Load boss assets
 		ResourceManager.loadImage(MINI_BOSS);
+		ResourceManager.loadImage(STALL_ONE);
+		ResourceManager.loadImage(STALL_TWO);
+		ResourceManager.loadImage(STALL_THREE);
+		ResourceManager.loadImage(STALL_FOUR);
+		ResourceManager.loadImage(STALL_FIVE);
 		
 		// Load item sprites
 		ResourceManager.loadImage(DA_HEALTH_RSC);
@@ -211,7 +223,7 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		for (Iterator<DaJoyconListener> jls = inactiveJoycons.iterator(); jls.hasNext();) {
 			if (activeJoycons[0] == null || activeJoycons[1] == null || activeJoycons[2] == null || activeJoycons[3] == null) {
 				DaJoyconListener listener = jls.next();
-				if (listener.isButtonPressed(4) && listener.isButtonPressed(5)) {
+				if (listener.isButtonDown(4) && listener.isButtonDown(5)) {
 					if (activeJoycons[0] == null) {
 						activeJoycons[0] = listener;
 						jls.remove();
