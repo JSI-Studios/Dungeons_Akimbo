@@ -9,6 +9,7 @@ import org.newdawn.slick.util.pathfinding.PathFindingContext;
 import org.newdawn.slick.util.pathfinding.TileBasedMap;
 
 import dungeonsAkimbo.DungeonsAkimboGame;
+import dungeonsAkimbo.entities.DaBoi;
 import dungeonsAkimbo.entities.DaMiniBoi;
 import dungeonsAkimbo.entities.DaMob;
 import dungeonsAkimbo.entities.Player;
@@ -36,6 +37,7 @@ public class DaMap implements TileBasedMap{
 	private ArrayList<Projectile> enemyAttacks;
 	private Map<Integer, Player> playerList;
 	private DaMiniBoi miniBoss;
+	private DaBoi boss;
 	
 	//PathFinding variables
 	private Boolean[][] visited;
@@ -180,6 +182,8 @@ public class DaMap implements TileBasedMap{
 		
 		// Begin including mini boss
 		setMiniBoss(new DaMiniBoi(DungeonsAkimboGame.WIDTH / 2, DungeonsAkimboGame.HEIGHT / 2, true));
+		// Begin including boss
+		setBoss(new DaBoi(DungeonsAkimboGame.WIDTH / 3 + 100, DungeonsAkimboGame.HEIGHT / 3 + 100, true));
 	}
 
 	public ArrayList<Projectile> getEnemyAttacks() {
@@ -196,6 +200,14 @@ public class DaMap implements TileBasedMap{
 
 	public void setMiniBoss(DaMiniBoi miniBoss) {
 		this.miniBoss = miniBoss;
+	}
+
+	public DaBoi getBoss() {
+		return boss;
+	}
+
+	public void setBoss(DaBoi boss) {
+		this.boss = boss;
 	}
 
 }
