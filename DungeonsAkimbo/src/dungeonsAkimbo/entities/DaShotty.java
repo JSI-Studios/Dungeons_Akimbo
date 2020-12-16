@@ -9,15 +9,18 @@ import jig.Entity;
 import jig.ResourceManager;
 
 public class DaShotty extends Entity implements Ranged {
-	private int ammo, shoot_timer, range, damage;
+	private int ammo, maxAmmo, shootTimer, range, damage, reloadTimer, maxReloadTimer;
 	double angle;
 	final int maxTimer;
-	private boolean canShoot;
+	private boolean canShoot, isReloading;
 	private Animation sprite;
 	
 	public DaShotty() {
-		ammo = 20;
-		shoot_timer = 500;
+		ammo = 5;
+		maxAmmo = 5;
+		shootTimer = 300;
+		reloadTimer = 2000;
+		maxReloadTimer = 2000;
 		maxTimer = 500;
 		range = 400;
 		damage = 40;
@@ -59,7 +62,7 @@ public class DaShotty extends Entity implements Ranged {
 			bulletArray.add(bullet);
 			bulletArray.add(bullet2);
 		}
-		
+		this.ammo--;
 		this.canShoot = false;
 		return bulletArray;
 	}
@@ -98,14 +101,32 @@ public class DaShotty extends Entity implements Ranged {
 	
 	public void update(final int delta) {
 
-		if (this.canShoot == false) {
-			shoot_timer -= delta;
-			// System.out.println("Player is dodge? " + this.dodging);
+		if (this.ammo <= 0) {
+			this.isReloading = true;
+		}
+		
+		if (this.isReloading == true) {
+			this.reloadTimer -= delta;
+		}
+		
+		if (this.reloadTimer <= 0) {
+			this.ammo = this.maxAmmo;
+			this.isReloading = false;
+			this.reloadTimer = this.maxReloadTimer;
 		}
 
-		if (shoot_timer <= 0) {
-			this.canShoot = true;
-			shoot_timer = this.maxTimer;
+		if (this.canShoot == false) {
+			this.shootTimer -= delta;
+			// System.out.println("Player is dodge? " + this.dodging);
+		}
+	
+		if (this.isReloading == false) {
+			if (this.ammo > 0) {
+				if (this.shootTimer <= 0) {
+					this.canShoot = true;
+					this.shootTimer = this.maxTimer;
+				}
+			}
 		}
 		//Print current rotation to console.
 		//System.out.println(this.getRotation());
@@ -116,5 +137,16 @@ public class DaShotty extends Entity implements Ranged {
 			this.sprite.setCurrentFrame(1);			
 		}
 		
+	}
+
+	@Override
+	public void primaryAtk() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setAmmo(int inAmmo) {
+		this.ammo = inAmmo;		
 	}
 }

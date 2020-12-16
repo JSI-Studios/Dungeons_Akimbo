@@ -12,7 +12,7 @@ import dungeonsAkimbo.DungeonsAkimboGame;
 
 public class MainMenuState extends BasicGameState {
 
-	Rectangle singlePlayer, multiPlayer;
+	private Rectangle singlePlayer, multiPlayer;
 
 	@Override
 	public void init(GameContainer container, StateBasedGame game) throws SlickException {
@@ -43,6 +43,7 @@ public class MainMenuState extends BasicGameState {
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 		// TODO Auto-generated method stub
+		DungeonsAkimboGame dag = (DungeonsAkimboGame) game;
 		Input input = container.getInput();
 		float mouseX = input.getMouseX();
 		float mouseY = input.getMouseY();
@@ -52,7 +53,7 @@ public class MainMenuState extends BasicGameState {
 				game.enterState(DungeonsAkimboGame.PLAYTESTSTATE);
 			}
 			if (multiPlayer.contains(mouseX, mouseY)) {
-				game.enterState(DungeonsAkimboGame.NETMENUSTATE);
+				game.enterState(DungeonsAkimboGame.MULTIMENUSTATE);
 			}
 		}
 

@@ -22,47 +22,87 @@ public class Player extends Entity {
 	private Ranged sniper;
 	private Ranged pistol;
 	private Ranged smg;
+	private Ranged assault;
 	
 	
-
 	private float speed;
 	private int currentHealth;
 	private int max_health;
 	private int dodgeTimer = 500;
+	private int backpackIndex; 
 	
 	private boolean dodging;
 	
 	private Vector velocity;
+	private boolean rest;
 	
 	private Animation sprite, walkUp, walkDown, walkLeft, walkRight, current;
 	private SpriteSheet sprites;
+
+	private int points;
 	
 	public Player(final float x, final float y, int type) {
 		super(x, y);
 		// Max health can either be set from constructor, or a be statically 
 		// constant, deal with later
-		
+		points = 0;
 		gunBackpack = new ArrayList<Weapon>();
 		
 		this.sprite = new Animation(false);
-		this.sprites = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.DA_PLAYER_RSC).getScaledCopy(0.5f), 16, 16, 0, 0);
-		setMax_health(100);
+		//this.sprites = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.DA_PLAYER_RSC), 32, 32, 0, 0);
+		
+		setMax_health(500);
 		setCurrent_health(getMax_health());
 		speed = 0.5f;
+		this.backpackIndex = 0;
 		
-		shotty = new DaShotty();
+		if (type == 1) {
+			shotty = new DaShotty();
+			pistol = new DaPistol();
+			this.primaryWeapon = shotty;
+			gunBackpack.add(shotty);
+			gunBackpack.add(pistol);
+			this.sprites = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.DA_SCHOOL_GIRL1_RSC), 32, 32, 0, 0);
+		} else if (type == 2) {
+			sniper = new DaSniper();
+			pistol = new DaPistol();
+			this.primaryWeapon = sniper;
+			gunBackpack.add(sniper);
+			gunBackpack.add(pistol);
+			this.sprites = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.DA_SCHOOL_GIRL2_RSC), 32, 32, 0, 0);
+		} else if (type == 3) {
+			assault = new DaAssault();
+			pistol = new DaPistol();
+			this.primaryWeapon = assault;
+			gunBackpack.add(assault);
+			gunBackpack.add(pistol);
+			this.sprites = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.DA_MALE1_RSC), 32, 32, 0, 0);
+		} else if (type == 4) {
+			smg = new DaSMG();
+			pistol = new DaPistol();
+			this.primaryWeapon = smg;
+			gunBackpack.add(smg);
+			gunBackpack.add(pistol);
+			this.sprites = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.DA_MALE2_RSC), 32, 32, 0, 0);
+		}
+		
+		/*shotty = new DaShotty();
 		sniper = new DaSniper();
 		pistol = new DaPistol();
 		smg = new DaSMG();
+		assault = new DaAssault(); 
 		
-		this.primaryWeapon = shotty;
+		//starting gun and index in backpack
+		this.primaryWeapon = assault;
+		this.backpackIndex = 0;
 		
 		gunBackpack = new ArrayList<Weapon>();
 		
+		gunBackpack.add(assault);
 		gunBackpack.add(shotty);
 		gunBackpack.add(pistol);
 		gunBackpack.add(smg);
-		gunBackpack.add(sniper);
+		gunBackpack.add(sniper); */
 		
 		this.addImageWithBoundingBox(this.sprites.getSprite(1, 0));
 		this.removeImage(this.sprites.getSprite(1, 0));
@@ -79,11 +119,24 @@ public class Player extends Entity {
 		
 		this.current = walkDown;
 		this.addAnimation(current);
+		this.setRest(true);
 	}
 	
 	public void gunSelect(int i) {
 		this.primaryWeapon = null;
+		this.backpackIndex = i;
 		this.primaryWeapon = (Ranged) gunBackpack.get(i);
+	}
+	
+	public void getNextGun() {
+		if (this.gunBackpack.get(backpackIndex) == gunBackpack.get(gunBackpack.size()-1))  {
+			this.backpackIndex = 0;
+			this.primaryWeapon = (Ranged) gunBackpack.get(0);
+		} else {
+			System.out.println("gun index is " + this.backpackIndex);
+			this.primaryWeapon = (Ranged) gunBackpack.get(backpackIndex+1);
+			this.backpackIndex++;
+		}
 	}
 	
 	public Ranged getPrimaryWeapon() {
@@ -92,6 +145,9 @@ public class Player extends Entity {
 	
 	public Object Shoot(double inAngle) {
 		
+		if (this.primaryWeapon == assault) {
+			this.primaryWeapon.primaryAtk();
+		}
 		return this.primaryWeapon.primaryAtk(inAngle);	
 	}
 	
@@ -141,8 +197,11 @@ public class Player extends Entity {
 		this.currentHealth = current_health;
 	}
 	
-public void update(final int delta) {
+	public void update(final int delta) {
 		
+		if(this.currentHealth < 0) {
+			this.currentHealth = 0;
+		}
 
 		if (this.dodging == true) {
 			dodgeTimer -= delta;
@@ -195,10 +254,10 @@ public void update(final int delta) {
 		}else if (((Entity) this.primaryWeapon).getRotation() > -135 && ((Entity) this.primaryWeapon).getRotation() < -45 ) {		//Player facing up
 			if(current.equals(walkUp) &&  velocity.length() != 0) {
 				current.start();				
-			}else if( current.equals(walkUp) && velocity.length() == 0) {
+			} else if( current.equals(walkUp) && velocity.length() == 0) {
 				current.stop();
 				current.setCurrentFrame(1);
-			}else if(!current.equals(walkUp)) {
+			} else if(!current.equals(walkUp)) {
 				current.stop();
 				this.removeAnimation(current);
 				this.addAnimation(walkUp);
@@ -213,5 +272,22 @@ public void update(final int delta) {
 		}
 		
 		((Entity) this.primaryWeapon).setPosition(this.getPosition());
+	}
+
+	public boolean isRest() {
+		return rest;
+	}
+	
+	public void setRest(boolean rest) {
+		this.rest = rest;
+}
+
+	public int getPoints() {
+		// TODO Auto-generated method stub
+		return points;
+	}
+	
+	public void setPoints(int points) {
+		this.points = points;
 	}
 }

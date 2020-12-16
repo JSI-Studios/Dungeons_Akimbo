@@ -7,14 +7,17 @@ import jig.Entity;
 import jig.ResourceManager;
 
 public class DaPistol extends Entity implements Ranged {
-	private int ammo, shoot_timer, range, damage;
+	private int ammo, maxAmmo, shootTimer, range, damage, reloadTimer, maxReloadTimer;
+	double angle;
 	final int maxTimer;
-	private boolean canShoot;
+	private boolean canShoot, isReloading;
 	private Animation sprite;
 	
 	public DaPistol() {
 		ammo = 20;
-		shoot_timer = 500;
+		maxAmmo = 20;
+		shootTimer = 100;
+		reloadTimer = 2000;
 		maxTimer = 500;
 		range = 1500;
 		damage = 40;
@@ -44,6 +47,7 @@ public class DaPistol extends Entity implements Ranged {
 		bullet.rotate(inAngle);
 		bullet.Set_Velocity(inAngle);
 		
+		this.ammo--;
 		this.canShoot = false;
 		return bullet;
 	}
@@ -64,6 +68,7 @@ public class DaPistol extends Entity implements Ranged {
 		return this.ammo;
 	}
 	
+	
 	public void throwWep() {
 		// TODO Auto-generated method stub
 
@@ -82,15 +87,34 @@ public class DaPistol extends Entity implements Ranged {
 	
 	public void update(final int delta) {
 
-		if (this.canShoot == false) {
-			shoot_timer -= delta;
-			// System.out.println("Player is dodge? " + this.dodging);
+		if (this.ammo <= 0) {
+			this.isReloading = true;
+		}
+		
+		if (this.isReloading == true) {
+			this.reloadTimer -= delta;
+		}
+		
+		if (this.reloadTimer <= 0) {
+			this.ammo = this.maxAmmo;
+			this.isReloading = false;
+			this.reloadTimer = 2000;
 		}
 
-		if (shoot_timer <= 0) {
-			this.canShoot = true;
-			shoot_timer = this.maxTimer;
+		if (this.canShoot == false) {
+			this.shootTimer -= delta;
+			// System.out.println("Player is dodge? " + this.dodging);
 		}
+	
+		if (this.isReloading == false) {
+			if (this.ammo > 0) {
+				if (this.shootTimer <= 0) {
+					this.canShoot = true;
+					this.shootTimer = this.maxTimer;
+				}
+			}
+		}
+
 		//Print current rotation to console.
 		//System.out.println(this.getRotation());
 		if(Math.abs(this.getRotation()) < 90) {
@@ -99,6 +123,18 @@ public class DaPistol extends Entity implements Ranged {
 		}else if(Math.abs(this.getRotation()) > 90){
 			this.sprite.setCurrentFrame(1);			
 		}
+		
+	}
+
+	@Override
+	public void primaryAtk() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setAmmo(int inAmmo) {
+		this.ammo = inAmmo;
 		
 	}
 }
