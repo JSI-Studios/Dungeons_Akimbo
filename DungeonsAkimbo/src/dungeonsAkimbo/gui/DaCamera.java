@@ -15,6 +15,8 @@ import dungeonsAkimbo.entities.DaGold;
 import dungeonsAkimbo.entities.DaGoldPouch;
 import dungeonsAkimbo.entities.DaMob;
 import dungeonsAkimbo.entities.DaPickup;
+import dungeonsAkimbo.entities.DaSpawner;
+import dungeonsAkimbo.entities.DaStairs;
 import dungeonsAkimbo.entities.Player;
 import dungeonsAkimbo.entities.Projectile;
 import dungeonsAkimbo.map.DaMap;
@@ -240,6 +242,24 @@ public class DaCamera {
 				if(pickUp.getX() < 1024 + (xOffSet * DaMap.TILE_SIZE)) {
 					g.translate(-xOffSet*DaMap.TILE_SIZE, -yOffSet*DaMap.TILE_SIZE);
 					pickUp.render(g);
+					g.translate(xOffSet*DaMap.TILE_SIZE, yOffSet*DaMap.TILE_SIZE);
+				}
+			}
+		}
+		for(DaSpawner spawner: currentGame.getSpawnList()) {
+			if((spawner.getX()/tileWidth) >= this.xOffSet - 1 && (spawner.getY()/tileHeight) >= this.yOffSet-1) {
+				if(spawner.getX() < 1024 + (xOffSet * DaMap.TILE_SIZE)) {
+					g.translate(-xOffSet*DaMap.TILE_SIZE, -yOffSet*DaMap.TILE_SIZE);
+					spawner.render(g);
+					g.translate(xOffSet*DaMap.TILE_SIZE, yOffSet*DaMap.TILE_SIZE);
+				}
+			}
+		}
+		for(DaStairs stair: currentGame.getStairs()) {
+			if((stair.getX()/tileWidth) >= this.xOffSet - 1 && (stair.getY()/tileHeight) >= this.yOffSet-1) {
+				if(stair.getX() < 1024 + (xOffSet * DaMap.TILE_SIZE)) {
+					g.translate(-xOffSet*DaMap.TILE_SIZE, -yOffSet*DaMap.TILE_SIZE);
+					stair.render(g);
 					g.translate(xOffSet*DaMap.TILE_SIZE, yOffSet*DaMap.TILE_SIZE);
 				}
 			}
