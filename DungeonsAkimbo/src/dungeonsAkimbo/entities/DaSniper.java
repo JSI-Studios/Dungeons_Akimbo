@@ -16,8 +16,8 @@ public class DaSniper extends Entity implements Ranged {
 	private Animation sprite;
 
 	public DaSniper() {
-		ammo = 20;
-		maxAmmo = 20;
+		ammo = 10;
+		maxAmmo = 10;
 		shootTimer = 100;
 		reloadTimer = 2000;
 		maxTimer = 2000;
