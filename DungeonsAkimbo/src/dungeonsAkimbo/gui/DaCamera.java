@@ -61,9 +61,9 @@ public class DaCamera {
 	
 	public void moveCameraX(int dx, int delta) {
 		if (dx > 0 && xOffSet < mapWidth - 16) {
-			xOffSet += .00195f * delta;
+			xOffSet += .0195f * delta;
 		}else if(dx < 0 && xOffSet > 0){
-			xOffSet -= .00195f * delta;
+			xOffSet -= .0195f * delta;
 		}
 		return;
 		
