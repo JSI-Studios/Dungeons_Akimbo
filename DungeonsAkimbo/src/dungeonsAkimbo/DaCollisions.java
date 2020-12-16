@@ -6,11 +6,15 @@ import java.util.Map;
 import java.util.stream.IntStream;
 
 import dungeonsAkimbo.entities.DaBoi;
+import dungeonsAkimbo.entities.DaChest;
+import dungeonsAkimbo.entities.DaGold;
+import dungeonsAkimbo.entities.DaGoldPouch;
 import dungeonsAkimbo.entities.DaMiniBoi;
 import dungeonsAkimbo.entities.DaMob;
 import dungeonsAkimbo.entities.DaSpawner;
 import dungeonsAkimbo.entities.Player;
 import dungeonsAkimbo.entities.Projectile;
+import dungeonsAkimbo.entities.Ranged;
 import dungeonsAkimbo.map.DaMap;
 import dungeonsAkimbo.map.DaWall;
 
@@ -24,6 +28,9 @@ public class DaCollisions {
 	private ArrayList<DaMiniBoi> miniBoss;
 	private ArrayList<DaBoi> boss;
 	private ArrayList<DaSpawner> spawns;
+	private ArrayList<DaChest> chests;
+	private ArrayList<DaGoldPouch> pouch;
+	private ArrayList<DaGold> gold;
 	
 	public DaCollisions (DaMap map) {
 		this.mobList = map.getMobList();
@@ -34,6 +41,9 @@ public class DaCollisions {
 		this.miniBoss = map.getMiniBoss();
 		this.boss = map.getBoss();
 		this.spawns = map.getSpawnList();
+		this.chests = map.getChestList();
+		this.pouch = map.getgoldPouchList();
+		this.gold = map.getGoldList();
 	}
 	
 	
@@ -62,7 +72,50 @@ public class DaCollisions {
 					playerCheck.setCurrent_health(playerCheck.getCurrent_health() - 1);
 				}
 			}
-			
+			for(Iterator<DaChest> currentChest = this.chests.iterator(); currentChest.hasNext();) {
+				DaChest chest = currentChest.next();
+				if(playerCheck.collides(chest) != null) {
+					playerCheck.translate(playerCheck.collides(chest).getMinPenetration().scale(delta/.5f));
+					int[] openChest = chest.open();
+					if(openChest != null) {
+						for(Integer objects: openChest) {
+							if(objects == 1) {
+								// Add health
+								playerCheck.setCurrent_health(playerCheck.getCurrent_health() + 10);
+							} else if (objects == 2) {
+								// Add ammo
+								Ranged current = playerCheck.getPrimaryWeapon();
+								playerCheck.getPrimaryWeapon().setAmmo(current.getAmmo() + 20);
+							} else if (objects == 3) {
+								// Add powerups
+								
+							} else if (objects == 4) {
+								// Add gold bags/puch
+								playerCheck.setPoints(playerCheck.getPoints() + 25);
+							} else {
+								// Add gold
+								playerCheck.setPoints(playerCheck.getPoints() + 5);
+							}
+						}
+					}
+				}
+			}
+			// Handle gold pouch
+			for(Iterator<DaGoldPouch> currentPouch = this.pouch.iterator(); currentPouch.hasNext();) {
+				DaGoldPouch goldPouch = currentPouch.next();
+				if(playerCheck.collides(goldPouch) != null) {
+					playerCheck.setPoints(playerCheck.getPoints() + goldPouch.pickUp());
+					currentPouch.remove();
+				}
+			}
+			// Handle individual gold
+			for(Iterator<DaGold> currentGold = this.gold.iterator(); currentGold.hasNext();) {
+				DaGold golden = currentGold.next();
+				if(playerCheck.collides(golden) != null) {
+					playerCheck.setPoints(playerCheck.getPoints() + golden.pickUp());
+					currentGold.remove();
+				}
+			}
 		}
 	}
 	
