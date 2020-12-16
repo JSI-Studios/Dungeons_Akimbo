@@ -179,7 +179,7 @@ public class DungeonsAkimboGame extends StateBasedGame {
 
 	public void updateJoyconLists() {
 		for (int i = 0; i < 4; i++) {
-			if (activeJoycons[i].isButtonPressed(8) || activeJoycons[i].isButtonPressed(9)) {
+			if (activeJoycons[i] != null && (activeJoycons[i].isButtonPressed(8) || activeJoycons[i].isButtonPressed(9))) {
 				// if the +/- button is pressed, "disconnect" joy-con from the active list
 				inactiveJoycons.add(activeJoycons[i]);
 				activeJoycons[i] = null;
