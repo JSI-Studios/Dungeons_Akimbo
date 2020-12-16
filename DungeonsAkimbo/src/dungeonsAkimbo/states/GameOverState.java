@@ -40,7 +40,7 @@ public class GameOverState extends BasicGameState {
 		// enter play testing state
 		if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
 			if (restart.contains(mouseX, mouseY)) {
-				game.enterState(DungeonsAkimboGame.MULTIMENUSTATE);
+				game.enterState(DungeonsAkimboGame.MAINMENUSTATE);
 			}
 		}
 		
