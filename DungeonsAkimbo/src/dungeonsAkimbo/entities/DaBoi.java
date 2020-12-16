@@ -40,7 +40,7 @@ public class DaBoi extends Entity implements DaEnemy {
 		this.sprite = new Animation(ResourceManager.getSpriteSheet(DungeonsAkimboGame.MINI_BOSS, dimensions, dimensions), 0, 2, 2, 2, true, 200, true);
 		sprite.setLooping(true);
 		addAnimation(sprite);
-		this.setHealth(200);
+		this.setHealth(500);
 		this.setPlayerPunish(false);
 		this.setAttackCooldown(0);
 		this.setRest(0);
