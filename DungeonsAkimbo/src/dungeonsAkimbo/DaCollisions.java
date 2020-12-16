@@ -12,6 +12,7 @@ import dungeonsAkimbo.entities.DaMob;
 import dungeonsAkimbo.entities.DaSpawner;
 import dungeonsAkimbo.entities.Player;
 import dungeonsAkimbo.entities.Projectile;
+import dungeonsAkimbo.entities.Ranged;
 import dungeonsAkimbo.map.DaMap;
 import dungeonsAkimbo.map.DaWall;
 
@@ -77,6 +78,8 @@ public class DaCollisions {
 								playerCheck.setCurrent_health(playerCheck.getCurrent_health() + 10);
 							} else if (objects == 2) {
 								// Add ammo
+								Ranged current = playerCheck.getPrimaryWeapon();
+								playerCheck.getPrimaryWeapon().setAmmo(current.getAmmo() + 20);
 								
 							} else if (objects == 3) {
 								// Add powerups
