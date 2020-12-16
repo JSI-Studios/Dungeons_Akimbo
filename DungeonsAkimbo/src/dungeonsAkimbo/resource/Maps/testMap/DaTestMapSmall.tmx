@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="3">
+ <tileset firstgid="1" source="[Base]BaseChip_pipo.tsx"/>
+ <layer id="1" name="Floors" width="32" height="32">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAACu3DwQkAAAwDodt/4/y6R1Fw1VRVVdXXD83lQpEAEAAA
+  </data>
+ </layer>
+ <layer id="4" name="Walls" width="32" height="32">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAACu3WMQ7AIAxDUd//doguFT0MZSZTRR0kfiRPGZ5IGFIl3Um53hTlVcHf2q+K/4zLj3or5/Vl/k4/+/1N8/4fo/934ePj4+Pj4+Pjn+dHN64r45buzjwXYQAQAAA=
+  </data>
+ </layer>
+ <layer id="6" name="Doors" width="32" height="32">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAACu3BAQ0AAADCoPdPbQ8HFAAAAPBuEQAcxwAQAAA=
+  </data>
+ </layer>
+ <layer id="7" name="Items" width="32" height="32">
+  <properties>
+   <property name="contents" value=""/>
+  </properties>
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAACu3OsQkAIBAEwQPfNi3cavzQAgSTGdh8EwDgtkayu1lJ1e8bAIA3DoWVsfAAEAAA
+  </data>
+ </layer>
+</map>
