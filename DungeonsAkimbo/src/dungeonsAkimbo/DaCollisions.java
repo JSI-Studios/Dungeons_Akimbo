@@ -55,9 +55,9 @@ public class DaCollisions {
 				}
 			}
 			for(DaMob mob : mobList) {
-//				if(playerCheck.collides(mob) != null) {
-//					mob.collisionAction(true, true);
-//				}
+				if(playerCheck.collides(mob) != null) {
+					playerCheck.setCurrent_health(playerCheck.getCurrent_health() - 1);
+				}
 			}
 			
 		}
@@ -110,7 +110,7 @@ public class DaCollisions {
 			// Handle collision with player, tell player to decrease health later
 			for(DaMiniBoi mobBoss: miniBoss) {
 				if(player.collides(mobBoss) != null) {
-					player.translate(player.collides(mobBoss).getMinPenetration().scale(delta * 5f));
+					player.translate(player.collides(mobBoss).getMinPenetration().scale(delta * 4f));
 					mobBoss.collisionAction(true, true);
 					player.setCurrent_health(player.getCurrent_health() - 1);
 				}
@@ -132,7 +132,7 @@ public class DaCollisions {
 			// Iterate through all boss (usually one)
 			for(Iterator<DaBoi> currentBoss =  this.boss.iterator(); currentBoss.hasNext();) {			
 				DaBoi theBoss = currentBoss.next();
-				if(theBoss.collides(playerHit) != null) {
+				if(theBoss.collides(playerHit) != null && !theBoss.isStall()) {
 					theBoss.setHealth(theBoss.getHealth() - playerHit.Get_Damage());
 					if(playerHit.getSpriteType() <= 0) {
 						currentProjectile.remove();
