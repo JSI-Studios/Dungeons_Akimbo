@@ -12,7 +12,7 @@ import dungeonsAkimbo.DungeonsAkimboGame;
 
 public class MainMenuState extends BasicGameState {
 
-	Rectangle singlePlayer, multiPlayer;
+	private Rectangle singlePlayer, multiPlayer;
 
 	@Override
 	public void init(GameContainer container, StateBasedGame game) throws SlickException {
