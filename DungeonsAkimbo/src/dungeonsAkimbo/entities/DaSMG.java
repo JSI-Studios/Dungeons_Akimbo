@@ -7,7 +7,7 @@ import jig.Entity;
 import jig.ResourceManager;
 
 public class DaSMG extends Entity implements Ranged {
-	private int ammo, maxAmmo, shootTimer, range, damage, reloadTimer;
+	private int ammo, maxAmmo, shootTimer, range, damage, reloadTimer, maxReloadTimer;
 	final int maxTimer;
 	private boolean canShoot, isReloading;
 	private Animation sprite;
@@ -52,6 +52,10 @@ public class DaSMG extends Entity implements Ranged {
 	
 	public void getEffect() {
 
+	}
+	
+	public void setMaxReloadTimer(int i) {
+		this.maxReloadTimer = i;
 	}
 	
 	public boolean isCan_shoot() {
@@ -99,7 +103,7 @@ public class DaSMG extends Entity implements Ranged {
 		if (this.reloadTimer <= 0) {
 			this.ammo = this.maxAmmo;
 			this.isReloading = false;
-			this.reloadTimer = 2000;
+			this.reloadTimer = this.maxReloadTimer;
 		}
 
 		if (this.canShoot == false) {
