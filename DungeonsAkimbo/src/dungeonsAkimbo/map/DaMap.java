@@ -240,9 +240,6 @@ public class DaMap implements TileBasedMap{
 		return pickups;
 	}
 
-
-	
-
 	public DaBoi getBoss() {
 		return boss;
 	}

@@ -1,5 +1,7 @@
 package dungeonsAkimbo.entities;
 
+import java.util.Random;
+
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SpriteSheet;
@@ -19,6 +21,7 @@ public class DaBoi extends Entity implements DaEnemy {
 	private float initY;
 	private int attackCooldown;
 	private int rest;
+	private Random rngHandler;
 	
 	private boolean playerPunish;
 	private int attackPhase;
@@ -45,12 +48,36 @@ public class DaBoi extends Entity implements DaEnemy {
 		this.setAttackCooldown(0);
 		this.setRest(0);
 		this.setAttackPhase(0);
+		this.rngHandler = new Random();
 	}
 	
 	@Override
 	public void collisionAction(boolean isHit, boolean isPlayer) {
-		// TODO Auto-generated method stub
-		
+		int rng = this.rngHandler.nextInt(8);
+		int unitWidth = DungeonsAkimboGame.WIDTH / 6;
+		int unitHeight = DungeonsAkimboGame.HEIGHT / 6;
+		if(rng == 0) {
+			this.setX(unitWidth);
+			this.setY(unitHeight);
+		} else if(rng == 1){
+			this.setX(unitWidth * 2);
+			this.setY(unitHeight);
+		} else if(rng == 2) {
+			this.setX(unitWidth * 3);
+			this.setY(unitHeight);
+		} else if(rng == 3){
+			this.setX(unitWidth);
+			this.setY(unitHeight * 5);
+		} else if(rng == 4) {
+			this.setX(unitWidth * 2);
+			this.setY(unitHeight * 5);
+		} else if(rng == 5){
+			this.setX(unitWidth * 3);
+			this.setY(unitHeight * 5);
+		} else if(rng == 6) {
+			this.setX(DungeonsAkimboGame.WIDTH / 3);
+			this.setY(DungeonsAkimboGame.HEIGHT / 3 + 100);
+		}
 	}
 
 	@Override
