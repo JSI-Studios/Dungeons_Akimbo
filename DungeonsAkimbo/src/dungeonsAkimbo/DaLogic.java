@@ -118,7 +118,10 @@ public class DaLogic {
 	
 	//things that happened during update() for mobs go here
 	private void mobUpdate(int playerID, int delta) {
+		// Get current player as an Entity (change to player later if needed)
 		Entity currentPlayer = map.getPlayerList().get(playerID);
+		
+		// Handle mob attack
 		ArrayList<DaMob> mobs = map.getMobList();
 		for (DaMob mob : mobs) {
 			// Handle Attack
@@ -127,11 +130,24 @@ public class DaLogic {
 				map.getEnemyAttacks().add(hit);
 			}
 		}
+		// Handle miniboss attack
+		DaMiniBoi miniBoss = map.getMiniBoss();
+		Projectile miniBossAttack = miniBoss.attack(currentPlayer);
+		ArrayList<Projectile> miniBossMultiAttack = miniBoss.multiAttack();
+		if(miniBossAttack != null) {
+			// Single attack returned, add to list of enemy attacks
+			map.getEnemyAttacks().add(miniBossAttack);
+		}
+		if(miniBossMultiAttack != null) {
+			// Iterate through the list of multi attacks
+			miniBossMultiAttack.forEach((hit) -> map.getEnemyAttacks().add(hit));
+		}
 		mobs.forEach((mob) -> mob.update(delta));
 	}
 	
 	//things that happened during update() for projectiles go here
 	private void projectileUpdate(int delta) {
+		/* Check for collision with mobs, and also update projectiles */
 		for (Iterator<Projectile> bIter = map.getPlayer_bullets().iterator(); bIter.hasNext();) {
 			Projectile b = bIter.next();
 			
@@ -146,8 +162,13 @@ public class DaLogic {
 			Projectile attack = attacks.next();
 			
 			// update attack (move if it has speed, decrease timer duration)
-			attack.update(delta);
-			attack.decreaseTimer(delta);
+			if(attack.getSpriteType() >= 0) {
+				if(!attack.isActive()) {
+					attack.setTimer(0);
+				}
+			} else {
+				attack.decreaseTimer(delta);
+			}
 			
 			// Check if duration of attack is over
 			if(attack.getTimer() <= 0) {
