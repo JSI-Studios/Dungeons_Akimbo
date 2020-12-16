@@ -68,6 +68,7 @@ public class DaPistol extends Entity implements Ranged {
 		return this.ammo;
 	}
 	
+	
 	public void throwWep() {
 		// TODO Auto-generated method stub
 
@@ -128,6 +129,12 @@ public class DaPistol extends Entity implements Ranged {
 	@Override
 	public void primaryAtk() {
 		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setAmmo(int inAmmo) {
+		this.ammo = inAmmo;
 		
 	}
 }

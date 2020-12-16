@@ -144,4 +144,9 @@ public class DaShotty extends Entity implements Ranged {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void setAmmo(int inAmmo) {
+		this.ammo = inAmmo;		
+	}
 }
