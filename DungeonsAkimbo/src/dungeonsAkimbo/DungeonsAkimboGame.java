@@ -35,6 +35,12 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	public static final String STALL_FOUR = "dungeonsAkimbo/resource/Mobs/Cosmic_09.png";
 	public static final String STALL_FIVE = "dungeonsAkimbo/resource/Mobs/Cosmic_10.png";
 	
+	//Player Macros
+	public static final String DA_MALE1_RSC = "dungeonsAkimbo/resource/Mobs/Male 01-1.png";
+	public static final String DA_SCHOOL_GIRL1_RSC = "dungeonsAkimbo/resource/Mobs/su1 Student fmale 10.png";
+	public static final String DA_MALE2_RSC = "dungeonsAkimbo/resource/Mobs/Male 01-2.png";
+	public static final String DA_SCHOOL_GIRL2_RSC = "dungeonsAkimbo/resource/Mobs/su2 Student fmale 05.png";
+	
 	//Weapon Macros
 	public static final String DA_SNIPER_RSC = "dungeonsAkimbo/resource/Weapons/Sniper/sniper.png";
 	public static final String DA_SMG_RSC = "dungeonsAkimbo/resource/Weapons/SMG/smg.png";
@@ -55,8 +61,6 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	public static final String DA_AMMO_RSC = "dungeonsAkimbo/resource/items/ammobox.png";
 	public static final String DA_CANDYRELOAD_RSC = "dungeonsAkimbo/resource/items/candy_02g.png";
 	public static final String DA_SWITCH_RSC = "dungeonsAkimbo/resource/items/lever2.png";
-	
-	public static final String DA_PLAYER_RSC = "dungeonsAkimbo/resource/Mobs/Male 01-1.png";
 	public static final String DA_MISCSHEET_RSC = "dungeonsAkimbo/resource/Maps/testMap/[Base]BaseChip_pipo.png";
 	
 	
@@ -127,7 +131,11 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		ResourceManager.loadImage(BANG);
 		
 		// Load player resources
-		ResourceManager.loadImage(DA_PLAYER_RSC);
+		ResourceManager.loadImage(DA_MALE1_RSC);
+		ResourceManager.loadImage(DA_MALE2_RSC);
+		ResourceManager.loadImage(DA_SCHOOL_GIRL1_RSC);
+		ResourceManager.loadImage(DA_SCHOOL_GIRL2_RSC);
+		
 		
 		// Load weapon sprites
 		ResourceManager.loadImage(DA_SNIPER_RSC);

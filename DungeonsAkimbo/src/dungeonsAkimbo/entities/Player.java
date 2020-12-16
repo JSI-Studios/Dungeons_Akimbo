@@ -49,7 +49,7 @@ public class Player extends Entity {
 		gunBackpack = new ArrayList<Weapon>();
 		
 		this.sprite = new Animation(false);
-		this.sprites = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.DA_PLAYER_RSC), 32, 32, 0, 0);
+		//this.sprites = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.DA_PLAYER_RSC), 32, 32, 0, 0);
 		
 		setMax_health(500);
 		setCurrent_health(getMax_health());
@@ -62,24 +62,28 @@ public class Player extends Entity {
 			this.primaryWeapon = shotty;
 			gunBackpack.add(shotty);
 			gunBackpack.add(pistol);
+			this.sprites = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.DA_SCHOOL_GIRL1_RSC), 32, 32, 0, 0);
 		} else if (type == 2) {
 			sniper = new DaSniper();
 			pistol = new DaPistol();
 			this.primaryWeapon = sniper;
 			gunBackpack.add(sniper);
 			gunBackpack.add(pistol);
+			this.sprites = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.DA_SCHOOL_GIRL2_RSC), 32, 32, 0, 0);
 		} else if (type == 3) {
 			assault = new DaAssault();
 			pistol = new DaPistol();
 			this.primaryWeapon = assault;
 			gunBackpack.add(assault);
 			gunBackpack.add(pistol);
+			this.sprites = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.DA_MALE1_RSC), 32, 32, 0, 0);
 		} else if (type == 4) {
 			smg = new DaSMG();
 			pistol = new DaPistol();
 			this.primaryWeapon = smg;
 			gunBackpack.add(smg);
 			gunBackpack.add(pistol);
+			this.sprites = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.DA_MALE2_RSC), 32, 32, 0, 0);
 		}
 		
 		/*shotty = new DaShotty();
