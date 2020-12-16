@@ -15,7 +15,9 @@ public class DaChest extends Entity {
 	
 	public DaChest(float px, float py, int contents) {
 		super(px,py);
+		
 		this.contentsGroup = contents;
+		
 		this.state = false;
 		SpriteSheet miscSheet = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.DA_MISCSHEET_RSC), 32, 32);
 		this.close = miscSheet.getSprite(5, 107);

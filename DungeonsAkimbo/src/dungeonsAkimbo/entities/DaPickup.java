@@ -34,5 +34,10 @@ public class DaPickup extends Entity{
 	public int pickedUp() {
 		return this.type;		
 	}
+	
+	public int getHash() {
+		int hash = 17 * (int)(this.getX()) ^ 19 * (int)(this.getY());
+		return hash;
+	}
 
 }
