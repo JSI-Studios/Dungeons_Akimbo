@@ -72,7 +72,7 @@ public class DaBoi extends Entity implements DaEnemy {
 		}
 		this.reverseStall.setLooping(false);
 		// Set properties 
-		this.setHealth(500);
+		this.setHealth(600);
 		this.setPlayerPunish(false);
 		this.setAttackCooldown(0);
 		this.setRest(0);
