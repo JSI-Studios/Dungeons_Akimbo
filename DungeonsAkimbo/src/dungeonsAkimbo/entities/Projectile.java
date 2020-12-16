@@ -102,7 +102,6 @@ public class Projectile extends Entity {
 
 	public boolean isActive() {
 		if(this.attackAnimation != null) {
-			System.out.println("hello");
 			return !this.attackAnimation.isStopped();
 		}
 		return false;
