@@ -19,6 +19,8 @@ public class DaMiniBoi extends Entity implements DaEnemy {
 	private Vector velocity;
 	private float initX;
 	private float initY;
+	private int attackCooldown;
+	private int rest;
 	
 	private boolean playerPunish;
 	
@@ -28,8 +30,8 @@ public class DaMiniBoi extends Entity implements DaEnemy {
 	public DaMiniBoi(float x, float y, boolean debug) {
 		super(x, y);
 		super.setDebug(debug);
-		this.initX = x;
-		this.initY = y;
+		this.setInitX(x);
+		this.setInitY(y);
 		this.spritesheet = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.MINI_BOSS), 70, 70, 0, 0);
 		// Add image colliding box to mob 
 		Image tempSprite = spritesheet.getSprite(1, 0);
@@ -39,14 +41,16 @@ public class DaMiniBoi extends Entity implements DaEnemy {
 		this.sprite = new Animation(ResourceManager.getSpriteSheet(DungeonsAkimboGame.MINI_BOSS, dimensions, dimensions), 0, 3, 2, 3, true, 200, true);
 		sprite.setLooping(true);
 		addAnimation(sprite);
-		this.health = 200;
+		this.setHealth(200);
 		this.playerPunish = false;
+		this.attackCooldown = 0;
+		this.rest = 0;
 	}
 	
 	@Override
 	public void collisionAction(boolean isHit, boolean isPlayer) {		
 		if(isHit) {
-			this.health -= 1;
+			this.setHealth(this.getHealth() - 1);
 			// If collide to player, stop and pause
 			if(isPlayer) {
 				// Trigger special attack (call multiple mobs maybe?)
@@ -57,15 +61,38 @@ public class DaMiniBoi extends Entity implements DaEnemy {
 
 	@Override
 	public Projectile attack(Entity player) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		// Calculate vectors needed to locate the mob relative to the player
+		Vector distance = this.getPosition().subtract(player.getPosition());
+		double currentDirection = distance.negate().getRotation();
+		
+		// Actual attack interaction
+		Projectile attacked = null;
+		if(this.attackCooldown <= 0 && this.rest < 30) {
+			attacked = new Projectile(this.getX(), this.getY(), 20);
+			attacked.rotate(currentDirection);
+			attacked.Set_Velocity(currentDirection);
+			this.attackCooldown = 10;
+			this.rest++;
+		} else if(this.rest >= 30 && this.rest <= 200){
+			this.rest++;
+		} else if(rest > 200) {
+			this.rest = 0;
+		} else {
+			this.attackCooldown--;
+		}
+		return attacked;
 	}
 	
 	public ArrayList<Projectile> multiAttack(){
 		if(this.playerPunish) {
 			// Return new attack after collision
 			ArrayList<Projectile> attack = new ArrayList<Projectile>();
-			attack.add(new Projectile(this.getX(), this.getY() + 80, 10, 50, 1));
+			attack.add(new Projectile(this.getX(), this.getY() + 64, 50, 50, 1));
+			attack.add(new Projectile(this.getX() - 64, this.getY() + 64, 50, 50, 1));
+			attack.add(new Projectile(this.getX() + 64, this.getY() + 64, 50, 50, 1));
+			attack.add(new Projectile(this.getX() - 64, this.getY(), 10, 50, 1));
+			attack.add(new Projectile(this.getX() + 64, this.getY(), 10, 50, 1));
 			this.playerPunish = false;
 			return attack;
 		}
@@ -74,6 +101,38 @@ public class DaMiniBoi extends Entity implements DaEnemy {
 	
 	public boolean isActive() {
 		return !sprite.isStopped();
+	}
+
+	public int getHealth() {
+		return health;
+	}
+
+	public void setHealth(int health) {
+		this.health = health;
+	}
+
+	public Vector getVelocity() {
+		return velocity;
+	}
+
+	public void setVelocity(Vector velocity) {
+		this.velocity = velocity;
+	}
+
+	public float getInitX() {
+		return initX;
+	}
+
+	public void setInitX(float initX) {
+		this.initX = initX;
+	}
+
+	public float getInitY() {
+		return initY;
+	}
+
+	public void setInitY(float initY) {
+		this.initY = initY;
 	}
 
 }
