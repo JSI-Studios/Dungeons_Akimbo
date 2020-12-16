@@ -45,7 +45,14 @@ Enemy Pathing: P
 		1s reload time.
 
 ## Project Goals
+
 ### Low Bar (Implementation)
+
+## Game Notes
+Multiple different character classes are implemented with unique sprites and attributes, but they are not currently visiable in the game when running. 
+Multiple levels are implemented but also not accessible due to not being able to fix level transitions in time.
+Networking is implemented with a UDP chat client with player positioning information being sent through the packets.
+
 - [x] 2 to 4 playable characters
 - [x] Weapons that have different mechanics
     - [x] Piercing Bullets
