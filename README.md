@@ -15,12 +15,14 @@ increase points or survivability.
 ## Gameplay
 
 ### Controls
-Movement: W A S D
-Shoot: Mouse Left Click
-Dodge: Space Bar
-Change Weapon: Q
+Movement: W A S D or directional buttons on joy-cons (with the joy-con held horizontally)
+Shoot: Mouse Left Click or SR button on joy-cons
+Dodge: Space Bar or press joystick on joy-cons
+Change Weapon: Q or ZL/ZR on joy-cons
 God Mode: G
 Enemy Pathing: P
+
+Note: using a singular joy-con to play this game will likely be slightly uncomfortable for those with large hands.
 
 ### Weapons
 	Shotgun (Character 1):
@@ -77,8 +79,8 @@ Networking is implemented with a UDP chat client with player positioning informa
 - [ ] Implement leader enemies
 - [ ] Implement upgrade weapon system
 - [ ] Allow weapons to be thrown as an attack
-- [x] Network Communication
+- [x] Network Communication (currently done via UDP over localhost)
 - [ ] New Game+ (Replayabllity + Increased Difficulty)
 
 ## License
-Our game falls under an Apache License.
+Our game falls under an Apache-2.0 License.
