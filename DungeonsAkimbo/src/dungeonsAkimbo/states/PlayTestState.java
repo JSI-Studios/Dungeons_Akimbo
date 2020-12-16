@@ -39,6 +39,7 @@ public class PlayTestState extends BasicGameState {
 	private int playerID;
 	
 	private Sound currentSound;
+	private int[] cameraDirection;
 
 	@Override
 	public void init(GameContainer container, StateBasedGame game) throws SlickException {
@@ -62,6 +63,7 @@ public class PlayTestState extends BasicGameState {
 		container.setSoundOn(true);
 		currentSound = ResourceManager.getSound(DungeonsAkimboGame.BGM);
 		currentSound.loop(1f, 0.2f);
+		cameraDirection = new int[]{0, 0, 0, 0};
 	}
 
 	@Override
@@ -182,7 +184,44 @@ public class PlayTestState extends BasicGameState {
 
 			dag.getCurrentMap().getPlayerList().get(playerID).setVelocity(new_velocity);
 			((Entity) dag.getCurrentMap().getPlayerList().get(playerID).getPrimaryWeapon()).setRotation(shotAngle);
+			
+        	// Handle camera movement based on number of players
+            Player player = dag.getCurrentMap().getPlayerList().get(playerID);
+            if(player.getVelocity().length() > 0) {
+	            if(player.getY() - (gameView.getCameraY() * 64) < 512 && gameView.getCameraY() > 0) {
+	            		this.cameraDirection[0]++;
+	            }
+	            if(player.getY() - (gameView.getCameraY() * 64) > 512 && gameView.getCameraY() < dag.getCurrentMap().getHeightInTiles()) {
+	            		this.cameraDirection[1]++;
+	            }
+	            if(player.getX() - (gameView.getCameraX() * 64) < 512 && gameView.getCameraX() > 0) {
+	            		this.cameraDirection[2]++;
+	            }
+	            if(player.getX() - (gameView.getCameraX() * 64) > 512 && gameView.getCameraX() < dag.getCurrentMap().getWidthInTiles()) {
+	            		this.cameraDirection[3]++;
+	            }
+            }
 		}
+
+        /* Handle camera movement */
+        
+        //  Handle y axis
+        if(cameraDirection[0] == 1) {
+        	gameView.moveCameraY(-1, delta);
+        }
+        if(cameraDirection[1] == 1) {
+        	gameView.moveCameraY(1, delta);
+        }
+        // Handle x axis
+        if(cameraDirection[2] == 1) {
+        	gameView.moveCameraX(-1, delta);
+        }
+        if(cameraDirection[3] == 1) {
+        	gameView.moveCameraX(1, delta);
+        }
+        // Reset camera direction
+        this.cameraDirection = new int[] {0, 0, 0, 0};
+        
 		//update Logic
 		if (dag.getCurrentMap().getPlayerList().get(playerID).getPrimaryWeapon() instanceof DaAssault) {
 			dag.getLogic().assaultBurst(dag, playerID, shotAngle);
