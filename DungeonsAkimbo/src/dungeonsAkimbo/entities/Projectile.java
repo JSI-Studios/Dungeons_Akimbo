@@ -67,14 +67,42 @@ public class Projectile extends Entity {
 		this.speed = 0.1f;
 		this.setSpriteType(spriteType);
 		// Add hitbox of a projectile
-		this.attackSprite = ResourceManager.getSpriteSheet(DungeonsAkimboGame.BANG, 64, 64);
-		Image temp = attackSprite.getSprite(0, 0);
-		this.addImageWithBoundingBox(temp);
-		this.removeImage(temp);
-		// Use spriteType to switch attack animation
-		this.attackAnimation = new Animation(ResourceManager.getSpriteSheet(DungeonsAkimboGame.BANG, 64, 64), 0, 0, 22, 0, true, 25, true);
-		addAnimation(this.attackAnimation);
-		this.attackAnimation.setLooping(false);
+		if(spriteType > 0) {
+			this.attackSprite = ResourceManager.getSpriteSheet(DungeonsAkimboGame.BANG, 64, 64);
+			Image temp = attackSprite.getSprite(0, 0);
+			this.addImageWithBoundingBox(temp);
+			this.removeImage(temp);
+			// Use spriteType to switch attack animation
+			this.attackAnimation = new Animation(ResourceManager.getSpriteSheet(DungeonsAkimboGame.BANG, 64, 64), 0, 0, 22, 0, true, 25, true);
+			addAnimation(this.attackAnimation);
+			this.attackAnimation.setLooping(false);
+		} else {
+			this.attackAnimation = null;
+			this.attackSprite = null;
+		}
+	}	
+	
+	public Projectile(final float x, final float y, int damage, int timer, float speed, int angle, int spriteType) {
+		super(x, y);
+		this.setDamage(damage);
+		this.timer = timer;
+		this.speed = speed;
+		this.setSpriteType(spriteType);
+		// Add hitbox of a projectile
+		if(spriteType > 0) {
+			this.attackSprite = ResourceManager.getSpriteSheet(DungeonsAkimboGame.BANG, 64, 64);
+			Image temp = attackSprite.getSprite(0, 0);
+			this.addImageWithBoundingBox(temp);
+			this.removeImage(temp);
+			// Use spriteType to switch attack animation
+			this.attackAnimation = new Animation(ResourceManager.getSpriteSheet(DungeonsAkimboGame.BANG, 64, 64), 0, 0, 22, 0, true, 25, true);
+			addAnimation(this.attackAnimation);
+			this.attackAnimation.setLooping(false);
+		} else {
+			this.attackAnimation = null;
+			this.attackSprite = null;
+		}
+		this.Set_Velocity(angle);
 	}
 	
 	public void decreaseTimer(final int delta) {
