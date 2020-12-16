@@ -66,6 +66,8 @@ public class MultiPlayTestState extends BasicGameState {
         g.flush();
         gameView.renderMobs(g);
         gameView.renderProjectiles(g);
+        gameView.renderItems(g);
+        gameView.renderPlayerGui(g);
 
         chat.getChatLog().render(container, g);
         chat.getChatBar().render(container, g);
