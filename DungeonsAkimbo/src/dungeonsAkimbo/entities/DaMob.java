@@ -59,13 +59,20 @@ public class DaMob extends Entity implements DaEnemy, Mover {
 			IntStream.range(0, 4).forEachOrdered(n -> {
 				this.getSprite().addFrame(this.spritesheet.getSprite(1, n).getScaledCopy(.5f), 1);
 			});
-		} else {
+		} else if(type == 2){
 			// Mob One: Skully Sprite
 			this.spritesheet = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.MOB_TWO), 32, 32, 0, 0);
 			setHealth(20);
 			IntStream.range(0, 4).forEachOrdered(n -> {
 				this.getSprite().addFrame(this.spritesheet.getSprite(1, n).getScaledCopy(.5f), 1);
 			});
+		} else {
+			this.spritesheet = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.MOB_THREE), 32, 32, 0, 0);
+			setHealth(20);
+			IntStream.range(0, 4).forEachOrdered(n -> {
+				this.getSprite().addFrame(this.spritesheet.getSprite(1, n).getScaledCopy(.5f), 1);
+			});
+			
 		}
 		this.addAnimation(getSprite());
 		this.velocity = new Vector(0, 0);
@@ -112,27 +119,37 @@ public class DaMob extends Entity implements DaEnemy, Mover {
 			this.setBounceCooldown(30);
 		} else if(type == 2) {
 			// Mob will melee attack the player, use Projectile/Hitbox to deal with collision
-			if(this.path != null && this.path.isEmpty()) {
-				// Reset path to null for DaLogic to give new path
-				this.path = null;
-			}
 			if(distance.length() <= 100) {
 				if(this.direction == 0) {
 					// Face down, attack down
-					attacked = new Projectile(this.getX(), this.getY() + 16, 0, 20, 30, true);
+					attacked = new Projectile(this.getX(), this.getY() + 16, 1, 20, 30, true);
 				} else if(this.direction == 1) {
 					// Face left, attack left
-					attacked = new Projectile(this.getX() - 16, this.getY(), 0, 20, 30, true);
+					attacked = new Projectile(this.getX() - 16, this.getY(), 1, 20, 30, true);
 				} else if(this.direction == 2) {
 					// Face right, attack right
-					attacked = new Projectile(this.getX() + 16, this.getY(), 0, 20, 30, true);
+					attacked = new Projectile(this.getX() + 16, this.getY(), 1, 20, 30, true);
 				} else  {
 					// Face up, attack up
-					attacked = new Projectile(this.getX(), this.getY() - 16, 0, 20, 30, true);
+					attacked = new Projectile(this.getX(), this.getY() - 16, 1, 20, 30, true);
 				}
 				this.setBounceCooldown(30);
 			}
 			
+		} else if(type == 3) {
+			// Mob Three will shoot at the player slower
+			attacked = new Projectile(this.getX(), this.getY(), 20);
+			attacked.rotate(currentDirection);
+			attacked.Set_Velocity(currentDirection);
+			this.setBounceCooldown(80);
+			// Move away from the player if they get too close, but not too far
+			if(distance.length() < 200) {
+				this.velocity = distance.unit().scale(0.13f);
+			} else if(distance.length() >350) {
+				this.velocity = distance.unit().negate().scale(0.1f);
+			} else if(this.velocity.length() != 0) {
+				this.velocity = new Vector(0, 0);
+			}
 		}
 		return attacked;
 	}
@@ -163,28 +180,28 @@ public class DaMob extends Entity implements DaEnemy, Mover {
 	}
 	
 	private Vector followPath() {
-		if(this.path != null) {
+		if(this.path != null && !this.path.isEmpty()) {
 			// Peek at the top of the path stack and get positions
-			Step nextStep = this.path.peek();
-			System.out.print("(" + nextStep.getX() + ", " + nextStep.getY() + ") " + "\n");
+			Step nextStep = this.path.peekLast();
 			Vector currentPosition = new Vector(this.getX(), this.getY());
 			Vector targetPosition =  new Vector((nextStep.getX() * tileSize) + tileCenter, (nextStep.getY() * tileSize) + tileCenter);
 			// Return vector to next position, update the pathing if a tile has been reached
 			final double angleToStepTo = currentPosition.angleTo(targetPosition);
 			if(currentPosition.epsilonEquals(targetPosition, 10f)) {
-				this.path.pop();
+				this.path.pollLast();
 			}
 			Vector nextPosition = Vector.getVector(angleToStepTo, .1f);
 			return nextPosition;
 		} else {
 			// Return a still Vector (don't move)
+			this.path = null;
 			return new Vector(0, 0);
 		}
 	}
 	
 	public void update(final int delta) {
 		// Move the sprite
-		if(this.path != null && !this.path.isEmpty()) {
+		if(this.path != null) {
 			// Update using pathing rules
 			translate(this.followPath().scale(delta));
 		} else {

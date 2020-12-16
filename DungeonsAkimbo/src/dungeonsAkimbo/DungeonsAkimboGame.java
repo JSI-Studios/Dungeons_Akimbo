@@ -1,24 +1,20 @@
 package dungeonsAkimbo;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
+import dungeonsAkimbo.InputListeners.DaJoyconListener;
+import dungeonsAkimbo.states.*;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
 
-import dungeonsAkimbo.entities.DaMob;
 import dungeonsAkimbo.entities.Player;
-import dungeonsAkimbo.entities.Projectile;
 import dungeonsAkimbo.map.DaMap;
 import dungeonsAkimbo.netcode.DaClient;
 import dungeonsAkimbo.netcode.DaServer;
-import dungeonsAkimbo.states.MainMenuState;
-import dungeonsAkimbo.states.NetMenuState;
-import dungeonsAkimbo.states.PlayTestState;
-import dungeonsAkimbo.states.PlayingState;
-import dungeonsAkimbo.states.StartSplashState;
 import jig.Entity;
 import jig.ResourceManager;
 
@@ -31,6 +27,7 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	public static final String MOB_ZERO = "dungeonsAkimbo/resource/Mobs/Spoopy.png";
 	public static final String MOB_ONE = "dungeonsAkimbo/resource/Mobs/Mommy.png";
 	public static final String MOB_TWO = "dungeonsAkimbo/resource/Mobs/Skully.png";
+	public static final String MOB_THREE = "dungeonsAkimbo/resource/Mobs/Spoopy-Season-Two.png";
 	
 	//Weapon Macros
 	public static final String DA_SNIPER_RSC = "dungeonsAkimbo/resource/Weapons/Sniper/sniper.png";
@@ -54,6 +51,8 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	public static final int PLAYINGSTATE = 2;
 	public static final int PLAYTESTSTATE = 3;
 	public static final int NETMENUSTATE = 4;
+	public static final int MULTIMENUSTATE = 5;
+	public static final int LOCALSETUPSTATE = 6;
 	
 	public static final String DA_TESTMAP_RSC = "dungeonsAkimbo/resource/Maps/testMap/DaTestMapSmall.tmx";
 	public static final String DA_TESTMAP_TILESET_RSC = "dungeonsAkimbo/resource/Maps/testmap/";
@@ -70,15 +69,14 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	
 	private Thread server, client;
 	
-	public Player player;
-	
-	
 	private DaCollisions masterCollider;
 	private DaMap gameMap;
 	private boolean mapReady = false;
 	private TiledMap mapPlan;
 	private DaLogic gameLogic;
-	
+	private DaJoyconListener[] activeJoycons;
+	private ArrayList<DaJoyconListener> inactiveJoycons;
+	private int keyboardMouseIndex;
 	// Keep track of mobs
 	
 	
@@ -89,6 +87,8 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		addState(new PlayingState());
 		addState(new PlayTestState());
 		addState(new NetMenuState());
+		addState(new MultiMenuState());
+		addState(new LocalSetupState());
 		ResourceManager.setFilterMethod(ResourceManager.FILTER_LINEAR);
 		
 		ResourceManager.loadImage(TEMP_PLAYER);
@@ -106,6 +106,7 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		ResourceManager.loadImage(MOB_ZERO);
 		ResourceManager.loadImage(MOB_ONE);
 		ResourceManager.loadImage(MOB_TWO);
+		ResourceManager.loadImage(MOB_THREE);
 		
 		// Load item sprites
 		ResourceManager.loadImage(DA_HEALTH_RSC);
@@ -116,9 +117,10 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		
 		Entity.antiAliasing = false;
 		Entity.setCoarseGrainedCollisionBoundary(Entity.CIRCLE);
-		
-		
-		
+
+		activeJoycons = new DaJoyconListener[] {null, null, null, null};
+		inactiveJoycons = new ArrayList<>();
+		keyboardMouseIndex = 0;
 		
 		
 		// Initialize mobs (currently start with one mob)
@@ -170,9 +172,59 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	public DaLogic getLogic() {
 		return gameLogic;
 	}
-	
-	
-	
+
+	public DaJoyconListener[] getActiveJoycons() {return activeJoycons;}
+
+	public ArrayList<DaJoyconListener> getInactiveJoycons() {return inactiveJoycons;}
+
+	public int getKeyboardMouseIndex() {return keyboardMouseIndex;}
+
+	public void updateJoyconLists() {
+		for (int i = 0; i < 4; i++) {
+			if (activeJoycons[i] != null && (activeJoycons[i].isButtonPressed(8) || activeJoycons[i].isButtonPressed(9))) {
+				// if the +/- button is pressed, "disconnect" joy-con from the active list
+				inactiveJoycons.add(activeJoycons[i]);
+				activeJoycons[i] = null;
+			}
+		}
+		for (Iterator<DaJoyconListener> jls = inactiveJoycons.iterator(); jls.hasNext();) {
+			if (activeJoycons[0] == null || activeJoycons[1] == null || activeJoycons[2] == null || activeJoycons[3] == null) {
+				DaJoyconListener listener = jls.next();
+				if (listener.isButtonPressed(4) && listener.isButtonPressed(5)) {
+					if (activeJoycons[0] == null) {
+						activeJoycons[0] = listener;
+						jls.remove();
+					}
+					else if (activeJoycons[1] == null) {
+						activeJoycons[1] = listener;
+						jls.remove();
+					}
+					else if (activeJoycons[2] == null) {
+						activeJoycons[2] = listener;
+						jls.remove();
+					}
+					else if (activeJoycons[3] == null) {
+						activeJoycons[3] = listener;
+						jls.remove();
+					}
+				}
+			} else break;
+		}
+	}
+
+	public void unassignKeyboardMouse() {keyboardMouseIndex = -1;}
+
+	public void updateKeyboardMouseIndex() {
+		if (keyboardMouseIndex == -1) {
+			for (int i = 0; i < 4; i++) {
+				if (activeJoycons[i] == null) {
+					keyboardMouseIndex = i;
+					break;
+				}
+			}
+		}
+	}
+
 	public void addPlayer(int playerID) {
 		// TODO Auto-generated method stub
 		if(gameMap.getPlayerList().containsKey(playerID)) return;
