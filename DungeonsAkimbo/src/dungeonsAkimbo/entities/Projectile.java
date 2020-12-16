@@ -1,5 +1,9 @@
 package dungeonsAkimbo.entities;
 
+import org.newdawn.slick.Animation;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SpriteSheet;
+
 import dungeonsAkimbo.DungeonsAkimboGame;
 import jig.Entity;
 import jig.ResourceManager;
@@ -12,36 +16,65 @@ public class Projectile extends Entity {
 	private int damage;
 	private int timer;
 	private boolean isMelee;
+	private int spriteType;
 	
+	private Animation attackAnimation;
+	private SpriteSheet attackSprite;
 	
 	public Projectile (final float x, final float y, int damage) {
 		super(x, y);
 		this.speed = 0.5f;
-		this.damage = damage;
+		this.setDamage(damage);
 		this.setTimer(90000);
 		this.isMelee = false;
+		this.attackAnimation = null;
+		this.attackSprite = null;
+		this.setSpriteType(-1);
 		addImageWithBoundingBox(ResourceManager.getImage(DungeonsAkimboGame.TEMP_BULLET));
 	}
 	
 	public Projectile(final float x, final float y, int damage, int timer) {
 		super(x, y);
 		this.speed = 0.5f;
-		this.damage = damage;
+		this.setDamage(damage);
 		this.setTimer(timer);
 		this.isMelee = false;
+		this.attackAnimation = null;
+		this.attackSprite = null;
+		this.setSpriteType(-1);
 		// Deal with changing sprite later for different melee sprites
 		addImageWithBoundingBox(ResourceManager.getImage(DungeonsAkimboGame.TEMP_BULLET));
 	}
 	
-	// Most descriptive constructor
+	// Most descriptive constructor without custom sprites
 	public Projectile (final float x, final float y, int damage, int speed, int timer, boolean isMelee) {
 		super(x, y);
-		this.damage = damage;
+		this.setDamage(damage);
 		this.speed = speed;
 		this.setTimer(timer);
 		this.isMelee = isMelee;
+		this.attackAnimation = null;
+		this.attackSprite = null;
+		this.setSpriteType(-1);
 		// Deal with changing sprite later for different melee sprites
 		addImageWithBoundingBox(ResourceManager.getImage(DungeonsAkimboGame.TEMP_BULLET));
+	}
+	
+	public Projectile(final float x, final float y, int damage, int timer, int spriteType) {
+		super(x, y);
+		this.setDamage(damage);
+		this.timer = timer;
+		this.speed = 0.1f;
+		this.setSpriteType(spriteType);
+		// Add hitbox of a projectile
+		this.attackSprite = ResourceManager.getSpriteSheet(DungeonsAkimboGame.BANG, 64, 64);
+		Image temp = attackSprite.getSprite(0, 0);
+		this.addImageWithBoundingBox(temp);
+		this.removeImage(temp);
+		// Use spriteType to switch attack animation
+		this.attackAnimation = new Animation(ResourceManager.getSpriteSheet(DungeonsAkimboGame.BANG, 64, 64), 0, 0, 22, 0, true, 25, true);
+		addAnimation(this.attackAnimation);
+		this.attackAnimation.setLooping(false);
 	}
 	
 	public void decreaseTimer(final int delta) {
@@ -55,7 +88,7 @@ public class Projectile extends Entity {
 	}
 	
 	public int Get_Damage() {
-		return this.damage;
+		return this.getDamage();
 	}
 	
 	public void update(final int delta) {
@@ -67,12 +100,36 @@ public class Projectile extends Entity {
 		} 
 	}
 
+	public boolean isActive() {
+		if(this.attackAnimation != null) {
+			System.out.println("hello");
+			return !this.attackAnimation.isStopped();
+		}
+		return false;
+	}
+	
 	public int getTimer() {
 		return timer;
 	}
 
 	public void setTimer(int timer) {
 		this.timer = timer;
+	}
+
+	public int getSpriteType() {
+		return spriteType;
+	}
+
+	public void setSpriteType(int spriteType) {
+		this.spriteType = spriteType;
+	}
+
+	public int getDamage() {
+		return damage;
+	}
+
+	public void setDamage(int damage) {
+		this.damage = damage;
 	}
 
 }
