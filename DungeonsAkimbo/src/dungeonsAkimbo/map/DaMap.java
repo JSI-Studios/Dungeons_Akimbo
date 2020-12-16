@@ -205,7 +205,7 @@ public class DaMap implements TileBasedMap{
 		
 		for(int xTile = 0; xTile < mapWidth; xTile++) {
 			for(int yTile = 0; yTile < mapHeight; yTile++) {
-				if(mapPlan.getTileId(xTile, yTile, 1) != 0) {
+				if(mapPlan.getTileId(xTile, yTile, 2) != 0) {
 					DaStairs stair = new DaStairs(xTile * TILE_SIZE, yTile * TILE_SIZE, mapPlan.getTileId(xTile, yTile, 2));
 					stairs.add(stair);
 				}
