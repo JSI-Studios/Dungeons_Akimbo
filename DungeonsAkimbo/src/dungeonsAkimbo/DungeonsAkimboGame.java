@@ -43,6 +43,8 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	public static final String DA_SWITCH_RSC = "dungeonsAkimbo/resource/items/potion_03a.png";
 	
 	public static final String DA_PLAYER_RSC = "dungeonsAkimbo/resource/Mobs/Male 01-1.png";
+	public static final String DA_MISCSHEET_RSC = "dungeonsAkimbo/resource/Maps/testMap/[Base]BaseChip_pipo.png";
+	
 	
 	
 	//State Identitifiers
@@ -113,6 +115,7 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		ResourceManager.loadImage(DA_AMMO_RSC);
 		ResourceManager.loadImage(DA_CANDYRELOAD_RSC);
 		ResourceManager.loadImage(DA_SWITCH_RSC);
+		ResourceManager.loadImage(DA_MISCSHEET_RSC);
 	
 		
 		Entity.antiAliasing = false;

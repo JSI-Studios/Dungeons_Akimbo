@@ -7,7 +7,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.tiled.TiledMap;
 
 import jig.Entity;
-
+import dungeonsAkimbo.entities.DaChest;
 import dungeonsAkimbo.entities.DaMob;
 import dungeonsAkimbo.entities.Player;
 import dungeonsAkimbo.entities.Projectile;
@@ -140,7 +140,19 @@ public class DaCamera {
 				}
 			}
 		}
+		
 		//currentGame.getTiledMap().render(0, 0);
+	}
+	public void renderItems(Graphics g) {
+		for(DaChest chest: currentGame.getChestList()) {
+			if((chest.getX()/tileWidth) >= this.xOffSet - 1 && (chest.getY()/tileHeight) >= this.yOffSet-1) {
+				if(chest.getX() < 1024 + (xOffSet * DaMap.TILE_SIZE)) {
+					g.translate(-xOffSet*DaMap.TILE_SIZE, -yOffSet*DaMap.TILE_SIZE);
+					chest.render(g);
+					g.translate(xOffSet*DaMap.TILE_SIZE, yOffSet*DaMap.TILE_SIZE);
+				}
+			}
+		}
 	}
 
 }

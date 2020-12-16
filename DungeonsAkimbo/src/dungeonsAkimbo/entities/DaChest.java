@@ -1,16 +1,27 @@
 package dungeonsAkimbo.entities;
 
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SpriteSheet;
+
+import dungeonsAkimbo.DungeonsAkimboGame;
 import jig.Entity;
+import jig.ResourceManager;
 import jig.Vector;
 
 public class DaChest extends Entity {
 	private int contentsGroup;
 	private boolean state;
+	private Image open, close;
 	
 	public DaChest(float px, float py, int contents) {
-		this.setPosition(new Vector(px, py));
+		super(px,py);
 		this.contentsGroup = contents;
 		this.state = false;
+		SpriteSheet miscSheet = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.DA_MISCSHEET_RSC), 32, 32);
+		this.close = miscSheet.getSprite(5, 107);
+		this.open = miscSheet.getSprite(5, 108);
+		
+		this.addImageWithBoundingBox(close);
 		
 		//todo: rig up open/close sprites
 	}
@@ -21,6 +32,8 @@ public class DaChest extends Entity {
 		
 		if (!this.state) {
 			contents = getContents(this.contentsGroup);
+			this.removeImage(close);
+			this.addImage(open);
 			this.state = true;
 			
 			}
