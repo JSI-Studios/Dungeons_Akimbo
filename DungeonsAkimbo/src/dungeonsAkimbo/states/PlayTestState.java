@@ -9,6 +9,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -36,6 +37,8 @@ public class PlayTestState extends BasicGameState {
 	private DungeonsAkimboGame dag;
 
 	private int playerID;
+	
+	private Sound currentSound;
 
 	@Override
 	public void init(GameContainer container, StateBasedGame game) throws SlickException {
@@ -57,7 +60,8 @@ public class PlayTestState extends BasicGameState {
 		
 		// Handle BGM
 		container.setSoundOn(true);
-		ResourceManager.getSound(DungeonsAkimboGame.BGM).loop(1f, 0.2f);
+		currentSound = ResourceManager.getSound(DungeonsAkimboGame.BGM);
+		currentSound.loop(1f, 0.2f);
 	}
 
 	@Override
@@ -185,6 +189,15 @@ public class PlayTestState extends BasicGameState {
 		}
 		dag.getLogic().localUpdate(delta);
 		updateChatLog(dag);
+		
+		// Check player hp, if 0 go to game over state
+		if(dag.getCurrentMap().getPlayerList().get(playerID).getCurrent_health() <= 0) {
+			// Clear inputs, stop sound and transition to gameover state
+			input.clearKeyPressedRecord();
+			currentSound.stop();
+			// Go back to splash state for now
+			game.enterState(DungeonsAkimboGame.GAMEOVERSTATE);
+		}
 
 	}
 

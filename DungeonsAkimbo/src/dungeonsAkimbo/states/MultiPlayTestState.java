@@ -7,6 +7,7 @@ import dungeonsAkimbo.entities.Projectile;
 import dungeonsAkimbo.gui.ChatGUI;
 import dungeonsAkimbo.gui.DaCamera;
 import jig.Entity;
+import jig.ResourceManager;
 import jig.Vector;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
@@ -26,6 +27,8 @@ public class MultiPlayTestState extends BasicGameState {
     private DungeonsAkimboGame dag;
 
     private ArrayList<Integer> playerIDs;
+    
+	private Sound currentSound;
 
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
@@ -51,7 +54,12 @@ public class MultiPlayTestState extends BasicGameState {
             dag.addPlayer(keyboardIndex);
         }
         // Chat GUI handling
-        chat = new ChatGUI(0, 768, 1024, 244, container);
+        chat = new ChatGUI(0, 768, 1024, 244, container);;
+		
+		// Handle BGM
+		container.setSoundOn(true);
+		currentSound = ResourceManager.getSound(DungeonsAkimboGame.BGM);
+		currentSound.loop(1f, 0.2f);
 
     }
 
@@ -218,6 +226,17 @@ public class MultiPlayTestState extends BasicGameState {
         //update Logic
         dag.getLogic().localUpdate(delta);
         updateChatLog(dag);
+        
+        // Check all player's health. If 0, remove player.
+        // If player arrayList is empty, game over state
+        dag.getCurrentMap().getPlayerList().entrySet().removeIf((player) -> player.getValue().getCurrent_health() <= 0);
+        if(dag.getCurrentMap().getPlayerList().size() <= 0) {
+			// Clear inputs, stop sound and transition to gameover state
+			input.clearKeyPressedRecord();
+			currentSound.stop();
+			// Go back to splash state for now
+			game.enterState(DungeonsAkimboGame.GAMEOVERSTATE);
+        }
     }
 
     private void updateChatLog(DungeonsAkimboGame dag) {
