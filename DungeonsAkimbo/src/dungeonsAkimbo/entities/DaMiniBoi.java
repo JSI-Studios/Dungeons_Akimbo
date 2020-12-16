@@ -52,7 +52,7 @@ public class DaMiniBoi extends Entity implements DaEnemy {
 	@Override
 	public void collisionAction(boolean isHit, boolean isPlayer) {		
 		if(isHit) {
-			this.setHealth(this.getHealth() - 1);
+			this.setHealth(this.getHealth() - 10);
 			// If collide to player, stop and pause
 			if(isPlayer) {
 				// Trigger special attack (call multiple mobs maybe?)

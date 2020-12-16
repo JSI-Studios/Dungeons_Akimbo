@@ -81,6 +81,18 @@ public class DaCollisions {
 					mob.translate(mob.collides(uniquePlayer.getValue()).getMinPenetration().scale(delta));
 				}
 			}
+			for(Iterator<Projectile> currentProjectile = this.ProjectileList.iterator(); currentProjectile.hasNext();) {
+				Projectile playerHit = currentProjectile.next();
+				if(mob.collides(playerHit) != null) {
+					mob.setHealth(mob.getHealth() - playerHit.Get_Damage());
+					if(playerHit.getSpriteType() <= 0) {
+						currentProjectile.remove();
+					} else {
+						// Don't continuously damage the mob, but allow animation to render completely
+						playerHit.setDamage(0);
+					}
+				}
+			}
 			if(mob.collides(miniBoss) != null && mob.getType() == 2) {
 				mob.translate(mob.collides(miniBoss).getMinPenetration().scale(delta));
 			}
@@ -96,12 +108,14 @@ public class DaCollisions {
 			if(player.collides(miniBoss) != null) {
 				player.translate(player.collides(miniBoss).getMinPenetration().scale(delta * 5f));
 				miniBoss.collisionAction(true, true);
+				player.setCurrent_health(player.getCurrent_health() - 1);
 			}
 			if(player.collides(boss) != null) {
 				boss.collisionAction(true, true);
 				if(boss.isStall()) {
 					player.translate(player.collides(boss).getMinPenetration().scale(delta * 5f));
-				}
+				} 
+				player.setCurrent_health(player.getCurrent_health() - 1);
 			}
 		}
 	}
