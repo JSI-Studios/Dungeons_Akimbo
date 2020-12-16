@@ -57,19 +57,25 @@ public class DaCollisions {
 			}
 			for(Iterator<Projectile> current = this.enemyAttacks.iterator(); current.hasNext();) {
 				Projectile attackHitBox = current.next();
-				if(playerCheck.collides(attackHitBox) != null) {
-					playerCheck.setCurrent_health(playerCheck.getCurrent_health() - attackHitBox.Get_Damage());
-					if(attackHitBox.getSpriteType() <= 0) {
-						current.remove();
-					} else {
-						// Don't continuously damage the player, but allow animation to render completely
-						attackHitBox.setDamage(0);
+				if (playerCheck.isDodging() == false) {
+					if(playerCheck.collides(attackHitBox) != null) {
+						playerCheck.setCurrent_health(playerCheck.getCurrent_health() - attackHitBox.Get_Damage());
+						if(attackHitBox.getSpriteType() <= 0) {
+							current.remove();
+						} else {
+							// Don't continuously damage the player, but allow animation to render completely
+							attackHitBox.setDamage(0);
+						}
 					}
 				}
 			}
 			for(DaMob mob : mobList) {
 				if(playerCheck.collides(mob) != null) {
-					playerCheck.setCurrent_health(playerCheck.getCurrent_health() - 1);
+					if (playerCheck.isDodging() == true) {
+						continue;
+					} else {
+						playerCheck.setCurrent_health(playerCheck.getCurrent_health() - 1);
+					}
 				}
 			}
 			for(Iterator<DaChest> currentChest = this.chests.iterator(); currentChest.hasNext();) {
