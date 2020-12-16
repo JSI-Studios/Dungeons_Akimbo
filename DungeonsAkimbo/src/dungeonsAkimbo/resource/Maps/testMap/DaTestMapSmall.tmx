@@ -13,7 +13,7 @@
  </layer>
  <layer id="6" name="Doors" width="32" height="32">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAACmNgGAVDDegwDbQLRgE9gAoR8dwOVNNBg/TAxkJ9M0fBKBgFo2AUjIJRMApGwSgYBQMLAJyouVcAEAAA
+   H4sIAAAAAAAACu3BAQ0AAADCoPdPbQ8HFAAAAPBuEQAcxwAQAAA=
   </data>
  </layer>
  <layer id="7" name="Items" width="32" height="32">
