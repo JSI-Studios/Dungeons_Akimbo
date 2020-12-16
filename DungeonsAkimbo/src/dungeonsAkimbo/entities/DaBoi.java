@@ -61,7 +61,7 @@ public class DaBoi extends Entity implements DaEnemy {
 				ResourceManager.getImage(DungeonsAkimboGame.STALL_THREE),
 				ResourceManager.getImage(DungeonsAkimboGame.STALL_FOUR),
 				ResourceManager.getImage(DungeonsAkimboGame.STALL_FIVE)};
-		this.stall = new Animation(true);;
+		this.stall = new Animation(true);
 		for(int i = 0; i < frames.length; i++) {
 			stall.addFrame(frames[i], 80);
 		}
@@ -150,7 +150,7 @@ public class DaBoi extends Entity implements DaEnemy {
 		return attacked;
 	}
 	
-	public ArrayList<Projectile> multiAttack(){
+	public ArrayList<Projectile> multiAttack(Player player){
 		ArrayList<Projectile> attack = new ArrayList<Projectile>();
 		int rng;
 		if(!this.isStall) {
@@ -211,31 +211,44 @@ public class DaBoi extends Entity implements DaEnemy {
 						this.setAttackPhase(1);
 					} else {
 						// Spam projectiles at the spot
-						attack.add(new Projectile(this.getX(), this.getY() + 64, 50, 500, .08f, 90, 2));
-						attack.add(new Projectile(this.getX() - 64, this.getY() + 64, 50, 500, .08f, 90, 2));
-						attack.add(new Projectile(this.getX() + 64, this.getY() + 64, 50, 500, .08f, 90 ,2));
-						attack.add(new Projectile(this.getX() - 64, this.getY(), 10, 500, .08f, -180, 2));
-						attack.add(new Projectile(this.getX() + 64, this.getY(), 10, 500, .08f, 0, 2));
-						attack.add(new Projectile(this.getX(), this.getY() - 64, 50, 500, .08f, -90, 2));
-						attack.add(new Projectile(this.getX() - 64, this.getY() - 64, 50, 500, .08f, -90, 2));
-						attack.add(new Projectile(this.getX() + 64, this.getY() - 64, 50, 500, .08f, -90 ,2));
+						attack.add(new Projectile(this.getX(), this.getY() + 64, 50, 500, .08f, 90, 1));
+						attack.add(new Projectile(this.getX() - 64, this.getY() + 64, 50, 500, .08f, 90, 1));
+						attack.add(new Projectile(this.getX() + 64, this.getY() + 64, 50, 500, .08f, 90 ,1));
+						attack.add(new Projectile(this.getX() - 64, this.getY(), 10, 500, .08f, -180, 1));
+						attack.add(new Projectile(this.getX() + 64, this.getY(), 10, 500, .08f, 0, 1));
+						attack.add(new Projectile(this.getX(), this.getY() - 64, 50, 500, .08f, -90, 1));
+						attack.add(new Projectile(this.getX() - 64, this.getY() - 64, 50, 500, .08f, -90, 1));
+						attack.add(new Projectile(this.getX() + 64, this.getY() - 64, 50, 500, .08f, -90 , 1));
 					}
 				} else {
 					this.attackCooldown--;
 					this.movementDelay--;
 				}
 			} else if(this.attackPhase == 1) {
-				// Pause
+				// Pause and rest a bit before attacking again.
 				if(this.movementDelay < 0) {
 					this.movementDelay = 1000;
-					this.setAttackCooldown(100);
+					this.setAttackCooldown(50);
 				} else if(this.attackCooldown >= 0) {
 					this.attackCooldown--;
 				} else {
 					this.movementDelay = -1000;
 					this.setAttackCooldown(0);
-					this.attackPhase = 0;
+					// Randomly switch phases
+					rng = this.getRngHandler().nextInt(3);
+					while(rng == 1) {
+						rng = this.getRngHandler().nextInt(2);
+					}
+					this.attackPhase = rng;
 				}
+			} else if(this.attackPhase == 2) {
+				Vector distance = this.getPosition().subtract(player.getPosition());
+				double currentDirection = distance.negate().getRotation();
+				Projectile attacked = new Projectile(this.getX(), this.getY(), 80, 500, .7f, -90, 2);
+				attacked.rotate(currentDirection);
+				attacked.Set_Velocity(currentDirection);
+				attack.add(attacked);
+				this.attackPhase = 1;
 			}
 			return attack;
 		}

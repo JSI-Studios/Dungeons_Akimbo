@@ -103,11 +103,11 @@ public class DaMiniBoi extends Entity implements DaEnemy {
 			return attack;
 		} else if(this.attackPhase == 1) {
 			// Begin phase 1 of attack
-			attack.add(new Projectile(this.getX(), this.getY() + 64, 50, 500, .3f, 90, 2));
-			attack.add(new Projectile(this.getX() - 64, this.getY() + 64, 50, 500, .3f, 90, 2));
-			attack.add(new Projectile(this.getX() + 64, this.getY() + 64, 50, 500, .3f, 90 ,2));
-			attack.add(new Projectile(this.getX() - 64, this.getY(), 10, 500, .3f, -180, 2));
-			attack.add(new Projectile(this.getX() + 64, this.getY(), 10, 500, .3f, 0, 2));
+			attack.add(new Projectile(this.getX(), this.getY() + 64, 50, 500, .3f, 90, 1));
+			attack.add(new Projectile(this.getX() - 64, this.getY() + 64, 50, 500, .3f, 90, 1));
+			attack.add(new Projectile(this.getX() + 64, this.getY() + 64, 50, 500, .3f, 90 ,1));
+			attack.add(new Projectile(this.getX() - 64, this.getY(), 10, 500, .3f, -180, 1));
+			attack.add(new Projectile(this.getX() + 64, this.getY(), 10, 500, .3f, 0, 1));
 			this.attackPhase = 2;
 			return attack;
 		}
