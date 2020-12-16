@@ -3,7 +3,9 @@ package dungeonsAkimbo;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.stream.IntStream;
 
+import dungeonsAkimbo.entities.DaMiniBoi;
 import dungeonsAkimbo.entities.DaMob;
 import dungeonsAkimbo.entities.Player;
 import dungeonsAkimbo.entities.Projectile;
@@ -17,6 +19,7 @@ public class DaCollisions {
 	private ArrayList<Projectile> ProjectileList;
 	private ArrayList<Projectile> enemyAttacks;
 	private Map<Integer, Player> playerList;
+	private DaMiniBoi miniBoss;
 	
 	public DaCollisions (DaMap map) {
 		this.mobList = map.getMobList();
@@ -24,6 +27,7 @@ public class DaCollisions {
 		this.ProjectileList = map.getPlayer_bullets();
 		this.playerList = map.getPlayerList();
 		this.enemyAttacks = map.getEnemyAttacks();
+		this.miniBoss = map.getMiniBoss();
 	}
 	
 	
@@ -39,7 +43,12 @@ public class DaCollisions {
 				Projectile attackHitBox = current.next();
 				if(playerCheck.collides(attackHitBox) != null) {
 					playerCheck.setCurrent_health(playerCheck.getCurrent_health() - attackHitBox.Get_Damage());
-					current.remove();
+					if(attackHitBox.getSpriteType() <= 0) {
+						current.remove();
+					} else {
+						// Don't continuously damage the player, but allow animation to render completely
+						attackHitBox.setDamage(0);
+					}
 				}
 			}
 			for(DaMob mob : mobList) {
@@ -56,20 +65,33 @@ public class DaCollisions {
 			DaMob mob = current.next();
 			for(DaWall wall : wallList) {
 				// Handle wall collision first
-				if(mob.collides(wall) != null) {
+				int[] ignoreMob = {0, 3};
+				if(mob.collides(wall) != null && !IntStream.of(ignoreMob).anyMatch(i -> i == mob.getType())) {
 					mob.translate(mob.collides(wall).getMinPenetration().scale(delta/8));
 				}
 			}
 			for(Map.Entry<Integer, Player> uniquePlayer : playerList.entrySet()) {
 				// Deal collision will player
 				if(mob.collides(uniquePlayer.getValue()) != null) {
+					// If mob type == 0, return true for isPlayer to pause the mob
 					mob.collisionAction(true, mob.getType() == 0);
 					mob.translate(mob.collides(uniquePlayer.getValue()).getMinPenetration().scale(delta));
 				}
 			}
+			if(mob.collides(miniBoss) != null && mob.getType() == 2) {
+				mob.translate(mob.collides(miniBoss).getMinPenetration().scale(delta));
+			}
 			if(mob.isDead()) {
 				// mob is dead
 				current.remove();
+			}
+		}
+		for(Map.Entry<Integer, Player> uniquePlayer: playerList.entrySet()) {
+			Player player = uniquePlayer.getValue();
+			// Handle collision with player, tell player to decrease health later
+			if(player.collides(miniBoss) != null) {
+				player.translate(player.collides(miniBoss).getMinPenetration().scale(delta * 5f));
+				miniBoss.collisionAction(true, true);
 			}
 		}
 	}

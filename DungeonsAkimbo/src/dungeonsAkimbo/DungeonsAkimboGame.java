@@ -27,6 +27,8 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	public static final String MOB_ZERO = "dungeonsAkimbo/resource/Mobs/Spoopy.png";
 	public static final String MOB_ONE = "dungeonsAkimbo/resource/Mobs/Mommy.png";
 	public static final String MOB_TWO = "dungeonsAkimbo/resource/Mobs/Skully.png";
+	public static final String MOB_THREE = "dungeonsAkimbo/resource/Mobs/Spoopy-Season-Two.png";
+	public static final String MINI_BOSS = "dungeonsAkimbo/resource/Mobs/Mini-Boss.png";
 	
 	//Weapon Macros
 	public static final String DA_SNIPER_RSC = "dungeonsAkimbo/resource/Weapons/Sniper/sniper.png";
@@ -34,6 +36,9 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	public static final String DA_PISTOL_RSC = "dungeonsAkimbo/resource/Weapons/Pistol/pistol3.png";
 	public static final String DA_SHOTTY_RSC = "dungeonsAkimbo/resource/Weapons/Shotty/shotgun.png";
 	public static final String DA_ASSAULT_RSC = "dungeonsAkimbo/resource/Weapons/Assault/assaultrifle.png";
+	
+	// Enemy Attack Macros
+	public static final String BANG = "dungeonsAkimbo/resource/Projectiles/explosion.png";
 	
 	//item macros
 	public static final String DA_HEALTH_RSC = "dungeonsAkimbo/resource/items/ammobox.png";
@@ -43,6 +48,8 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	
 	public static final String DA_PLAYER_RSC = "dungeonsAkimbo/resource/Mobs/Male 01-1.png";
 	
+	// BGM macros
+	public static final String TEMP_BGM = "dungeonsAkimbo/resource/bgm/Final Boss Battle 6 V2.WAV";
 	
 	//State Identitifiers
 	public static final int SPLASHSCREENSTATE = 0;
@@ -52,6 +59,7 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	public static final int NETMENUSTATE = 4;
 	public static final int MULTIMENUSTATE = 5;
 	public static final int LOCALSETUPSTATE = 6;
+	public static final int MULTIPLAYTESTSTATE = 7;
 	
 	public static final String DA_TESTMAP_RSC = "dungeonsAkimbo/resource/Maps/testMap/DaTestMapSmall.tmx";
 	public static final String DA_TESTMAP_TILESET_RSC = "dungeonsAkimbo/resource/Maps/testmap/";
@@ -88,10 +96,15 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		addState(new NetMenuState());
 		addState(new MultiMenuState());
 		addState(new LocalSetupState());
+		addState(new MultiPlayTestState());
 		ResourceManager.setFilterMethod(ResourceManager.FILTER_LINEAR);
 		
+		// Load projectiles
 		ResourceManager.loadImage(TEMP_PLAYER);
 		ResourceManager.loadImage(TEMP_BULLET);
+		ResourceManager.loadImage(BANG);
+		
+		// Load player resources
 		ResourceManager.loadImage(DA_PLAYER_RSC);
 		
 		// Load weapon sprites
@@ -105,6 +118,8 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		ResourceManager.loadImage(MOB_ZERO);
 		ResourceManager.loadImage(MOB_ONE);
 		ResourceManager.loadImage(MOB_TWO);
+		ResourceManager.loadImage(MOB_THREE);
+		ResourceManager.loadImage(MINI_BOSS);
 		
 		// Load item sprites
 		ResourceManager.loadImage(DA_HEALTH_RSC);
@@ -112,6 +127,8 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		ResourceManager.loadImage(DA_CANDYRELOAD_RSC);
 		ResourceManager.loadImage(DA_SWITCH_RSC);
 	
+		// Load bgm
+		ResourceManager.loadSound(TEMP_BGM);
 		
 		Entity.antiAliasing = false;
 		Entity.setCoarseGrainedCollisionBoundary(Entity.CIRCLE);
@@ -179,7 +196,7 @@ public class DungeonsAkimboGame extends StateBasedGame {
 
 	public void updateJoyconLists() {
 		for (int i = 0; i < 4; i++) {
-			if (activeJoycons[i].isButtonPressed(8) || activeJoycons[i].isButtonPressed(9)) {
+			if (activeJoycons[i] != null && (activeJoycons[i].isButtonPressed(8) || activeJoycons[i].isButtonPressed(9))) {
 				// if the +/- button is pressed, "disconnect" joy-con from the active list
 				inactiveJoycons.add(activeJoycons[i]);
 				activeJoycons[i] = null;

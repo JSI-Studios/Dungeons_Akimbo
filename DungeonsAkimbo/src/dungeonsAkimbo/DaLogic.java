@@ -4,6 +4,7 @@ package dungeonsAkimbo;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.util.pathfinding.AStarPathFinder;
@@ -12,6 +13,7 @@ import org.newdawn.slick.util.pathfinding.Path;
 import org.newdawn.slick.util.pathfinding.heuristics.ManhattanHeuristic;
 
 import dungeonsAkimbo.entities.DaAssault;
+import dungeonsAkimbo.entities.DaMiniBoi;
 import dungeonsAkimbo.entities.DaMob;
 import dungeonsAkimbo.entities.Player;
 import dungeonsAkimbo.entities.Projectile;
@@ -47,6 +49,17 @@ public class DaLogic {
 	}
 	
 	
+	//we use this update function to update local games not using the netowrk.
+	public void localUpdate(int delta) {
+        for(Map.Entry<Integer, Player> uniquePlayer : map.getPlayerList().entrySet()) {
+            int playerId = uniquePlayer.getKey();
+            playerUpdate(playerId, delta);
+            mobUpdate(playerId, delta);
+        }
+        projectileUpdate(delta);
+        collideCheck(delta);
+    }
+	
 	
 	public Path getPathToTarget(Mover mover, Entity target) {
 		int moverX = Math.round(((Entity) mover).getX()/32);
@@ -71,26 +84,15 @@ public class DaLogic {
 	}
 	
 	
-	
-	
-	
-	//update entities 
-	private void clientUpdateEntities(int playerID, int delta) {
-		/* Mob attacking the player, and updating pathing if certain type
+	public void resetPath(int playerID) {		/* Mob attacking the player, and updating pathing if certain type
 		 * of mob stays still
 		 */
 		// Get current player as an Entity (change to player later if needed)
-		Entity currentPlayer = map.getPlayerList().get(playerID);
+		Player currentPlayer = map.getPlayerList().get(playerID);
 		
 		ArrayList<DaMob> mobs = map.getMobList();
 		for (DaMob mob : mobs) {
-			// Handle Attack
-			Projectile hit = mob.attack(currentPlayer);
-			if (hit != null) {
-				map.getEnemyAttacks().add(hit);
-			}
-			// Handling pathing
-			if(mob.getPath() == null && mob.getType() == 2) {
+			if(mob.getType() == 2 && (!((Player)currentPlayer).isRest() || mob.getPath() == null)) {
 				// Get pathing to the player using Slick2D
 				ArrayDeque<Path.Step> newPath =  new ArrayDeque<Path.Step>();
 				Path tempPath = this.getPathToTarget(mob, currentPlayer);
@@ -105,9 +107,47 @@ public class DaLogic {
 				mob.setPath(newPath);
 			}
 		}
-
+		
+	}
+	
+	//things that happend during update() for the player go here
+	private void playerUpdate(int playerID, int delta) {
+		map.getPlayerList().get(playerID).update(delta);
+		map.getPlayerList().get(playerID).getPrimaryWeapon().update(delta);
+	}
+	
+	//things that happened during update() for mobs go here
+	private void mobUpdate(int playerID, int delta) {
+		// Get current player as an Entity (change to player later if needed)
+		Entity currentPlayer = map.getPlayerList().get(playerID);
+		
+		// Handle mob attack
+		ArrayList<DaMob> mobs = map.getMobList();
+		for (DaMob mob : mobs) {
+			// Handle Attack
+			Projectile hit = mob.attack(currentPlayer);
+			if (hit != null) {
+				map.getEnemyAttacks().add(hit);
+			}
+		}
+		// Handle miniboss attack
+		DaMiniBoi miniBoss = map.getMiniBoss();
+		Projectile miniBossAttack = miniBoss.attack(currentPlayer);
+		ArrayList<Projectile> miniBossMultiAttack = miniBoss.multiAttack();
+		if(miniBossAttack != null) {
+			// Single attack returned, add to list of enemy attacks
+			map.getEnemyAttacks().add(miniBossAttack);
+		}
+		if(miniBossMultiAttack != null) {
+			// Iterate through the list of multi attacks
+			miniBossMultiAttack.forEach((hit) -> map.getEnemyAttacks().add(hit));
+		}
+		mobs.forEach((mob) -> mob.update(delta));
+	}
+	
+	//things that happened during update() for projectiles go here
+	private void projectileUpdate(int delta) {
 		/* Check for collision with mobs, and also update projectiles */
-		//Iterator<Bullet> bulletIter = cg.bullet_array.iterator(); bulletIter.hasNext();
 		for (Iterator<Projectile> bIter = map.getPlayer_bullets().iterator(); bIter.hasNext();) {
 			Projectile b = bIter.next();
 			
@@ -122,8 +162,74 @@ public class DaLogic {
 			Projectile attack = attacks.next();
 			
 			// update attack (move if it has speed, decrease timer duration)
-			attack.update(delta);
-			attack.decreaseTimer(delta);
+			if(attack.getSpriteType() >= 0) {
+				if(!attack.isActive()) {
+					attack.setTimer(0);
+				}
+			} else {
+				attack.decreaseTimer(delta);
+			}
+			
+			// Check if duration of attack is over
+			if(attack.getTimer() <= 0) {
+				attacks.remove();
+			}
+		}
+		map.getEnemyAttacks().forEach((hitbox) -> hitbox.update(delta));
+	}
+	
+	//update entities(for network testing/use) 
+	private void clientUpdateEntities(int playerID, int delta) {
+		/* Mob attacking the player, and updating pathing if certain type
+		 * of mob stays still
+		 */
+		// Get current player as an Entity (change to player later if needed)
+		Entity currentPlayer = map.getPlayerList().get(playerID);
+		
+		// Handle mob attack
+		ArrayList<DaMob> mobs = map.getMobList();
+		for (DaMob mob : mobs) {
+			// Handle Attack
+			Projectile hit = mob.attack(currentPlayer);
+			if (hit != null) {
+				map.getEnemyAttacks().add(hit);
+			}
+		}
+		// Handle miniboss attack
+		DaMiniBoi miniBoss = map.getMiniBoss();
+		Projectile miniBossAttack = miniBoss.attack(currentPlayer);
+		ArrayList<Projectile> miniBossMultiAttack = miniBoss.multiAttack();
+		if(miniBossAttack != null) {
+			// Single attack returned, add to list of enemy attacks
+			map.getEnemyAttacks().add(miniBossAttack);
+		}
+		if(miniBossMultiAttack != null) {
+			// Iterate through the list of multi attacks
+			miniBossMultiAttack.forEach((hit) -> map.getEnemyAttacks().add(hit));
+		}
+		
+		/* Check for collision with mobs, and also update projectiles */
+		for (Iterator<Projectile> bIter = map.getPlayer_bullets().iterator(); bIter.hasNext();) {
+			Projectile b = bIter.next();
+			
+			b.update(delta);
+			b.decreaseTimer(delta);
+			
+			if (b.getTimer() <= 0) {
+				bIter.remove();
+			}
+		}
+		for(Iterator<Projectile> attacks = map.getEnemyAttacks().iterator(); attacks.hasNext();) {
+			Projectile attack = attacks.next();
+			
+			// update attack (move if it has speed, decrease timer duration)
+			if(attack.getSpriteType() >= 0) {
+				if(!attack.isActive()) {
+					attack.setTimer(0);
+				}
+			} else {
+				attack.decreaseTimer(delta);
+			}
 			
 			// Check if duration of attack is over
 			if(attack.getTimer() <= 0) {

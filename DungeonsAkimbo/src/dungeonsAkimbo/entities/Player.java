@@ -34,6 +34,7 @@ public class Player extends Entity {
 	private boolean dodging;
 	
 	private Vector velocity;
+	private boolean rest;
 	
 	private Animation sprite, walkUp, walkDown, walkLeft, walkRight, current;
 	private SpriteSheet sprites;
@@ -82,6 +83,7 @@ public class Player extends Entity {
 		
 		this.current = walkDown;
 		this.addAnimation(current);
+		this.setRest(true);
 	}
 	
 	public void gunSelect(int i) {
@@ -147,7 +149,7 @@ public class Player extends Entity {
 		this.currentHealth = current_health;
 	}
 	
-public void update(final int delta) {
+	public void update(final int delta) {
 		
 
 		if (this.dodging == true) {
@@ -201,10 +203,10 @@ public void update(final int delta) {
 		}else if (((Entity) this.primaryWeapon).getRotation() > -135 && ((Entity) this.primaryWeapon).getRotation() < -45 ) {		//Player facing up
 			if(current.equals(walkUp) &&  velocity.length() != 0) {
 				current.start();				
-			}else if( current.equals(walkUp) && velocity.length() == 0) {
+			} else if( current.equals(walkUp) && velocity.length() == 0) {
 				current.stop();
 				current.setCurrentFrame(1);
-			}else if(!current.equals(walkUp)) {
+			} else if(!current.equals(walkUp)) {
 				current.stop();
 				this.removeAnimation(current);
 				this.addAnimation(walkUp);
@@ -220,4 +222,12 @@ public void update(final int delta) {
 		
 		((Entity) this.primaryWeapon).setPosition(this.getPosition());
 	}
+
+	public boolean isRest() {
+		return rest;
+	}
+	
+	public void setRest(boolean rest) {
+		this.rest = rest;
+}
 }

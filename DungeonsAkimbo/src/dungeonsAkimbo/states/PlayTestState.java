@@ -21,6 +21,7 @@ import dungeonsAkimbo.gui.ChatGUI;
 import dungeonsAkimbo.gui.DaCamera;
 import dungeonsAkimbo.netcode.UniqueIdentifier;
 import jig.Entity;
+import jig.ResourceManager;
 import jig.Vector;
 
 public class PlayTestState extends BasicGameState {
@@ -53,7 +54,10 @@ public class PlayTestState extends BasicGameState {
 		dag.addPlayer(playerID);
 		// Chat GUI handling
 		chat = new ChatGUI(0, 768, 1024, 244, container);
-
+		
+		// Handle BGM
+		container.setSoundOn(true);
+		ResourceManager.getSound(DungeonsAkimboGame.TEMP_BGM).loop(1.1f, 0.2f);
 	}
 
 	@Override
@@ -105,14 +109,22 @@ public class PlayTestState extends BasicGameState {
 		if (!chatting) {
 			if (input.isKeyDown(Input.KEY_W)) {
 				new_velocity = new Vector(0f, -0.5f * dag.getCurrentMap().getPlayerList().get(playerID).getSpeed());
+				dag.getCurrentMap().getPlayerList().get(playerID).setRest(false);
 			} else if (input.isKeyDown(Input.KEY_A)) {
 				new_velocity = new Vector(-0.5f * dag.getCurrentMap().getPlayerList().get(playerID).getSpeed(), 0f);
+				dag.getCurrentMap().getPlayerList().get(playerID).setRest(false);
 			} else if (input.isKeyDown(Input.KEY_S)) {
 				new_velocity = new Vector(0f, 0.5f * dag.getCurrentMap().getPlayerList().get(playerID).getSpeed());
+				dag.getCurrentMap().getPlayerList().get(playerID).setRest(false);
 			} else if (input.isKeyDown(Input.KEY_D)) {
 				new_velocity = new Vector(0.5f * dag.getCurrentMap().getPlayerList().get(playerID).getSpeed(), 0f);
+				dag.getCurrentMap().getPlayerList().get(playerID).setRest(false);
 			} else {
 				new_velocity = new Vector(0f, 0f);
+				if(!dag.getCurrentMap().getPlayerList().get(playerID).isRest()) {
+					dag.getLogic().resetPath(playerID);
+					dag.getCurrentMap().getPlayerList().get(playerID).setRest(true);
+				}
 			}
 
 			if (input.isKeyPressed(Input.KEY_P)) {
@@ -167,7 +179,7 @@ public class PlayTestState extends BasicGameState {
 		if (dag.getCurrentMap().getPlayerList().get(playerID).getPrimaryWeapon() instanceof DaAssault) {
 			dag.getLogic().assaultBurst(dag, playerID, shotAngle);
 		}
-		dag.getLogic().clientUpdate(playerID, delta);
+		dag.getLogic().localUpdate(delta);
 		updateChatLog(dag);
 
 	}
