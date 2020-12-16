@@ -99,14 +99,27 @@ public class DaCamera {
 			int playerKey = uniquePlayer.getKey();
 			float barWidth = 125;
 			float barHeight = 25;
-			g.drawString("Player " + playerKey, 1050, 25);
-			float healthBar = ((float) player.getCurrent_health() / (float) player.getMax_health()) * barWidth;
-			g.drawString("Health", 1050, 50);
-			g.fillRect(1050, 75, barWidth, barHeight);
-			g.setColor(Color.red);
-			g.fillRect(1050, 75, healthBar, barHeight);
-			g.setColor(Color.black);
+			if(playerKey > -1) {
+				playerKey = playerKey + 1;
+				g.drawString("Player " + playerKey, 1050, 25 * playerKey);
+				float healthBar = ((float) player.getCurrent_health() / (float) player.getMax_health()) * barWidth;
+				g.drawString("Health", 1050, 50* playerKey);
+				g.fillRect(1050, 75* playerKey, barWidth, barHeight);
+				g.setColor(Color.red);
+				g.fillRect(1050, 75* playerKey, healthBar, barHeight);
+				g.setColor(Color.black);
+			}else {
+				g.drawString("Player " + 1, 1050, 25);
+				float healthBar = ((float) player.getCurrent_health() / (float) player.getMax_health()) * barWidth;
+				g.drawString("Health", 1050, 50);
+				g.fillRect(1050, 75, barWidth, barHeight);
+				g.setColor(Color.red);
+				g.fillRect(1050, 75, healthBar, barHeight);
+				g.setColor(Color.black);
+			}
+			
 		}
+		
 	}
 	
 	public void renderMobs(Graphics g) {
