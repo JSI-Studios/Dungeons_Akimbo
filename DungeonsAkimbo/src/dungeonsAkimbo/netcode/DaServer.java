@@ -6,6 +6,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class DaServer extends Thread {
@@ -23,11 +24,16 @@ public class DaServer extends Thread {
 	
 	private Thread run, manage, send, receive;
 	
+	private UpdateHandler gameUpdater;
+	
+	private long rttStart, rttFinish;
+	
 	private final int MAX_ATTEMPTS = 5;
 	
-	public DaServer(int port) {
+	public DaServer(int port, UpdateHandler updater) {
 		this.setName("Server");	
 		this.port = port;
+		this.gameUpdater = updater;
 		try {
 			socket = new DatagramSocket(port);
 		} catch (SocketException e) {
@@ -55,6 +61,7 @@ public class DaServer extends Thread {
 			public void run() {
 				while(running) {
 					sendToAll("/i/server");
+					rttStart = new GregorianCalendar().getTimeInMillis();
 					try {
 						Thread.sleep(2000);
 					} catch (InterruptedException e) {
@@ -90,7 +97,12 @@ public class DaServer extends Thread {
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-					process(packet);
+					try {
+						process(packet);
+					} catch (ClassNotFoundException | IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}
 		};
@@ -129,7 +141,7 @@ public class DaServer extends Thread {
 		send(message.getBytes(), address, port);
 	}
 	
-	private void process(DatagramPacket packet) {
+	private void process(DatagramPacket packet) throws ClassNotFoundException, IOException {
 		String string = new String(packet.getData());
 		if (raw) System.out.println(string);
 		if (string.startsWith("/c/")) {
@@ -146,8 +158,18 @@ public class DaServer extends Thread {
 			String id = string.split("/d/|/e/")[1];
 			disconnect(Integer.parseInt(id), true);
 		} else if (string.startsWith("/i/")) {
-			if(verbose) System.out.println("Keep Alive revieved from " + packet.getAddress().toString().split("/")[1] + ":" + packet.getPort());
+			rttFinish = new GregorianCalendar().getTimeInMillis();
+			if(verbose) System.out.print("Keep Alive revieved from " + packet.getAddress().toString().split("/")[1] + ":" + packet.getPort());
+			System.out.print("\tPing time for " + (Integer.parseInt(string.split("/i/|/e/")[1]) + ": " + (rttFinish - rttStart + "ms \n")));
 			clientResponse.add(Integer.parseInt(string.split("/i/|/e/")[1]));
+		} else if (string.startsWith("/u/")) {
+			System.out.println("player update recieved");
+			UpdatePacket update = gameUpdater.recieveUpdate(string.split("/u/|/e/")[1].getBytes());
+			System.out.println(update.getFrame());
+			System.out.println(update.getPlayerID());
+			System.out.println(update.getPlayerPos().getX()+ " , " + update.getPlayerPos().getY());
+			System.out.println(update.getPlayerVel().getX() + " , " + update.getPlayerVel().getY());
+			
 		} else {
 			System.out.println(string);
 		}

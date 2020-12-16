@@ -1,5 +1,6 @@
 package dungeonsAkimbo.states;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -22,6 +23,8 @@ import dungeonsAkimbo.entities.Projectile;
 import dungeonsAkimbo.gui.ChatGUI;
 import dungeonsAkimbo.gui.DaCamera;
 import dungeonsAkimbo.netcode.UniqueIdentifier;
+import dungeonsAkimbo.netcode.UpdateHandler;
+import dungeonsAkimbo.netcode.UpdatePacket;
 import jig.Entity;
 import jig.ResourceManager;
 import jig.Vector;
@@ -182,6 +185,25 @@ public class PlayTestState extends BasicGameState {
 			if (input.isKeyPressed(Input.KEY_SPACE)) {
 				dag.getCurrentMap().getPlayerList().get(playerID).doDodge(delta, 1);
 			}
+			
+			if (input.isKeyPressed(Input.KEY_U)) {
+				Vector playerNetPos = dag.getCurrentMap().getPlayerList().get(playerID).getPosition();
+				Vector playerVel = dag.getCurrentMap().getPlayerList().get(playerID).getVelocity();
+				int thisID = playerID;
+				int frameCount = dag.getFramecount();
+				byte[] updateBytes = null;
+				UpdatePacket update = new UpdatePacket(thisID, playerNetPos, playerVel, frameCount);
+				try {
+					updateBytes = dag.getClientUpdater().sendUpdate(update);
+					
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				if(updateBytes != null) dag.getClient().sendData(updateBytes);
+				
+			}
 
 			dag.getCurrentMap().getPlayerList().get(playerID).setVelocity(new_velocity);
 			((Entity) dag.getCurrentMap().getPlayerList().get(playerID).getPrimaryWeapon()).setRotation(shotAngle);
@@ -229,6 +251,7 @@ public class PlayTestState extends BasicGameState {
 		}
 		dag.getLogic().localUpdate(delta);
 		updateChatLog(dag);
+		dag.updateFramecount();
 		
 		// Check for a clear room
 		if(dag.getCurrentMap().getSpawnList().size() <= 0 && dag.getCurrentMap().getBoss().size() <= 0 && dag.getCurrentMap().getMiniBoss().size() <= 0 &&

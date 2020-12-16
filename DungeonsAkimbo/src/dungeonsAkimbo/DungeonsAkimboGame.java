@@ -15,10 +15,17 @@ import dungeonsAkimbo.entities.Player;
 import dungeonsAkimbo.map.DaMap;
 import dungeonsAkimbo.netcode.DaClient;
 import dungeonsAkimbo.netcode.DaServer;
+import dungeonsAkimbo.netcode.UpdateHandler;
+import dungeonsAkimbo.states.MainMenuState;
+import dungeonsAkimbo.states.NetMenuState;
+import dungeonsAkimbo.states.PlayTestState;
+import dungeonsAkimbo.states.PlayingState;
+import dungeonsAkimbo.states.StartSplashState;
 import jig.Entity;
 import jig.ResourceManager;
 
 public class DungeonsAkimboGame extends StateBasedGame {
+	
 	
 
 	//Art Macros
@@ -102,9 +109,11 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	private Thread server, client;
 	
 	private DaCollisions masterCollider;
-	private DaMap gameMap;
+	private DaMap gameMap, serverMap;
+	private UpdateHandler serverUpdater, clientUpdater;
 	private boolean mapReady = false;
 	private TiledMap mapPlan;
+	private int framecount = 0;
 	private DaLogic gameLogic;
 	private DaJoyconListener[] activeJoycons;
 	private ArrayList<DaJoyconListener> inactiveJoycons;
@@ -183,6 +192,11 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		keyboardMouseIndex = 0;
 		
 		
+		
+		
+		
+		
+		
 		// Initialize mobs (currently start with one mob)
 		
 	}
@@ -229,11 +243,13 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	}
 	
 	public void startServer() {
-		server = new DaServer(8989);		
+		serverUpdater = new UpdateHandler();
+		server = new DaServer(8989, serverUpdater);
 	}
 	
 	public void startClient(String userName, String address, int port) {
-		client = new DaClient(userName,address, 8989);		
+		clientUpdater = new UpdateHandler();
+		client = new DaClient(userName,address, 8989, clientUpdater);		
 	}
 	
 	public DaClient getClient() {
@@ -306,6 +322,13 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	public int getCurrentMapNum() {
 		return currentMap;
 	}
+	public int getFramecount() {
+		return framecount;
+	}
+	
+	public void updateFramecount() {
+		this.framecount = framecount + 1;
+	}
 	
 	public static void main(String[] args) {
 		try {
@@ -320,6 +343,16 @@ public class DungeonsAkimboGame extends StateBasedGame {
 			e.printStackTrace();
 		}
 	}
+
+	public UpdateHandler getServerUpdater() {
+		// TODO Auto-generated method stub
+		return serverUpdater;
+	}
+	
+	public UpdateHandler getClientUpdater() {
+		return clientUpdater;
+	}
+
 
 
 }

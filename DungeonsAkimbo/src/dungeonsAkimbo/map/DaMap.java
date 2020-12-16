@@ -22,7 +22,7 @@ import dungeonsAkimbo.entities.DaStairs;
 import dungeonsAkimbo.entities.Player;
 import dungeonsAkimbo.entities.Projectile;
 
-public class DaMap implements TileBasedMap{
+public class DaMap implements TileBasedMap, Cloneable{
 		
 	//Map variables
 	private int mapWidth;  //map width in number of tiles
