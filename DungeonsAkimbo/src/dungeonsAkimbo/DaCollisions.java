@@ -20,8 +20,8 @@ public class DaCollisions {
 	private ArrayList<Projectile> ProjectileList;
 	private ArrayList<Projectile> enemyAttacks;
 	private Map<Integer, Player> playerList;
-	private DaMiniBoi miniBoss;
-	private DaBoi boss;
+	private ArrayList<DaMiniBoi> miniBoss;
+	private ArrayList<DaBoi> boss;
 	
 	public DaCollisions (DaMap map) {
 		this.mobList = map.getMobList();
@@ -93,8 +93,11 @@ public class DaCollisions {
 					}
 				}
 			}
-			if(mob.collides(miniBoss) != null && mob.getType() == 2) {
-				mob.translate(mob.collides(miniBoss).getMinPenetration().scale(delta));
+			for(DaMiniBoi mobBoss : miniBoss) {
+				if(mob.collides(mobBoss) != null && mob.getType() == 2) {
+					mob.translate(mob.collides(mobBoss).getMinPenetration().scale(delta));
+				}
+				
 			}
 			if(mob.isDead()) {
 				// mob is dead
@@ -105,17 +108,59 @@ public class DaCollisions {
 		for(Map.Entry<Integer, Player> uniquePlayer: playerList.entrySet()) {
 			Player player = uniquePlayer.getValue();
 			// Handle collision with player, tell player to decrease health later
-			if(player.collides(miniBoss) != null) {
-				player.translate(player.collides(miniBoss).getMinPenetration().scale(delta * 5f));
-				miniBoss.collisionAction(true, true);
-				player.setCurrent_health(player.getCurrent_health() - 1);
+			for(DaMiniBoi mobBoss: miniBoss) {
+				if(player.collides(mobBoss) != null) {
+					player.translate(player.collides(mobBoss).getMinPenetration().scale(delta * 5f));
+					mobBoss.collisionAction(true, true);
+					player.setCurrent_health(player.getCurrent_health() - 1);
+				}
 			}
-			if(player.collides(boss) != null) {
-				boss.collisionAction(true, true);
-				if(boss.isStall()) {
-					player.translate(player.collides(boss).getMinPenetration().scale(delta * 5f));
-				} 
-				player.setCurrent_health(player.getCurrent_health() - 1);
+			for(DaBoi theBoss: boss) {
+				if(player.collides(theBoss) != null) {
+					theBoss.collisionAction(true, true);
+					if(theBoss.isStall()) {
+						player.translate(player.collides(theBoss).getMinPenetration().scale(delta * 5f));
+					} 
+					player.setCurrent_health(player.getCurrent_health() - 1);
+				}
+				
+			}
+		}
+		// Iterate each projectile for boss interaction
+		for(Iterator<Projectile> currentProjectile = this.ProjectileList.iterator(); currentProjectile.hasNext();) {
+			Projectile playerHit = currentProjectile.next();
+			// Iterate through all boss (usually one)
+			for(Iterator<DaBoi> currentBoss =  this.boss.iterator(); currentBoss.hasNext();) {			
+				DaBoi theBoss = currentBoss.next();
+				if(theBoss.collides(playerHit) != null) {
+					theBoss.setHealth(theBoss.getHealth() - playerHit.Get_Damage());
+					if(playerHit.getSpriteType() <= 0) {
+						currentProjectile.remove();
+					} else {
+						// Don't continuously damage the mob, but allow animation to render completely
+						playerHit.setDamage(0);
+					}
+					if(theBoss.getHealth() == 0) {
+						currentBoss.remove();
+					}
+				}	
+			}
+			// Iterate through all mini bosses (usually one)
+			for(Iterator<DaMiniBoi> currentMiniBoss = this.miniBoss.iterator(); currentMiniBoss.hasNext();) {
+				DaMiniBoi mobBoss = currentMiniBoss.next();				
+				if(mobBoss.collides(playerHit) != null) {
+					mobBoss.setHealth(mobBoss.getHealth() - playerHit.Get_Damage());
+					if(playerHit.getSpriteType() <= 0) {
+						currentProjectile.remove();
+					} else {
+						// Don't continuously damage the mob, but allow animation to render completely
+						playerHit.setDamage(0);
+					}
+					if(mobBoss.getHealth() == 0) {
+						currentMiniBoss.remove();
+					}
+				}
+				
 			}
 		}
 	}

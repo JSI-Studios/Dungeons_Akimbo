@@ -134,32 +134,35 @@ public class DaLogic {
 		}
 		
 		// Handle miniboss attack
-		DaMiniBoi miniBoss = map.getMiniBoss();
-		Projectile miniBossAttack = miniBoss.attack(currentPlayer);
-		ArrayList<Projectile> miniBossMultiAttack = miniBoss.multiAttack();
-		if(miniBossAttack != null) {
-			// Single attack returned, add to list of enemy attacks
-			map.getEnemyAttacks().add(miniBossAttack);
-		}
-		if(miniBossMultiAttack != null) {
-			// Iterate through the list of multi attacks
-			miniBossMultiAttack.forEach((hit) -> map.getEnemyAttacks().add(hit));
+		for(Iterator<DaMiniBoi> currentMini = map.getMiniBoss().iterator(); currentMini.hasNext();) {
+			DaMiniBoi miniBoss = currentMini.next();
+			Projectile miniBossAttack = miniBoss.attack(currentPlayer);
+			ArrayList<Projectile> miniBossMultiAttack = miniBoss.multiAttack();
+			if(miniBossAttack != null) {
+				// Single attack returned, add to list of enemy attacks
+				map.getEnemyAttacks().add(miniBossAttack);
+			}
+			if(miniBossMultiAttack != null) {
+				// Iterate through the list of multi attacks
+				miniBossMultiAttack.forEach((hit) -> map.getEnemyAttacks().add(hit));
+			}
 		}
 		
 		// Handle boss attack
-		DaBoi boss = map.getBoss();
-		Projectile bossAttack = boss.attack(currentPlayer);
-		ArrayList<Projectile> bossMultiAttack = boss.multiAttack(currentPlayer);
-		if(bossAttack != null) {
-			map.getEnemyAttacks().add(bossAttack);
-		}
-		if(bossMultiAttack != null) {
-			bossMultiAttack.forEach((hit)-> map.getEnemyAttacks().add(hit));
+		for(DaBoi boss: map.getBoss()) {
+			Projectile bossAttack = boss.attack(currentPlayer);
+			ArrayList<Projectile> bossMultiAttack = boss.multiAttack(currentPlayer);
+			if(bossAttack != null) {
+				map.getEnemyAttacks().add(bossAttack);
+			}
+			if(bossMultiAttack != null) {
+				bossMultiAttack.forEach((hit)-> map.getEnemyAttacks().add(hit));
+			}
 		}
 		
 		// Update enemies based on their updates
 		mobs.forEach((mob) -> mob.update(delta));
-		boss.update(delta);
+		map.getBoss().forEach((theBoss) -> theBoss.update(delta));
 	}
 	
 	//things that happened during update() for projectiles go here
@@ -201,7 +204,7 @@ public class DaLogic {
 		 * of mob stays still
 		 */
 		// Get current player as an Entity (change to player later if needed)
-		Entity currentPlayer = map.getPlayerList().get(playerID);
+		Player currentPlayer = map.getPlayerList().get(playerID);
 		
 		// Handle mob attack
 		ArrayList<DaMob> mobs = map.getMobList();
@@ -213,16 +216,30 @@ public class DaLogic {
 			}
 		}
 		// Handle miniboss attack
-		DaMiniBoi miniBoss = map.getMiniBoss();
-		Projectile miniBossAttack = miniBoss.attack(currentPlayer);
-		ArrayList<Projectile> miniBossMultiAttack = miniBoss.multiAttack();
-		if(miniBossAttack != null) {
-			// Single attack returned, add to list of enemy attacks
-			map.getEnemyAttacks().add(miniBossAttack);
+		for(Iterator<DaMiniBoi> currentMini = map.getMiniBoss().iterator(); currentMini.hasNext();) {
+			DaMiniBoi miniBoss = currentMini.next();
+			Projectile miniBossAttack = miniBoss.attack(currentPlayer);
+			ArrayList<Projectile> miniBossMultiAttack = miniBoss.multiAttack();
+			if(miniBossAttack != null) {
+				// Single attack returned, add to list of enemy attacks
+				map.getEnemyAttacks().add(miniBossAttack);
+			}
+			if(miniBossMultiAttack != null) {
+				// Iterate through the list of multi attacks
+				miniBossMultiAttack.forEach((hit) -> map.getEnemyAttacks().add(hit));
+			}
 		}
-		if(miniBossMultiAttack != null) {
-			// Iterate through the list of multi attacks
-			miniBossMultiAttack.forEach((hit) -> map.getEnemyAttacks().add(hit));
+		
+		// Handle boss attack
+		for(DaBoi boss: map.getBoss()) {
+			Projectile bossAttack = boss.attack(currentPlayer);
+			ArrayList<Projectile> bossMultiAttack = boss.multiAttack(currentPlayer);
+			if(bossAttack != null) {
+				map.getEnemyAttacks().add(bossAttack);
+			}
+			if(bossMultiAttack != null) {
+				bossMultiAttack.forEach((hit)-> map.getEnemyAttacks().add(hit));
+			}
 		}
 		
 		/* Check for collision with mobs, and also update projectiles */
@@ -259,6 +276,7 @@ public class DaLogic {
 		map.getPlayerList().get(playerID).getPrimaryWeapon().update(delta);
 		map.getEnemyAttacks().forEach((hitbox) -> hitbox.update(delta));
 		mobs.forEach((mob) -> mob.update(delta));
+		map.getBoss().forEach((theBoss) -> theBoss.update(delta));
 
 	}
 	//start up a collision handler for the map
