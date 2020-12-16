@@ -44,7 +44,7 @@ public class DaSpawner extends Entity {
 			while(rng == 1) {
 				rng = this.rngGenerator.nextInt(4);
 			}
-			this.cooldown = 150;
+			this.cooldown = 300;
 			return rng;
 		} else {
 			this.cooldown--;
