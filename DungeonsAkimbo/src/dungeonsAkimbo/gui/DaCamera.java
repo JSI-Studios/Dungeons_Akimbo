@@ -3,6 +3,7 @@ package dungeonsAkimbo.gui;
 import java.util.ArrayList;
 import java.util.Map;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.tiled.TiledMap;
 
@@ -89,6 +90,22 @@ public class DaCamera {
 					g.translate(xOffSet*DaMap.TILE_SIZE, yOffSet*DaMap.TILE_SIZE);
 				}
 			}
+		}
+	}
+	
+	public void renderPlayerGui(Graphics g) {
+		for(Map.Entry<Integer, Player> uniquePlayer : currentGame.getPlayerList().entrySet()) {
+			Player player = uniquePlayer.getValue();
+			int playerKey = uniquePlayer.getKey();
+			float barWidth = 125;
+			float barHeight = 25;
+			g.drawString("Player " + playerKey, 1050, 25);
+			float healthBar = ((float) player.getCurrent_health() / (float) player.getMax_health()) * barWidth;
+			g.drawString("Health", 1050, 50);
+			g.fillRect(1050, 75, barWidth, barHeight);
+			g.setColor(Color.red);
+			g.fillRect(1050, 75, healthBar, barHeight);
+			g.setColor(Color.black);
 		}
 	}
 	
