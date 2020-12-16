@@ -17,6 +17,7 @@ public class DaSMG extends Entity implements Ranged {
 		maxAmmo = 20;
 		shootTimer = 50;
 		reloadTimer = 1000;
+		maxReloadTimer = 1000;
 		maxTimer = 50;
 		range = 800;
 		damage = 40;

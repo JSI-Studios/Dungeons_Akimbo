@@ -25,7 +25,6 @@ public class Player extends Entity {
 	private Ranged assault;
 	
 	
-
 	private float speed;
 	private int currentHealth;
 	private int max_health;
@@ -51,15 +50,43 @@ public class Player extends Entity {
 		
 		this.sprite = new Animation(false);
 		this.sprites = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.DA_PLAYER_RSC), 32, 32, 0, 0);
+		
 		setMax_health(500);
 		setCurrent_health(getMax_health());
 		speed = 0.5f;
+		this.backpackIndex = 0;
 		
-		shotty = new DaShotty();
+		if (type == 1) {
+			shotty = new DaShotty();
+			pistol = new DaPistol();
+			this.primaryWeapon = shotty;
+			gunBackpack.add(shotty);
+			gunBackpack.add(pistol);
+		} else if (type == 2) {
+			sniper = new DaSniper();
+			pistol = new DaPistol();
+			this.primaryWeapon = sniper;
+			gunBackpack.add(sniper);
+			gunBackpack.add(pistol);
+		} else if (type == 3) {
+			assault = new DaAssault();
+			pistol = new DaPistol();
+			this.primaryWeapon = assault;
+			gunBackpack.add(assault);
+			gunBackpack.add(pistol);
+		} else if (type == 4) {
+			smg = new DaSMG();
+			pistol = new DaPistol();
+			this.primaryWeapon = smg;
+			gunBackpack.add(smg);
+			gunBackpack.add(pistol);
+		}
+		
+		/*shotty = new DaShotty();
 		sniper = new DaSniper();
 		pistol = new DaPistol();
 		smg = new DaSMG();
-		assault = new DaAssault();
+		assault = new DaAssault(); 
 		
 		//starting gun and index in backpack
 		this.primaryWeapon = assault;
@@ -71,7 +98,7 @@ public class Player extends Entity {
 		gunBackpack.add(shotty);
 		gunBackpack.add(pistol);
 		gunBackpack.add(smg);
-		gunBackpack.add(sniper);
+		gunBackpack.add(sniper); */
 		
 		this.addImageWithBoundingBox(this.sprites.getSprite(1, 0));
 		this.removeImage(this.sprites.getSprite(1, 0));
