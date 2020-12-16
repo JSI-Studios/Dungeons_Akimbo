@@ -3,6 +3,7 @@ package dungeonsAkimbo.map;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import org.newdawn.slick.tiled.TiledMap;
 import org.newdawn.slick.util.pathfinding.PathFindingContext;
@@ -50,9 +51,12 @@ public class DaMap implements TileBasedMap{
 	//PathFinding variables
 	private Boolean[][] visited;
 	
+	Random random;
+	
 	public final static int TILE_SIZE = 32;
 	
 	public DaMap(TiledMap map) {
+		random = new Random();
 		this.currentMap = map;
 		this.mapWidth = map.getWidth();
 		this.mapHeight = map.getHeight();
@@ -187,6 +191,30 @@ public class DaMap implements TileBasedMap{
 				if(mapPlan.getTileId(xTile, yTile, 1) != 0) {
 					DaWall wall = new DaWall(xTile * TILE_SIZE, yTile * TILE_SIZE, mapPlan.getTileId(xTile, yTile, 1), mapPlan.getTileImage(xTile, yTile, 1));
 					wallList.add(wall);
+				}
+			}
+		}
+		
+		for(int xTile = 0; xTile < mapWidth; xTile++) {
+			for(int yTile = 0; yTile < mapHeight; yTile++) {
+				if(mapPlan.getTileId(xTile, yTile, 3) != 0) {
+					if(mapPlan.getTileId(xTile, yTile, 3) == 862) {
+						DaChest chest = new DaChest(xTile * TILE_SIZE, yTile * TILE_SIZE, random.ints(0,2).findFirst().getAsInt());
+						chests.add(chest);
+						continue;
+					}else if(mapPlan.getTileId(xTile, yTile, 3) == 986) {
+						DaPickup pickUp = new DaPickup(xTile * TILE_SIZE, yTile * TILE_SIZE, 0);
+						pickups.add(pickUp);
+						continue;
+					}else if(mapPlan.getTileId(xTile, yTile, 3) == 1029) {
+						DaPickup pickUp = new DaPickup(xTile * TILE_SIZE, yTile * TILE_SIZE, 1);
+						pickups.add(pickUp);
+						continue;
+					}else if(mapPlan.getTileId(xTile, yTile, 3) == 1028) {
+						DaPickup pickUp = new DaPickup(xTile * TILE_SIZE, yTile * TILE_SIZE, 2);
+						pickups.add(pickUp);
+						continue;
+					}					
 				}
 			}
 		}
