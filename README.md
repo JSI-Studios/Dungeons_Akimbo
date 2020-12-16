@@ -21,6 +21,7 @@ Dodge: Space Bar or press joystick on joy-cons
 Change Weapon: Q or ZL/ZR on joy-cons
 God Mode: G
 Enemy Pathing: P
+Joy-con controls supported via external library located at https://github.com/JSI-Studios/joyconLib
 
 Note: using a singular joy-con to play this game will likely be slightly uncomfortable for those with large hands.
 
