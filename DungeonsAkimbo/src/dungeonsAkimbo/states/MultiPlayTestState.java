@@ -61,11 +61,18 @@ public class MultiPlayTestState extends BasicGameState {
             dag.addPlayer(keyboardIndex);
         }
         if (dag.getCurrentMapNum() == 2) {
-
+            for (int playerID : dag.getCurrentMap().getPlayerList().keySet()) {
+                dag.getCurrentMap().getPlayerList().get(playerID).setPosition((9 + 3*playerID)*32, 92*32);
+            }
+            gameView.setCameraY(69);
         } else if (dag.getCurrentMapNum() == 3) {
-
+            for (int playerID : dag.getCurrentMap().getPlayerList().keySet()) {
+                dag.getCurrentMap().getPlayerList().get(playerID).setPosition((3)*32, (6+ 3*playerID)*32);
+            }
         } else if (dag.getCurrentMapNum() == 4) {
-
+            for (int playerID : dag.getCurrentMap().getPlayerList().keySet()) {
+                dag.getCurrentMap().getPlayerList().get(playerID).setPosition((9 + 3*playerID)*32, 25*32);
+            }
         }
         // Chat GUI handling
         chat = new ChatGUI(0, 768, 1024, 244, container);;

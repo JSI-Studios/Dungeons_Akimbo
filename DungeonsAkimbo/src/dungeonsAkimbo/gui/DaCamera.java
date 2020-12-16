@@ -58,12 +58,20 @@ public class DaCamera {
 	public float getCameraY() {
 		return yOffSet;
 	}
+
+	public void setCameraX(float xOff) {
+		xOffSet = xOff;
+	}
+
+	public void setCameraY(float yOff) {
+		yOffSet = yOff;
+	}
 	
 	public void moveCameraX(int dx, int delta) {
 		if (dx > 0 && xOffSet < mapWidth - 16) {
-			xOffSet += .0195f * delta;
+			xOffSet += .039f * delta;
 		}else if(dx < 0 && xOffSet > 0){
-			xOffSet -= .0195f * delta;
+			xOffSet -= .0039f * delta;
 		}
 		return;
 		
@@ -71,9 +79,9 @@ public class DaCamera {
 	
 	public void moveCameraY(int dy, int delta) {
 		if (dy > 0 && yOffSet < mapHeight - 16) {
-			yOffSet += .00195f * delta;
+			yOffSet += .0039f * delta;
 		}else if(dy < 0 && yOffSet > 0) {
-			yOffSet -= .00195f * delta;
+			yOffSet -= .0039f * delta;
 		}	
 		return;		
 	}
