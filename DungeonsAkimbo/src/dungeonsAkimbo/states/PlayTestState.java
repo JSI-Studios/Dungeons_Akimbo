@@ -179,7 +179,7 @@ public class PlayTestState extends BasicGameState {
 		if (dag.getCurrentMap().getPlayerList().get(playerID).getPrimaryWeapon() instanceof DaAssault) {
 			dag.getLogic().assaultBurst(dag, playerID, shotAngle);
 		}
-		dag.getLogic().clientUpdate(playerID, delta);
+		dag.getLogic().localUpdate(delta);
 		updateChatLog(dag);
 
 	}
