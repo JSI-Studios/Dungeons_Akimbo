@@ -137,4 +137,9 @@ public class DaSniper extends Entity implements Ranged {
 		
 	}
 
+	@Override
+	public void setAmmo(int inAmmo) {
+		this.ammo = inAmmo;		
+	}
+
 }

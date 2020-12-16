@@ -155,8 +155,9 @@ public class DaMap implements TileBasedMap{
 	}
 	
 	public void addNewPlayer(int playerID) {
-		Player player = new Player(DungeonsAkimboGame.WIDTH / 2, DungeonsAkimboGame.HEIGHT / 3, 1);
-		playerList.put(playerID, player);		
+		Player player = new Player(DungeonsAkimboGame.WIDTH / 2, DungeonsAkimboGame.HEIGHT / 3, 4);
+		playerList.put(playerID, player);
+	
 	}
 	
 	public void loadNewMap(TiledMap mapPlan) {

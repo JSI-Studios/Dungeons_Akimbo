@@ -139,7 +139,7 @@ public class PlayTestState extends BasicGameState {
 				dag.getClient().console(Integer.toString(playerID));
 			}
 			
-			if (input.isKeyPressed(Input.KEY_1)) {
+			/* if (input.isKeyPressed(Input.KEY_1)) {
 				dag.getCurrentMap().getPlayerList().get(playerID).gunSelect(0);
 			} else if (input.isKeyPressed(Input.KEY_2)) {
 				dag.getCurrentMap().getPlayerList().get(playerID).gunSelect(1);
@@ -149,7 +149,9 @@ public class PlayTestState extends BasicGameState {
 				dag.getCurrentMap().getPlayerList().get(playerID).gunSelect(3);
 			} else if (input.isKeyPressed(Input.KEY_5)) {
 				dag.getCurrentMap().getPlayerList().get(playerID).gunSelect(4);
-			} else if (input.isKeyPressed(Input.KEY_Q)) {
+			} */
+				
+			if (input.isKeyPressed(Input.KEY_Q)) {
 				dag.getCurrentMap().getPlayerList().get(playerID).getNextGun();
 			}
 
