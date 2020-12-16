@@ -16,6 +16,7 @@ public class DaBoi extends Entity implements DaEnemy {
 
 	private int dimensions = 96;
 
+	// Properties of the boss
 	private int health;
 	private Vector velocity;
 	private float initX;
@@ -23,13 +24,17 @@ public class DaBoi extends Entity implements DaEnemy {
 	private int attackCooldown;
 	private int rest;
 	private Random rngHandler;
-	
-	private boolean playerPunish;
 	private int attackPhase;
+	private int movementDelay;
 	
+	// Tracking interaction
+	private boolean playerPunish;
+	
+	// Normal sprite
 	private Animation sprite;
 	private SpriteSheet spritesheet;
 	
+	// Stalling sprite
 	private Animation stall;
 	private boolean isStall;
 	private Animation reverseStall;
@@ -71,9 +76,10 @@ public class DaBoi extends Entity implements DaEnemy {
 		this.setPlayerPunish(false);
 		this.setAttackCooldown(0);
 		this.setRest(0);
-		this.setAttackPhase(0);
+		this.setAttackPhase(1);
 		this.setRngHandler(new Random());
 		this.setStall(false);
+		this.movementDelay = -1000;
 	}
 	
 	@Override
@@ -145,6 +151,94 @@ public class DaBoi extends Entity implements DaEnemy {
 	}
 	
 	public ArrayList<Projectile> multiAttack(){
+		ArrayList<Projectile> attack = new ArrayList<Projectile>();
+		int rng;
+		if(!this.isStall) {
+			if(this.attackPhase == 0) {
+				// Phase 0: Randomly jump across the map, may stall
+				if(this.movementDelay < -100 && this.attackCooldown == 0) {
+					this.attackCooldown = 200;
+				} else if (this.movementDelay <= 0 && this.attackCooldown <= 0) {
+					this.setAttackPhase(1);
+					this.movementDelay = -1000;
+					this.attackCooldown = 0;
+				} else if(this.movementDelay <= 0) {
+					rng = this.getRngHandler().nextInt(8);		
+					int unitWidth = DungeonsAkimboGame.WIDTH / 6;
+					int unitHeight = DungeonsAkimboGame.HEIGHT / 6;
+					if(rng == 0) {
+						// Move top left
+						this.setX(unitWidth);
+						this.setY(unitHeight);
+					} else if(rng == 1) {
+						// Move top middle
+						this.setX(unitWidth * 2);
+						this.setY(unitHeight);
+					} else if(rng == 2) {
+						// Move top right
+						this.setX(unitWidth * 3);
+						this.setY(unitHeight);
+					} else if(rng == 3){
+						// Move bottom left
+						this.setX(unitWidth);
+						this.setY(unitHeight * 5);
+					} else if(rng == 4) {
+						// Move bottom middle
+						this.setX(unitWidth * 2);
+						this.setY(unitHeight * 5);
+					} else if(rng == 5){
+						// Move bottom right
+						this.setX(unitWidth * 3);
+						this.setY(unitHeight * 5);
+					} else if(rng == 6) {
+						// Move middle
+						this.setX(DungeonsAkimboGame.WIDTH / 3);
+						this.setY(DungeonsAkimboGame.HEIGHT / 3 + 100);
+					}
+					this.movementDelay = 35;
+					this.attackCooldown--;
+					if (rng == 7) {
+						// Begin stalling, break away 
+						this.removeAnimation(this.sprite);
+						if(this.getNumAnimations() == 0) {
+							this.stall.restart();
+							this.addAnimation(this.stall);
+							this.stallCooldown = 100;
+						}
+						this.setAttackCooldown(0);
+						this.movementDelay = -1000;
+						this.setStall(true);
+						this.setAttackPhase(1);
+					} else {
+						// Spam projectiles at the spot
+						attack.add(new Projectile(this.getX(), this.getY() + 64, 50, 500, .08f, 90, 2));
+						attack.add(new Projectile(this.getX() - 64, this.getY() + 64, 50, 500, .08f, 90, 2));
+						attack.add(new Projectile(this.getX() + 64, this.getY() + 64, 50, 500, .08f, 90 ,2));
+						attack.add(new Projectile(this.getX() - 64, this.getY(), 10, 500, .08f, -180, 2));
+						attack.add(new Projectile(this.getX() + 64, this.getY(), 10, 500, .08f, 0, 2));
+						attack.add(new Projectile(this.getX(), this.getY() - 64, 50, 500, .08f, -90, 2));
+						attack.add(new Projectile(this.getX() - 64, this.getY() - 64, 50, 500, .08f, -90, 2));
+						attack.add(new Projectile(this.getX() + 64, this.getY() - 64, 50, 500, .08f, -90 ,2));
+					}
+				} else {
+					this.attackCooldown--;
+					this.movementDelay--;
+				}
+			} else if(this.attackPhase == 1) {
+				// Pause
+				if(this.movementDelay < 0) {
+					this.movementDelay = 1000;
+					this.setAttackCooldown(100);
+				} else if(this.attackCooldown >= 0) {
+					this.attackCooldown--;
+				} else {
+					this.movementDelay = -1000;
+					this.setAttackCooldown(0);
+					this.attackPhase = 0;
+				}
+			}
+			return attack;
+		}
 		return null;
 	}
 	
@@ -165,7 +259,7 @@ public class DaBoi extends Entity implements DaEnemy {
 				this.addAnimation(this.sprite);
 				this.stallCooldown = 0;
 				this.isStall = false;
-				this.attackCooldown = 0;
+				
 			}
 		}
 	}
