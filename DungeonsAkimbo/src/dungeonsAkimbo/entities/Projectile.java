@@ -124,7 +124,7 @@ public class Projectile extends Entity {
 		try {
 			translate(velocity.scale(delta));
 		} catch (Exception e) {
-			System.out.println("caught exception when trying to translate player velocity" + e);
+//			System.out.println("caught exception when trying to translate player velocity" + e);
 		} 
 	}
 
