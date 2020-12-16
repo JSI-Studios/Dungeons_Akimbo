@@ -23,6 +23,7 @@ public class DaMiniBoi extends Entity implements DaEnemy {
 	private int rest;
 	
 	private boolean playerPunish;
+	private int attackPhase;
 	
 	private Animation sprite;
 	private SpriteSheet spritesheet;
@@ -45,6 +46,7 @@ public class DaMiniBoi extends Entity implements DaEnemy {
 		this.playerPunish = false;
 		this.attackCooldown = 0;
 		this.rest = 0;
+		this.attackPhase = 0;
 	}
 	
 	@Override
@@ -68,32 +70,45 @@ public class DaMiniBoi extends Entity implements DaEnemy {
 		
 		// Actual attack interaction
 		Projectile attacked = null;
-		if(this.attackCooldown <= 0 && this.rest < 30) {
+		if(this.attackCooldown <= 0 && this.rest < 100) {
 			attacked = new Projectile(this.getX(), this.getY(), 20, 900);
 			attacked.rotate(currentDirection);
 			attacked.Set_Velocity(currentDirection);
 			this.attackCooldown = 10;
 			this.rest++;
-		} else if(this.rest >= 30 && this.rest <= 200){
+		} else if(this.rest >= 100 && this.rest <= 200 && this.attackPhase < 1){
+			this.attackPhase = 1;
 			this.rest++;
-		} else if(rest > 200) {
+		} else if(this.rest  > 200 || this.attackPhase == 3) {
+			// Reset to bullet hell
+			this.attackPhase = 0;
 			this.rest = 0;
 		} else {
+			this.rest++;
 			this.attackCooldown--;
 		}
 		return attacked;
 	}
 	
 	public ArrayList<Projectile> multiAttack(){
+		ArrayList<Projectile> attack = new ArrayList<Projectile>();
 		if(this.playerPunish) {
 			// Return new attack after collision
-			ArrayList<Projectile> attack = new ArrayList<Projectile>();
 			attack.add(new Projectile(this.getX(), this.getY() + 64, 50, 50, 1));
 			attack.add(new Projectile(this.getX() - 64, this.getY() + 64, 50, 50, 1));
 			attack.add(new Projectile(this.getX() + 64, this.getY() + 64, 50, 50, 1));
 			attack.add(new Projectile(this.getX() - 64, this.getY(), 10, 50, 1));
 			attack.add(new Projectile(this.getX() + 64, this.getY(), 10, 50, 1));
 			this.playerPunish = false;
+			return attack;
+		} else if(this.attackPhase == 1) {
+			// Begin phase 1 of attack
+			attack.add(new Projectile(this.getX(), this.getY() + 64, 50, 500, .3f, 90, 2));
+			attack.add(new Projectile(this.getX() - 64, this.getY() + 64, 50, 500, .3f, 90, 2));
+			attack.add(new Projectile(this.getX() + 64, this.getY() + 64, 50, 500, .3f, 90 ,2));
+			attack.add(new Projectile(this.getX() - 64, this.getY(), 10, 500, .3f, -180, 2));
+			attack.add(new Projectile(this.getX() + 64, this.getY(), 10, 500, .3f, 0, 2));
+			this.attackPhase = 2;
 			return attack;
 		}
 		return null;
