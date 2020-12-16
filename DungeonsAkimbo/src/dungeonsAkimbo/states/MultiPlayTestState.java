@@ -3,6 +3,7 @@ package dungeonsAkimbo.states;
 import dungeonsAkimbo.DungeonsAkimboGame;
 import dungeonsAkimbo.InputListeners.DaJoyconListener;
 import dungeonsAkimbo.entities.DaAssault;
+import dungeonsAkimbo.entities.DaStairs;
 import dungeonsAkimbo.entities.Player;
 import dungeonsAkimbo.entities.Projectile;
 import dungeonsAkimbo.gui.ChatGUI;
@@ -13,6 +14,8 @@ import jig.Vector;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.state.transition.FadeInTransition;
+import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -56,6 +59,20 @@ public class MultiPlayTestState extends BasicGameState {
         int keyboardIndex = dag.getKeyboardMouseIndex();
         if (keyboardIndex != -1) {
             dag.addPlayer(keyboardIndex);
+        }
+        if (dag.getCurrentMapNum() == 2) {
+            for (int playerID : dag.getCurrentMap().getPlayerList().keySet()) {
+                dag.getCurrentMap().getPlayerList().get(playerID).setPosition((9 + 3*playerID)*32, 92*32);
+            }
+            gameView.setCameraY(69);
+        } else if (dag.getCurrentMapNum() == 3) {
+            for (int playerID : dag.getCurrentMap().getPlayerList().keySet()) {
+                dag.getCurrentMap().getPlayerList().get(playerID).setPosition((3)*32, (6+ 3*playerID)*32);
+            }
+        } else if (dag.getCurrentMapNum() == 4) {
+            for (int playerID : dag.getCurrentMap().getPlayerList().keySet()) {
+                dag.getCurrentMap().getPlayerList().get(playerID).setPosition((9 + 3*playerID)*32, 25*32);
+            }
         }
         // Chat GUI handling
         chat = new ChatGUI(0, 768, 1024, 244, container);;
@@ -248,6 +265,21 @@ public class MultiPlayTestState extends BasicGameState {
 	            if(player.getX() - (gameView.getCameraX() * 64) > 128 && gameView.getCameraX() < dag.getCurrentMap().getWidthInTiles()) {
 	            		this.cameraDirection[3] = true;
 	            }
+            }
+
+            // Check for a clear room
+            if(dag.getCurrentMap().getSpawnList().size() <= 0 && dag.getCurrentMap().getBoss().size() <= 0 && dag.getCurrentMap().getMiniBoss().size() <= 0 &&
+                    dag.getCurrentMap().getMobList().size() <= 0) {
+                dag.getCurrentMap().getStairs().forEach((stairs) -> stairs.setStatus(true));
+            }
+
+            // If room is clear, and any player collides with stairs, transition to next room
+            for(DaStairs stair: dag.getCurrentMap().getStairs()) {
+                if(stair.isStatus() && dag.getCurrentMap().getPlayerList().get(playerID).collides(stair) != null) {
+                    input.clearKeyPressedRecord();
+                    currentSound.stop();
+                    game.enterState(DungeonsAkimboGame.MULTIPLAYTESTSTATE, new FadeOutTransition(), new FadeInTransition());
+                }
             }
             
         }

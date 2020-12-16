@@ -14,11 +14,11 @@ public class DaPistol extends Entity implements Ranged {
 	private Animation sprite;
 	
 	public DaPistol() {
-		ammo = 20;
-		maxAmmo = 20;
+		ammo = 10;
+		maxAmmo = 10;
 		shootTimer = 100;
-		reloadTimer = 2000;
-		maxTimer = 500;
+		reloadTimer = 1000;
+		maxTimer = 100;
 		range = 1500;
 		damage = 40;
 		canShoot = true;
@@ -98,7 +98,7 @@ public class DaPistol extends Entity implements Ranged {
 		if (this.reloadTimer <= 0) {
 			this.ammo = this.maxAmmo;
 			this.isReloading = false;
-			this.reloadTimer = 2000;
+			this.reloadTimer = 1000;
 		}
 
 		if (this.canShoot == false) {

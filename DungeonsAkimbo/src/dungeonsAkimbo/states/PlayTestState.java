@@ -25,6 +25,8 @@ import dungeonsAkimbo.netcode.UniqueIdentifier;
 import jig.Entity;
 import jig.ResourceManager;
 import jig.Vector;
+import org.newdawn.slick.state.transition.FadeInTransition;
+import org.newdawn.slick.state.transition.FadeOutTransition;
 
 public class PlayTestState extends BasicGameState {
 
@@ -239,7 +241,7 @@ public class PlayTestState extends BasicGameState {
 			if(stair.isStatus() && dag.getCurrentMap().getPlayerList().get(playerID).collides(stair) != null) {
 				input.clearKeyPressedRecord();
 				currentSound.stop();
-				game.enterState(DungeonsAkimboGame.MULTIPLAYTESTSTATE);
+				game.enterState(DungeonsAkimboGame.PLAYTESTSTATE, new FadeOutTransition(), new FadeInTransition());
 			}
 		}
 		

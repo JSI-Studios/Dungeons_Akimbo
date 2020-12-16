@@ -35,6 +35,7 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	public static final String STALL_FOUR = "dungeonsAkimbo/resource/Mobs/Cosmic_09.png";
 	public static final String STALL_FIVE = "dungeonsAkimbo/resource/Mobs/Cosmic_10.png";
 	
+	
 	//Player Macros
 	public static final String DA_MALE1_RSC = "dungeonsAkimbo/resource/Mobs/Male 01-1.png";
 	public static final String DA_SCHOOL_GIRL1_RSC = "dungeonsAkimbo/resource/Mobs/su1 Student fmale 10.png";
