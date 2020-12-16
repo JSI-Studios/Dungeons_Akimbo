@@ -51,7 +51,7 @@ public class Player extends Entity {
 		
 		this.sprite = new Animation(false);
 		this.sprites = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.DA_PLAYER_RSC), 32, 32, 0, 0);
-		setMax_health(1000);
+		setMax_health(500);
 		setCurrent_health(getMax_health());
 		speed = 0.5f;
 		
