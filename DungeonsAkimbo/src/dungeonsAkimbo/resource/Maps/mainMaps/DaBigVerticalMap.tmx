@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="32" height="101" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="2">
  <tileset firstgid="1" source="[Base]BaseChip_pipo.tsx"/>
- <tileset firstgid="1065" source="../testMap/[Base]BaseChip_pipo.tsx"/>
+ <tileset firstgid="1065" source="[Base]BaseChip_pipo.tsx"/>
  <layer id="1" name="Floors" width="32" height="101">
   <data encoding="base64" compression="gzip">
    H4sIAAAAAAAACu3WMQ6DMAxA0QwMXIb7X4+pKhKUJAjHVLzhqZ3yXVcizKWUGQAAAOBhlun7+fk+sn0mc4asPWz/EwD2Mp+RLXdE5F3ylP7Z2ZH3ae/vz+5H7b62/9ZZo/oZ71L/KPPdU19fX1//vv72jJbzevu187P79m//9m//b92/vv7V9sgZfrVHzZDZr7WjZmjtRsxxtd3zXOa9RjyzgGMrBddRaYAyAAA=

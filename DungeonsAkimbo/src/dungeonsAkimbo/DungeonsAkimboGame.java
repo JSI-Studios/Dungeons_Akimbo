@@ -81,9 +81,9 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	public static final int GAMEOVERSTATE = 8;
 	
 	public static final String DA_TESTMAP_RSC = "dungeonsAkimbo/resource/Maps/testMap/DaTestMapSmall.tmx";
-	public static final String DA_TESTMAP_TILESET_RSC = "dungeonsAkimbo/resource/Maps/testmap/";
+	public static final String DA_TESTMAP_TILESET_RSC = "dungeonsAkimbo/resource/Maps/testMap/";
 
-	public static final String DA_MAINMAP_TILESET_RSC = "dungeonsAkimbo/resource/Maps/mainMaps";
+	public static final String DA_MAINMAP_TILESET_RSC = "dungeonsAkimbo/resource/Maps/mainMaps/";
 	public static final String DA_BIG_VERTICAL_MAP_RSC = "dungeonsAkimbo/resource/Maps/mainMaps/DaBigVerticalMap.tmx";
 	public static final String DA_BIG_HORIZONTAL_MAP_RSC = "dungeonsAkimbo/resource/Maps/mainMaps/DaBigHorizontalMap.tmx";
 	public static final String DA_COLLESIUM_MAP_RSC = "dungeonsAkimbo/resource/Maps/mainMaps/DaCollesiumMap.tmx";
@@ -200,13 +200,13 @@ public class DungeonsAkimboGame extends StateBasedGame {
 			mapPlan = new TiledMap(DA_TESTMAP_RSC, DA_TESTMAP_TILESET_RSC);
 		}
 		else if (map == 2) {
-			mapPlan = new TiledMap(DA_BIG_VERTICAL_MAP_RSC, DA_TESTMAP_TILESET_RSC);
+			mapPlan = new TiledMap(DA_BIG_VERTICAL_MAP_RSC, DA_MAINMAP_TILESET_RSC);
 		}
 		else if (map == 3) {
-			mapPlan = new TiledMap(DA_BIG_HORIZONTAL_MAP_RSC, DA_TESTMAP_TILESET_RSC);
+			mapPlan = new TiledMap(DA_BIG_HORIZONTAL_MAP_RSC, DA_MAINMAP_TILESET_RSC);
 		}
 		else if (map == 4) {
-			mapPlan = new TiledMap(DA_COLLESIUM_MAP_RSC, DA_TESTMAP_TILESET_RSC);
+			mapPlan = new TiledMap(DA_COLLESIUM_MAP_RSC, DA_MAINMAP_TILESET_RSC);
 		}
 		currentMap = map;
 		mapReady = true;
