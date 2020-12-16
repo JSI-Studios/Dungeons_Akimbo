@@ -30,6 +30,7 @@ public class Player extends Entity {
 	private int currentHealth;
 	private int max_health;
 	private int dodgeTimer = 500;
+	private int backpackIndex; 
 	
 	private boolean dodging;
 	
@@ -57,7 +58,9 @@ public class Player extends Entity {
 		smg = new DaSMG();
 		assault = new DaAssault();
 		
-		this.primaryWeapon = shotty;
+		//starting gun and index in backpack
+		this.primaryWeapon = assault;
+		this.backpackIndex = 0;
 		
 		gunBackpack = new ArrayList<Weapon>();
 		
@@ -86,7 +89,19 @@ public class Player extends Entity {
 	
 	public void gunSelect(int i) {
 		this.primaryWeapon = null;
+		this.backpackIndex = i;
 		this.primaryWeapon = (Ranged) gunBackpack.get(i);
+	}
+	
+	public void getNextGun() {
+		if (this.gunBackpack.get(backpackIndex) == gunBackpack.get(gunBackpack.size()-1))  {
+			this.backpackIndex = 0;
+			this.primaryWeapon = (Ranged) gunBackpack.get(0);
+		} else {
+			System.out.println("gun index is " + this.backpackIndex);
+			this.primaryWeapon = (Ranged) gunBackpack.get(backpackIndex+1);
+			this.backpackIndex++;
+		}
 	}
 	
 	public Ranged getPrimaryWeapon() {

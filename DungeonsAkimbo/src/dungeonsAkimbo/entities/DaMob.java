@@ -166,7 +166,7 @@ public class DaMob extends Entity implements DaEnemy, Mover {
 		if(this.path != null) {
 			// Peek at the top of the path stack and get positions
 			Step nextStep = this.path.peek();
-			System.out.print("(" + nextStep.getX() + ", " + nextStep.getY() + ") " + "\n");
+			//System.out.print("(" + nextStep.getX() + ", " + nextStep.getY() + ") " + "\n");
 			Vector currentPosition = new Vector(this.getX(), this.getY());
 			Vector targetPosition =  new Vector((nextStep.getX() * tileSize) + tileCenter, (nextStep.getY() * tileSize) + tileCenter);
 			// Return vector to next position, update the pathing if a tile has been reached

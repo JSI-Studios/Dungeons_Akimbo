@@ -32,7 +32,7 @@ public class DaAssault extends Entity implements Ranged{
 		this.range = 1500;
 		this.damage = 40;
 		
-		this.canShoot = true;
+		this.canShoot = false;
 
 
 		/**
@@ -144,8 +144,6 @@ public class DaAssault extends Entity implements Ranged{
 		
 		if ( !this.canShoot && this.burstAmount > 0 && this.isBursting && this.shooted) {		
 			this.canFireBullet = true;
-			System.out.println(" ammo is " + this.ammo);
-			System.out.println(" reload is " + this.reloadTimer);
 		}
 		
 		if (!this.isBursting) {
@@ -159,7 +157,6 @@ public class DaAssault extends Entity implements Ranged{
 
 		if (this.ammo <= 0) {
 			this.isReloading = true;
-			System.out.println("reloading now");
 		}
 		
 		if (this.isReloading == true) {
