@@ -219,19 +219,19 @@ public class DaMap implements TileBasedMap{
 						DaChest chest = new DaChest(xTile * TILE_SIZE, yTile * TILE_SIZE, random.ints(0,2).findFirst().getAsInt());
 						chests.add(chest);
 						continue;
-					}else if(mapPlan.getTileId(xTile, yTile, 3) == 986) {
+					} else if(mapPlan.getTileId(xTile, yTile, 3) == 986) {
 						DaPickup pickUp = new DaPickup(xTile * TILE_SIZE, yTile * TILE_SIZE, 0);
 						pickups.add(pickUp);
 						continue;
-					}else if(mapPlan.getTileId(xTile, yTile, 3) == 1029) {
+					} else if(mapPlan.getTileId(xTile, yTile, 3) == 1029) {
 						DaPickup pickUp = new DaPickup(xTile * TILE_SIZE, yTile * TILE_SIZE, 1);
 						pickups.add(pickUp);
 						continue;
-					}else if(mapPlan.getTileId(xTile, yTile, 3) == 1028) {
+					} else if(mapPlan.getTileId(xTile, yTile, 3) == 1028) {
 						DaPickup pickUp = new DaPickup(xTile * TILE_SIZE, yTile * TILE_SIZE, 2);
 						pickups.add(pickUp);
 						continue;
-					}else if(mapPlan.getTileId(xTile, yTile, 3) == 933) {
+					} else if(mapPlan.getTileId(xTile, yTile, 3) == 933) {
 						DaSpawner spawner = new DaSpawner(xTile * TILE_SIZE, yTile * TILE_SIZE);
 						spawns.add(spawner);
 					}
@@ -239,10 +239,7 @@ public class DaMap implements TileBasedMap{
 			}
 		}
 		
-		mobs.add(new DaMob(DungeonsAkimboGame.WIDTH / 4, DungeonsAkimboGame.HEIGHT / 4, 0, true));
 		mobs.add(new DaMob(DungeonsAkimboGame.WIDTH / 3, DungeonsAkimboGame.HEIGHT / 3, 1, true));
-		mobs.add(new DaMob(DungeonsAkimboGame.WIDTH / 3, DungeonsAkimboGame.HEIGHT / 3 + 100, 2, true));
-		mobs.add(new DaMob(DungeonsAkimboGame.WIDTH / 5, DungeonsAkimboGame.HEIGHT / 5, 3, true));
 		spawns.add(new DaSpawner((DungeonsAkimboGame.WIDTH / 3) + 32*3, (DungeonsAkimboGame.HEIGHT / 3) + 32*4));
 		gold.add(new DaGold((DungeonsAkimboGame.WIDTH / 3) + 32*5, (DungeonsAkimboGame.HEIGHT / 3) + 32*7));
 		moreGold.add(new DaGoldPouch((DungeonsAkimboGame.WIDTH / 3) + 32*5, (DungeonsAkimboGame.HEIGHT / 3) + 32*8));

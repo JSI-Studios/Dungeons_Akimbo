@@ -16,6 +16,7 @@ import dungeonsAkimbo.entities.DaAssault;
 import dungeonsAkimbo.entities.DaBoi;
 import dungeonsAkimbo.entities.DaMiniBoi;
 import dungeonsAkimbo.entities.DaMob;
+import dungeonsAkimbo.entities.DaSpawner;
 import dungeonsAkimbo.entities.Player;
 import dungeonsAkimbo.entities.Projectile;
 import dungeonsAkimbo.entities.Ranged;
@@ -123,6 +124,14 @@ public class DaLogic {
 		// Get current player as an Entity (change to player later if needed)
 		Player currentPlayer = map.getPlayerList().get(playerID);
 		
+		// Generates spawn
+		for(DaSpawner spawn:  map.getSpawnList()) {
+			int type = spawn.generateMob();
+			if(type >= 0) {
+				map.getMobList().add(new DaMob(spawn.getX(), spawn.getY(), type, true));
+			}
+		}
+		
 		// Handle mob attack
 		ArrayList<DaMob> mobs = map.getMobList();
 		for (DaMob mob : mobs) {
@@ -205,6 +214,14 @@ public class DaLogic {
 		 */
 		// Get current player as an Entity (change to player later if needed)
 		Player currentPlayer = map.getPlayerList().get(playerID);
+
+		// Generates spawn
+		for(DaSpawner spawn:  map.getSpawnList()) {
+			int type = spawn.generateMob();
+			if(type >= 0) {
+				map.getMobList().add(new DaMob(spawn.getX(), spawn.getY(), type, true));
+			}
+		}
 		
 		// Handle mob attack
 		ArrayList<DaMob> mobs = map.getMobList();
