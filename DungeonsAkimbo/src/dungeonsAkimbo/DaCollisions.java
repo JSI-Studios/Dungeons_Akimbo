@@ -99,6 +99,9 @@ public class DaCollisions {
 			}
 			if(player.collides(boss) != null) {
 				boss.collisionAction(true, true);
+				if(boss.isStall()) {
+					player.translate(player.collides(boss).getMinPenetration().scale(delta * 5f));
+				}
 			}
 		}
 	}

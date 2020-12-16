@@ -114,6 +114,7 @@ public class DaCamera {
 			}
 		}
 		
+		// Render the boss
 		DaBoi boss = currentGame.getBoss();
 		if((boss.getX()/tileWidth) > this.xOffSet && (boss.getY()/tileHeight) > this.yOffSet ) {	
 			if(boss.getX() < 1024 + (xOffSet*DaMap.TILE_SIZE)) {
