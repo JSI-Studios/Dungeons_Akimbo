@@ -196,4 +196,9 @@ public class DaAssault extends Entity implements Ranged{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public void setAmmo(int inAmmo) {
+		this.ammo = inAmmo;		
+	}
 }

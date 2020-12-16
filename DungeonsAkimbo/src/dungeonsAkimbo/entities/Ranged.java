@@ -12,6 +12,7 @@ public interface Ranged extends Weapon{
 	public int getRange();		//get maximum range of this Ranged Weapon
 	
 	public boolean isCan_shoot();
-
+	
+	public void setAmmo(int inAmmo);
 
 }
