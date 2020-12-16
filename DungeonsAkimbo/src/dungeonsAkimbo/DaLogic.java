@@ -121,7 +121,7 @@ public class DaLogic {
 	private void mobUpdate(int playerID, int delta) {
 		
 		// Get current player as an Entity (change to player later if needed)
-		Entity currentPlayer = map.getPlayerList().get(playerID);
+		Player currentPlayer = map.getPlayerList().get(playerID);
 		
 		// Handle mob attack
 		ArrayList<DaMob> mobs = map.getMobList();
@@ -148,6 +148,14 @@ public class DaLogic {
 		
 		// Handle boss attack
 		DaBoi boss = map.getBoss();
+		Projectile bossAttack = boss.attack(currentPlayer);
+		ArrayList<Projectile> bossMultiAttack = boss.multiAttack(currentPlayer);
+		if(bossAttack != null) {
+			map.getEnemyAttacks().add(bossAttack);
+		}
+		if(bossMultiAttack != null) {
+			bossMultiAttack.forEach((hit)-> map.getEnemyAttacks().add(hit));
+		}
 		
 		// Update enemies based on their updates
 		mobs.forEach((mob) -> mob.update(delta));

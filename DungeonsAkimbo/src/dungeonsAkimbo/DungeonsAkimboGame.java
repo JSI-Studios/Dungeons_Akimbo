@@ -44,6 +44,11 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	
 	// Enemy Attack Macros
 	public static final String BANG = "dungeonsAkimbo/resource/Projectiles/explosion.png";
+	public static final String MAGIC_ONE = "dungeonsAkimbo/resource/Projectiles/Cosmic_01.png";
+	public static final String MAGIC_TWO = "dungeonsAkimbo/resource/Projectiles/Cosmic_02.png";
+	public static final String MAGIC_THREE = "dungeonsAkimbo/resource/Projectiles/Cosmic_03.png";
+	public static final String MAGIC_FOUR = "dungeonsAkimbo/resource/Projectiles/Cosmic_04.png";
+	public static final String MAGIC_FIVE = "dungeonsAkimbo/resource/Projectiles/Cosmic_05.png";
 	
 	//item macros
 	public static final String DA_HEALTH_RSC = "dungeonsAkimbo/resource/items/potion_03a.png";
@@ -136,6 +141,11 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		ResourceManager.loadImage(STALL_THREE);
 		ResourceManager.loadImage(STALL_FOUR);
 		ResourceManager.loadImage(STALL_FIVE);
+		ResourceManager.loadImage(MAGIC_ONE);
+		ResourceManager.loadImage(MAGIC_TWO);
+		ResourceManager.loadImage(MAGIC_THREE);
+		ResourceManager.loadImage(MAGIC_FOUR);
+		ResourceManager.loadImage(MAGIC_FIVE);
 		
 		// Load item sprites
 		ResourceManager.loadImage(DA_HEALTH_RSC);
