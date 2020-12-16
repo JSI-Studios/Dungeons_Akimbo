@@ -9,6 +9,7 @@ import org.newdawn.slick.util.pathfinding.PathFindingContext;
 import org.newdawn.slick.util.pathfinding.TileBasedMap;
 
 import dungeonsAkimbo.DungeonsAkimboGame;
+import dungeonsAkimbo.entities.DaMiniBoi;
 import dungeonsAkimbo.entities.DaChest;
 import dungeonsAkimbo.entities.DaGold;
 import dungeonsAkimbo.entities.DaGoldPouch;
@@ -27,11 +28,13 @@ public class DaMap implements TileBasedMap{
 	private int tileWidth;	//a single tile's width in pixels
 	private int tileHeight; //a single tile's height in pixels
 	
-	//Entities and tiles
+	//Tiles
 	private TiledMap currentMap;
 	private ArrayList<DaTile> tileList;
 	private ArrayList<DaWall> wallList;
 	private DaTile[][] tiles; //2d array of tile entities
+	
+	// Game entities
 	private ArrayList<DaChest> chests;
 	private ArrayList<DaGold> gold;
 	private ArrayList<DaGoldPouch> moreGold;
@@ -40,6 +43,7 @@ public class DaMap implements TileBasedMap{
 	private ArrayList<Projectile> player_bullets;
 	private ArrayList<Projectile> enemyAttacks;
 	private Map<Integer, Player> playerList;
+	private DaMiniBoi miniBoss;
 	
 	//PathFinding variables
 	private Boolean[][] visited;
@@ -185,12 +189,14 @@ public class DaMap implements TileBasedMap{
 			}
 		}
 		
-		mobs.add(new DaMob(DungeonsAkimboGame.WIDTH / 2, DungeonsAkimboGame.HEIGHT / 2, 0, true));
+		mobs.add(new DaMob(DungeonsAkimboGame.WIDTH / 4, DungeonsAkimboGame.HEIGHT / 4, 0, true));
 		mobs.add(new DaMob(DungeonsAkimboGame.WIDTH / 3, DungeonsAkimboGame.HEIGHT / 3, 1, true));
 		mobs.add(new DaMob(DungeonsAkimboGame.WIDTH / 3, DungeonsAkimboGame.HEIGHT / 3 + 100, 2, true));
 		mobs.add(new DaMob(DungeonsAkimboGame.WIDTH / 5, DungeonsAkimboGame.HEIGHT / 5, 3, true));
 		chests.add(new DaChest((DungeonsAkimboGame.WIDTH / 2) + 3, (DungeonsAkimboGame.HEIGHT / 2) + 4, 0));
 		
+		// Begin including mini boss
+		setMiniBoss(new DaMiniBoi(DungeonsAkimboGame.WIDTH / 2, DungeonsAkimboGame.HEIGHT / 2, true));
 	}
 
 	public ArrayList<Projectile> getEnemyAttacks() {
@@ -201,8 +207,14 @@ public class DaMap implements TileBasedMap{
 		this.enemyAttacks = enemyAttacks;
 	}
 
+	public DaMiniBoi getMiniBoss() {
+		return miniBoss;
+	}
 	
 
+	public void setMiniBoss(DaMiniBoi miniBoss) {
+		this.miniBoss = miniBoss;
+	}
 
 
 	

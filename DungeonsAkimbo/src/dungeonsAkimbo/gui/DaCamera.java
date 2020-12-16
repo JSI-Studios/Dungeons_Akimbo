@@ -7,6 +7,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.tiled.TiledMap;
 
 import jig.Entity;
+import dungeonsAkimbo.entities.DaMiniBoi;
 import dungeonsAkimbo.entities.DaChest;
 import dungeonsAkimbo.entities.DaMob;
 import dungeonsAkimbo.entities.Player;
@@ -88,6 +89,7 @@ public class DaCamera {
 	}
 	
 	public void renderMobs(Graphics g) {
+		// Render the mobs
 		for(DaMob mob: currentGame.getMobList()) {
 			if((mob.getX()/tileWidth) > this.xOffSet && (mob.getY()/tileHeight) > this.yOffSet ) {	
 				if(mob.getX() < 1024 + (xOffSet*DaMap.TILE_SIZE)) {
@@ -95,6 +97,16 @@ public class DaCamera {
 					mob.render(g);
 					g.translate(xOffSet*DaMap.TILE_SIZE, yOffSet*DaMap.TILE_SIZE);
 				}
+			}
+		}
+		
+		// Render the mini boss (it's basically a higher diff mob)
+		DaMiniBoi miniBoss = currentGame.getMiniBoss();
+		if((miniBoss.getX()/tileWidth) > this.xOffSet && (miniBoss.getY()/tileHeight) > this.yOffSet ) {	
+			if(miniBoss.getX() < 1024 + (xOffSet*DaMap.TILE_SIZE)) {
+				g.translate(-xOffSet*DaMap.TILE_SIZE,-yOffSet*DaMap.TILE_SIZE);
+				miniBoss.render(g);
+				g.translate(xOffSet*DaMap.TILE_SIZE, yOffSet*DaMap.TILE_SIZE);
 			}
 		}
 	}

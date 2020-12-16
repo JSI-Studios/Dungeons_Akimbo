@@ -21,6 +21,7 @@ import dungeonsAkimbo.gui.ChatGUI;
 import dungeonsAkimbo.gui.DaCamera;
 import dungeonsAkimbo.netcode.UniqueIdentifier;
 import jig.Entity;
+import jig.ResourceManager;
 import jig.Vector;
 
 public class PlayTestState extends BasicGameState {
@@ -53,7 +54,10 @@ public class PlayTestState extends BasicGameState {
 		dag.addPlayer(playerID);
 		// Chat GUI handling
 		chat = new ChatGUI(0, 768, 1024, 244, container);
-
+		
+		// Handle BGM
+		container.setSoundOn(true);
+		ResourceManager.getSound(DungeonsAkimboGame.TEMP_BGM).loop(1.1f, 0.2f);
 	}
 
 	@Override
