@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="32" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="1">
+<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="32" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="2">
  <tileset firstgid="1" source="[Base]BaseChip_pipo.tsx"/>
  <tileset firstgid="1065" source="../testMap/[Base]BaseChip_pipo.tsx"/>
  <layer id="1" name="Floors" width="32" height="120">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAACu3DMQ0AAAwEoRvfv+La6AAJq6aqqqqqqqqqqqqqqqqqqr54YngnTQA8AAA=
+   H4sIAAAAAAAACu3UPQqAMAyA0QwOvYz3v56rgtIfaIr0DW/NFzKkREQBAAAAAAAAAAAgzXk86evr6+v/s3+f0TKvt1+bv7rv/u7v/u6/6/319UfbmTt8tbN2WNmvtWft0Nqdscdou+cvs6+MnwW8uwCDR68WADwAAA==
   </data>
  </layer>
  <layer id="2" name="Walls" width="32" height="120">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAACu3YWwoCIRiGYS9c2qyhWkKXbbGLiOi0julAdL5NmAkkHMefLJ16P5AGtf9RYShUihBCCCGEfDNbrdQxUduZVup0ey/x8fHx8fHx8fHx8fHx8fHx8X/ev9V3UXvHOq7WXdVBcK9lz/XVvQv2LzknSU18fHx8/Lz9k8APnZvD7y9+N/yNYJ2hc7v0/uHj48f3V+Zz1tCm1vNF4J+1u8ZrW5s29tTxjYWmrf5zvLD6C2s8lt9UP5f9p/Y5/7Q+55/W5/zx8f/Pn6vqv9DE6l/WfYsI/qfrE0II8acnvGfsm/kD7f6ubyxV2tY0jLDOd/Y9Cpif47lKI93DAzlDB7sAPAAA
-  </data>
- </layer>
- <layer id="4" name="Decorative Floors" width="32" height="120">
-  <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAACu3QQQoAEBRFUQOWY//bM6YkJcI59cvIrRcCAAAAAAAAAAAAO+VYn76+vr7+nf3Uea/qj/4/3Z9lf/vb3/6v7K+vr6//W7/9x/11wDkFMcC96wA8AAA=
+   H4sIAAAAAAAACu2YQQrCMBAAc8jT+gb1CR79oicRRd9RKkhR9GpAhSW0aRdjt9YZWFqadCe79FDWOQAAAAAYkso7VxvFKUTp7Wov8ePHjx8/fvz48ePHjx8/fvz48U/efxPzqBg5qzor5lrx3ra8d0X9mj5pcuLHjx8/fvxDg/93/NbfH378+KfnP4TrtiU24v6q8F98c444jiHWiTyptb505X+vF+J5IdZz+dvyj6V+az/9t/XTf1s//ceP///8O/f8F5Jz6vr1/7TP4P92fgAASDNTzhnnYf/CN7+bWrOi60zLDOf8pO5Vj/1j7KsWbQ0PoB3k6QA8AAA=
   </data>
  </layer>
  <layer id="3" name="Doors" width="32" height="120">
   <data encoding="base64" compression="gzip">
    H4sIAAAAAAAACu3BMQEAAADCoPVPbQ0PoAAAAAAAAAAAAAAAAAAAgBcD/oDAnAA8AAA=
+  </data>
+ </layer>
+ <layer id="6" name="Items" width="32" height="120">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAACu3XMQrAIBAEQLGJj/GdvjvYK1wgR8DMlFtsvVsKAAAAAAAAAG+qLZ6PK5Y96QQAgD/pm028y7/qPFH0z2T3z1+U+Y2y+wEAAABWbofnrMkAPAAA
   </data>
  </layer>
 </map>

@@ -101,12 +101,13 @@ public class DaCamera {
 			float barHeight = 25;
 			if(playerKey > -1) {
 				playerKey = playerKey + 1;
-				g.drawString("Player " + playerKey, 1050, 25 * playerKey);
+				g.setColor(Color.gray);
+				g.drawString("Player " + playerKey, 1050, 25+100*(playerKey-1));
 				float healthBar = ((float) player.getCurrent_health() / (float) player.getMax_health()) * barWidth;
-				g.drawString("Health", 1050, 50* playerKey);
-				g.fillRect(1050, 75* playerKey, barWidth, barHeight);
+				g.drawString("Health", 1050, 50+100*(playerKey-1));
+				g.fillRect(1050, 75+100*(playerKey-1), barWidth, barHeight);
 				g.setColor(Color.red);
-				g.fillRect(1050, 75* playerKey, healthBar, barHeight);
+				g.fillRect(1050, 75+100*(playerKey-1), healthBar, barHeight);
 				g.setColor(Color.black);
 			}else {
 				g.drawString("Player " + 1, 1050, 25);
