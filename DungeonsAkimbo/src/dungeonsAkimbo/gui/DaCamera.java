@@ -9,7 +9,10 @@ import org.newdawn.slick.tiled.TiledMap;
 import jig.Entity;
 import dungeonsAkimbo.entities.DaMiniBoi;
 import dungeonsAkimbo.entities.DaChest;
+import dungeonsAkimbo.entities.DaGold;
+import dungeonsAkimbo.entities.DaGoldPouch;
 import dungeonsAkimbo.entities.DaMob;
+import dungeonsAkimbo.entities.DaPickup;
 import dungeonsAkimbo.entities.Player;
 import dungeonsAkimbo.entities.Projectile;
 import dungeonsAkimbo.map.DaMap;
@@ -161,6 +164,33 @@ public class DaCamera {
 				if(chest.getX() < 1024 + (xOffSet * DaMap.TILE_SIZE)) {
 					g.translate(-xOffSet*DaMap.TILE_SIZE, -yOffSet*DaMap.TILE_SIZE);
 					chest.render(g);
+					g.translate(xOffSet*DaMap.TILE_SIZE, yOffSet*DaMap.TILE_SIZE);
+				}
+			}
+		}
+		for(DaGold gold: currentGame.getGoldList()) {
+			if((gold.getX()/tileWidth) >= this.xOffSet - 1 && (gold.getY()/tileHeight) >= this.yOffSet-1) {
+				if(gold.getX() < 1024 + (xOffSet * DaMap.TILE_SIZE)) {
+					g.translate(-xOffSet*DaMap.TILE_SIZE, -yOffSet*DaMap.TILE_SIZE);
+					gold.render(g);
+					g.translate(xOffSet*DaMap.TILE_SIZE, yOffSet*DaMap.TILE_SIZE);
+				}
+			}
+		}
+		for(DaGoldPouch goldPouch: currentGame.getgoldPouchList()) {
+			if((goldPouch.getX()/tileWidth) >= this.xOffSet - 1 && (goldPouch.getY()/tileHeight) >= this.yOffSet-1) {
+				if(goldPouch.getX() < 1024 + (xOffSet * DaMap.TILE_SIZE)) {
+					g.translate(-xOffSet*DaMap.TILE_SIZE, -yOffSet*DaMap.TILE_SIZE);
+					goldPouch.render(g);
+					g.translate(xOffSet*DaMap.TILE_SIZE, yOffSet*DaMap.TILE_SIZE);
+				}
+			}
+		}
+		for(DaPickup pickUp: currentGame.getPickupList()) {
+			if((pickUp.getX()/tileWidth) >= this.xOffSet - 1 && (pickUp.getY()/tileHeight) >= this.yOffSet-1) {
+				if(pickUp.getX() < 1024 + (xOffSet * DaMap.TILE_SIZE)) {
+					g.translate(-xOffSet*DaMap.TILE_SIZE, -yOffSet*DaMap.TILE_SIZE);
+					pickUp.render(g);
 					g.translate(xOffSet*DaMap.TILE_SIZE, yOffSet*DaMap.TILE_SIZE);
 				}
 			}

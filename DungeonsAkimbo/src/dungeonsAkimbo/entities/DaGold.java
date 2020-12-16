@@ -18,7 +18,8 @@ public class DaGold extends Entity {
 		this.pointAmount = 5;
 		this.setPosition(new Vector(px,py));
 		SpriteSheet miscSheet = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.DA_MISCSHEET_RSC), 32, 32);
-		sprite = miscSheet.getSubImage(3, 120);
+		sprite = miscSheet.getSprite(2, 124);
+		this.addImageWithBoundingBox(sprite);
 		//todo: add Sprite
 	}
 	

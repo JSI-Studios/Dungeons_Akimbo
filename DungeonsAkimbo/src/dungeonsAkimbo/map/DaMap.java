@@ -193,7 +193,12 @@ public class DaMap implements TileBasedMap{
 		mobs.add(new DaMob(DungeonsAkimboGame.WIDTH / 3, DungeonsAkimboGame.HEIGHT / 3, 1, true));
 		mobs.add(new DaMob(DungeonsAkimboGame.WIDTH / 3, DungeonsAkimboGame.HEIGHT / 3 + 100, 2, true));
 		mobs.add(new DaMob(DungeonsAkimboGame.WIDTH / 5, DungeonsAkimboGame.HEIGHT / 5, 3, true));
-		chests.add(new DaChest((DungeonsAkimboGame.WIDTH / 2) + 3, (DungeonsAkimboGame.HEIGHT / 2) + 4, 0));
+		chests.add(new DaChest((DungeonsAkimboGame.WIDTH / 3) + 32*3, (DungeonsAkimboGame.HEIGHT / 3) + 32*4, 0));
+		gold.add(new DaGold((DungeonsAkimboGame.WIDTH / 3) + 32*5, (DungeonsAkimboGame.HEIGHT / 3) + 32*7));
+		moreGold.add(new DaGoldPouch((DungeonsAkimboGame.WIDTH / 3) + 32*5, (DungeonsAkimboGame.HEIGHT / 3) + 32*8));
+		pickups.add(new DaPickup((DungeonsAkimboGame.WIDTH / 3) + 32*5, (DungeonsAkimboGame.HEIGHT / 3) + 32*9, 0));
+		pickups.add(new DaPickup((DungeonsAkimboGame.WIDTH / 3) + 32*5, (DungeonsAkimboGame.HEIGHT / 3) + 32*10, 1));
+		pickups.add(new DaPickup((DungeonsAkimboGame.WIDTH / 3) + 32*5, (DungeonsAkimboGame.HEIGHT / 3) + 32*11, 2));
 		
 		// Begin including mini boss
 		setMiniBoss(new DaMiniBoi(DungeonsAkimboGame.WIDTH / 2, DungeonsAkimboGame.HEIGHT / 2, true));
@@ -214,6 +219,21 @@ public class DaMap implements TileBasedMap{
 
 	public void setMiniBoss(DaMiniBoi miniBoss) {
 		this.miniBoss = miniBoss;
+	}
+
+	public ArrayList<DaGold> getGoldList() {
+		// TODO Auto-generated method stub
+		return gold;
+	}
+
+	public ArrayList<DaGoldPouch> getgoldPouchList() {
+		// TODO Auto-generated method stub
+		return moreGold;
+	}
+
+	public ArrayList<DaPickup> getPickupList() {
+		// TODO Auto-generated method stub
+		return pickups;
 	}
 
 
