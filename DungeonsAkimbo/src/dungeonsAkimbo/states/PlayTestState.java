@@ -71,12 +71,12 @@ public class PlayTestState extends BasicGameState {
 		// render the camera view and everything within it. layered in the order of
 		// calls.
 		gameView.renderMap(g);
+		gameView.renderItems(g);
+		gameView.renderPlayerGui(g);
 		gameView.renderPlayers(g);
 		g.flush();
 		gameView.renderMobs(g);
 		gameView.renderProjectiles(g);
-		gameView.renderItems(g);
-		gameView.renderPlayerGui(g);
 
 		chat.getChatLog().render(container, g);
 		chat.getChatBar().render(container, g);
