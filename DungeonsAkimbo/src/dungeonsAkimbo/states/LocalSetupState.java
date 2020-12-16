@@ -48,10 +48,10 @@ public class LocalSetupState extends BasicGameState {
         dag.unassignKeyboardMouse();
 
         ArrayList<DaJoyconListener> inactiveListeners = dag.getInactiveJoycons();
-        inactiveListeners.clear();
         DaJoyconListener[] activeListeners = dag.getActiveJoycons();
         for (int h = 0; h < 4; h++) {
             // clear all active joy-con listeners
+            if (activeListeners[h] != null) inactiveListeners.add(activeListeners[h]);
             activeListeners[h] = null;
         }
         for (int i = 0; i < 4; i++) {
