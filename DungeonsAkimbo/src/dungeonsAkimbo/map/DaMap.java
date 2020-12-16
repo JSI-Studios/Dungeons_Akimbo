@@ -17,6 +17,7 @@ import dungeonsAkimbo.entities.DaGold;
 import dungeonsAkimbo.entities.DaGoldPouch;
 import dungeonsAkimbo.entities.DaMob;
 import dungeonsAkimbo.entities.DaPickup;
+import dungeonsAkimbo.entities.DaSpawner;
 import dungeonsAkimbo.entities.Player;
 import dungeonsAkimbo.entities.Projectile;
 
@@ -41,6 +42,7 @@ public class DaMap implements TileBasedMap{
 	private ArrayList<DaGold> gold;
 	private ArrayList<DaGoldPouch> moreGold;
 	private ArrayList<DaPickup> pickups;
+	private ArrayList<DaSpawner> spawns;
 	private ArrayList<DaMob> mobs;
 	private ArrayList<Projectile> player_bullets;
 	private ArrayList<Projectile> enemyAttacks;
@@ -176,6 +178,7 @@ public class DaMap implements TileBasedMap{
 		pickups = new ArrayList<DaPickup>();
 		miniBoss = new ArrayList<DaMiniBoi>();
 		boss = new ArrayList<DaBoi>();
+		spawns = new ArrayList<DaSpawner>();
 		
 		
 		visited = new Boolean[mapWidth][mapHeight];
@@ -216,7 +219,10 @@ public class DaMap implements TileBasedMap{
 						DaPickup pickUp = new DaPickup(xTile * TILE_SIZE, yTile * TILE_SIZE, 2);
 						pickups.add(pickUp);
 						continue;
-					}					
+					}else if(mapPlan.getTileId(xTile, yTile, 3) == 933) {
+						DaSpawner spawner = new DaSpawner(xTile * TILE_SIZE, yTile * TILE_SIZE);
+						spawns.add(spawner);
+					}
 				}
 			}
 		}
@@ -225,7 +231,7 @@ public class DaMap implements TileBasedMap{
 		mobs.add(new DaMob(DungeonsAkimboGame.WIDTH / 3, DungeonsAkimboGame.HEIGHT / 3, 1, true));
 		mobs.add(new DaMob(DungeonsAkimboGame.WIDTH / 3, DungeonsAkimboGame.HEIGHT / 3 + 100, 2, true));
 		mobs.add(new DaMob(DungeonsAkimboGame.WIDTH / 5, DungeonsAkimboGame.HEIGHT / 5, 3, true));
-		chests.add(new DaChest((DungeonsAkimboGame.WIDTH / 3) + 32*3, (DungeonsAkimboGame.HEIGHT / 3) + 32*4, 0));
+		spawns.add(new DaSpawner((DungeonsAkimboGame.WIDTH / 3) + 32*3, (DungeonsAkimboGame.HEIGHT / 3) + 32*4));
 		gold.add(new DaGold((DungeonsAkimboGame.WIDTH / 3) + 32*5, (DungeonsAkimboGame.HEIGHT / 3) + 32*7));
 		moreGold.add(new DaGoldPouch((DungeonsAkimboGame.WIDTH / 3) + 32*5, (DungeonsAkimboGame.HEIGHT / 3) + 32*8));
 		pickups.add(new DaPickup((DungeonsAkimboGame.WIDTH / 3) + 32*5, (DungeonsAkimboGame.HEIGHT / 3) + 32*9, 0));
@@ -276,6 +282,11 @@ public class DaMap implements TileBasedMap{
 
 	public void setBoss(ArrayList<DaBoi> boss) {
 		this.boss = boss;
+	}
+
+	public ArrayList<DaSpawner> getSpawnList() {
+		// TODO Auto-generated method stub
+		return spawns;
 	}
 
 }
