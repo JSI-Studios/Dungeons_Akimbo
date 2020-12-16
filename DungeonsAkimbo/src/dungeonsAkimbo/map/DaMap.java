@@ -18,6 +18,7 @@ import dungeonsAkimbo.entities.DaGoldPouch;
 import dungeonsAkimbo.entities.DaMob;
 import dungeonsAkimbo.entities.DaPickup;
 import dungeonsAkimbo.entities.DaSpawner;
+import dungeonsAkimbo.entities.DaStairs;
 import dungeonsAkimbo.entities.Player;
 import dungeonsAkimbo.entities.Projectile;
 
@@ -49,6 +50,7 @@ public class DaMap implements TileBasedMap{
 	private Map<Integer, Player> playerList;
 	private ArrayList<DaMiniBoi> miniBoss;
 	private ArrayList<DaBoi> boss;
+	private ArrayList<DaStairs> stairs;
 	
 	//PathFinding variables
 	private Boolean[][] visited;
@@ -179,6 +181,7 @@ public class DaMap implements TileBasedMap{
 		miniBoss = new ArrayList<DaMiniBoi>();
 		boss = new ArrayList<DaBoi>();
 		spawns = new ArrayList<DaSpawner>();
+		stairs = new ArrayList<DaStairs>();
 		
 		
 		visited = new Boolean[mapWidth][mapHeight];
@@ -196,6 +199,15 @@ public class DaMap implements TileBasedMap{
 				if(mapPlan.getTileId(xTile, yTile, 1) != 0) {
 					DaWall wall = new DaWall(xTile * TILE_SIZE, yTile * TILE_SIZE, mapPlan.getTileId(xTile, yTile, 1), mapPlan.getTileImage(xTile, yTile, 1));
 					wallList.add(wall);
+				}
+			}
+		}
+		
+		for(int xTile = 0; xTile < mapWidth; xTile++) {
+			for(int yTile = 0; yTile < mapHeight; yTile++) {
+				if(mapPlan.getTileId(xTile, yTile, 1) != 0) {
+					DaStairs stair = new DaStairs(xTile * TILE_SIZE, yTile * TILE_SIZE, mapPlan.getTileId(xTile, yTile, 2));
+					stairs.add(stair);
 				}
 			}
 		}
@@ -237,6 +249,8 @@ public class DaMap implements TileBasedMap{
 		pickups.add(new DaPickup((DungeonsAkimboGame.WIDTH / 3) + 32*5, (DungeonsAkimboGame.HEIGHT / 3) + 32*9, 0));
 		pickups.add(new DaPickup((DungeonsAkimboGame.WIDTH / 3) + 32*5, (DungeonsAkimboGame.HEIGHT / 3) + 32*10, 1));
 		pickups.add(new DaPickup((DungeonsAkimboGame.WIDTH / 3) + 32*5, (DungeonsAkimboGame.HEIGHT / 3) + 32*11, 2));
+		stairs.add(new DaStairs((DungeonsAkimboGame.WIDTH / 3) + 32*9, (DungeonsAkimboGame.HEIGHT / 3) + 32*14, 328));
+		stairs.add(new DaStairs((DungeonsAkimboGame.WIDTH / 3) + 32*8, (DungeonsAkimboGame.HEIGHT / 3) + 32*11, 0));
 		
 		// Begin including mini boss
 		miniBoss.add(new DaMiniBoi(DungeonsAkimboGame.WIDTH / 2, DungeonsAkimboGame.HEIGHT / 2, true));
@@ -287,6 +301,10 @@ public class DaMap implements TileBasedMap{
 	public ArrayList<DaSpawner> getSpawnList() {
 		// TODO Auto-generated method stub
 		return spawns;
+	}
+
+	public ArrayList<DaStairs> getStairs() {
+		return stairs;
 	}
 
 }
