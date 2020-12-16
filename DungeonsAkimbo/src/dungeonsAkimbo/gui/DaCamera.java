@@ -108,6 +108,8 @@ public class DaCamera {
 				g.fillRect(1050, 75+100*(playerKey-1), barWidth, barHeight);
 				g.setColor(Color.red);
 				g.fillRect(1050, 75+100*(playerKey-1), healthBar, barHeight);
+				g.setColor(Color.gray);
+				g.drawString("Points "+ player.getPoints(), 1050, 100+100*(playerKey-1));
 				g.setColor(Color.black);
 			}else {
 				g.drawString("Player " + 1, 1050, 25);
@@ -116,6 +118,8 @@ public class DaCamera {
 				g.fillRect(1050, 75, barWidth, barHeight);
 				g.setColor(Color.red);
 				g.fillRect(1050, 75, healthBar, barHeight);
+				g.setColor(Color.gray);
+				g.drawString("Points "+ player.getPoints(), 1050, 100);
 				g.setColor(Color.black);
 			}
 			
