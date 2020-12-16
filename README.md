@@ -1,20 +1,20 @@
-## Dungeons Akimbo
+# Dungeons Akimbo
 Dungeons Akimbo is an action packed top down 2D dungeon crawler shooter! You can play as
 four different characters each with their own unique weapon in their main hand, and a pistol
 in the offhand. Players progress through the game by killing all the enemies on each level
 before moving onto the next level. Players can use a dodge mechanic to become immune to damage
 for a brief instance of time and slightly increasing speed. Each weapon has its own unique attributes 
-such as damage, fire rate, ammo size, and reload speed.
-
-Each level provides a different action packed experience 
+such as damage, fire rate, ammo size, and reload speed. Each level provides a different action packed experience 
 with different terrain and enemies! Boss levels are even more hectic and force players to adapt
 their strategy! Collect gold and health potions from chests scattered throughout the map to
 increase points or survivability.
 
 
-## Project Status: In Progress... 
+## Project Status: Complete
 
-## Gameplay controls
+## Gameplay
+
+### Controls
 Movement: W A S D
 Shoot: Mouse Left Click
 Dodge: Space Bar
@@ -22,7 +22,7 @@ Change Weapon: Q
 God Mode: G
 Enemy Pathing: P
 
-## Weapons
+### Weapons
 	Shotgun (Character 1):
 		Fire a short burst of 8 bullets arcing away from player with short range.
 		5 shots per clip.
@@ -39,9 +39,13 @@ Enemy Pathing: P
 		Fires with an extremely fast fire rate (automtic) with short range.
 		20 shots per clip.
 		0.75s reload time.
+	Pistol (Every Player Offhand) (Character 4):
+		Fires a single bullet with a quick fire rate.
+		10 shots per clip.
+		1s reload time.
 
 ## Project Goals
-### Low Bar
+### Low Bar (Implementation)
 - [x] 2 to 4 playable characters
 - [x] Weapons that have different mechanics
     - [x] Piercing Bullets
@@ -68,3 +72,6 @@ Enemy Pathing: P
 - [ ] Allow weapons to be thrown as an attack
 - [x] Network Communication
 - [ ] New Game+ (Replayabllity + Increased Difficulty)
+
+## License
+Our game falls under an Apache License.
