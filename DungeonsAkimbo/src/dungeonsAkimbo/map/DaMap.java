@@ -45,8 +45,8 @@ public class DaMap implements TileBasedMap{
 	private ArrayList<Projectile> player_bullets;
 	private ArrayList<Projectile> enemyAttacks;
 	private Map<Integer, Player> playerList;
-	private DaMiniBoi miniBoss;
-	private DaBoi boss;
+	private ArrayList<DaMiniBoi> miniBoss;
+	private ArrayList<DaBoi> boss;
 	
 	//PathFinding variables
 	private Boolean[][] visited;
@@ -174,6 +174,8 @@ public class DaMap implements TileBasedMap{
 		gold = new ArrayList<DaGold>();
 		moreGold = new ArrayList<DaGoldPouch>();
 		pickups = new ArrayList<DaPickup>();
+		miniBoss = new ArrayList<DaMiniBoi>();
+		boss = new ArrayList<DaBoi>();
 		
 		
 		visited = new Boolean[mapWidth][mapHeight];
@@ -231,9 +233,9 @@ public class DaMap implements TileBasedMap{
 		pickups.add(new DaPickup((DungeonsAkimboGame.WIDTH / 3) + 32*5, (DungeonsAkimboGame.HEIGHT / 3) + 32*11, 2));
 		
 		// Begin including mini boss
-		setMiniBoss(new DaMiniBoi(DungeonsAkimboGame.WIDTH / 2, DungeonsAkimboGame.HEIGHT / 2, true));
+		miniBoss.add(new DaMiniBoi(DungeonsAkimboGame.WIDTH / 2, DungeonsAkimboGame.HEIGHT / 2, true));
 		// Begin including boss
-		setBoss(new DaBoi(DungeonsAkimboGame.WIDTH / 3, DungeonsAkimboGame.HEIGHT / 3 + 100, true));
+		boss.add(new DaBoi(DungeonsAkimboGame.WIDTH / 3, DungeonsAkimboGame.HEIGHT / 3 + 100, true));
 	}
 
 	public ArrayList<Projectile> getEnemyAttacks() {
@@ -244,12 +246,12 @@ public class DaMap implements TileBasedMap{
 		this.enemyAttacks = enemyAttacks;
 	}
 
-	public DaMiniBoi getMiniBoss() {
+	public ArrayList<DaMiniBoi> getMiniBoss() {
 		return miniBoss;
 	}
 	
 
-	public void setMiniBoss(DaMiniBoi miniBoss) {
+	public void setMiniBoss(ArrayList<DaMiniBoi> miniBoss) {
 		this.miniBoss = miniBoss;
 	}
 
@@ -268,11 +270,11 @@ public class DaMap implements TileBasedMap{
 		return pickups;
 	}
 
-	public DaBoi getBoss() {
+	public ArrayList<DaBoi> getBoss() {
 		return boss;
 	}
 
-	public void setBoss(DaBoi boss) {
+	public void setBoss(ArrayList<DaBoi> boss) {
 		this.boss = boss;
 	}
 

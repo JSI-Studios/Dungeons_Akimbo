@@ -42,7 +42,7 @@ public class DaMiniBoi extends Entity implements DaEnemy {
 		this.sprite = new Animation(ResourceManager.getSpriteSheet(DungeonsAkimboGame.MINI_BOSS, dimensions, dimensions), 0, 3, 2, 3, true, 200, true);
 		sprite.setLooping(true);
 		addAnimation(sprite);
-		this.setHealth(200);
+		this.setHealth(400);
 		this.playerPunish = false;
 		this.attackCooldown = 0;
 		this.rest = 0;
@@ -52,7 +52,7 @@ public class DaMiniBoi extends Entity implements DaEnemy {
 	@Override
 	public void collisionAction(boolean isHit, boolean isPlayer) {		
 		if(isHit) {
-			this.setHealth(this.getHealth() - 1);
+			this.setHealth(this.getHealth() - 10);
 			// If collide to player, stop and pause
 			if(isPlayer) {
 				// Trigger special attack (call multiple mobs maybe?)

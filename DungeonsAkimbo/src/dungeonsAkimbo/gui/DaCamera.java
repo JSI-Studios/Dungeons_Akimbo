@@ -140,22 +140,25 @@ public class DaCamera {
 		}
 		
 		// Render the mini boss (it's basically a higher diff mob)
-		DaMiniBoi miniBoss = currentGame.getMiniBoss();
-		if((miniBoss.getX()/tileWidth) > this.xOffSet && (miniBoss.getY()/tileHeight) > this.yOffSet ) {	
-			if(miniBoss.getX() < 1024 + (xOffSet*DaMap.TILE_SIZE)) {
-				g.translate(-xOffSet*DaMap.TILE_SIZE,-yOffSet*DaMap.TILE_SIZE);
-				miniBoss.render(g);
-				g.translate(xOffSet*DaMap.TILE_SIZE, yOffSet*DaMap.TILE_SIZE);
+		
+		for(DaMiniBoi miniBoss : currentGame.getMiniBoss()) {
+			if((miniBoss.getX()/tileWidth) > this.xOffSet && (miniBoss.getY()/tileHeight) > this.yOffSet ) {	
+				if(miniBoss.getX() < 1024 + (xOffSet*DaMap.TILE_SIZE)) {
+					g.translate(-xOffSet*DaMap.TILE_SIZE,-yOffSet*DaMap.TILE_SIZE);
+					miniBoss.render(g);
+					g.translate(xOffSet*DaMap.TILE_SIZE, yOffSet*DaMap.TILE_SIZE);
+				}
 			}
 		}
 		
 		// Render the boss
-		DaBoi boss = currentGame.getBoss();
-		if((boss.getX()/tileWidth) > this.xOffSet && (boss.getY()/tileHeight) > this.yOffSet ) {	
-			if(boss.getX() < 1024 + (xOffSet*DaMap.TILE_SIZE)) {
-				g.translate(-xOffSet*DaMap.TILE_SIZE,-yOffSet*DaMap.TILE_SIZE);
-				boss.render(g);
-				g.translate(xOffSet*DaMap.TILE_SIZE, yOffSet*DaMap.TILE_SIZE);
+		for(DaBoi boss : currentGame.getBoss()) {
+			if((boss.getX()/tileWidth) > this.xOffSet && (boss.getY()/tileHeight) > this.yOffSet ) {	
+				if(boss.getX() < 1024 + (xOffSet*DaMap.TILE_SIZE)) {
+					g.translate(-xOffSet*DaMap.TILE_SIZE,-yOffSet*DaMap.TILE_SIZE);
+					boss.render(g);
+					g.translate(xOffSet*DaMap.TILE_SIZE, yOffSet*DaMap.TILE_SIZE);
+				}
 			}
 		}
 	}
