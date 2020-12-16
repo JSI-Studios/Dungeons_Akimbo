@@ -166,6 +166,9 @@ public class Player extends Entity {
 	
 	public void update(final int delta) {
 		
+		if(this.currentHealth < 0) {
+			this.currentHealth = 0;
+		}
 
 		if (this.dodging == true) {
 			dodgeTimer -= delta;

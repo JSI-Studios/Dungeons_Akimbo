@@ -72,6 +72,7 @@ public class PlayTestState extends BasicGameState {
 		gameView.renderMobs(g);
 		gameView.renderProjectiles(g);
 		gameView.renderItems(g);
+		gameView.renderPlayerGui(g);
 
 		chat.getChatLog().render(container, g);
 		chat.getChatBar().render(container, g);
