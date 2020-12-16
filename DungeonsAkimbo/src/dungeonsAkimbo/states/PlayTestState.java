@@ -17,6 +17,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import dungeonsAkimbo.DungeonsAkimboGame;
 import dungeonsAkimbo.entities.DaAssault;
 import dungeonsAkimbo.entities.DaMob;
+import dungeonsAkimbo.entities.DaStairs;
 import dungeonsAkimbo.entities.Player;
 import dungeonsAkimbo.entities.Projectile;
 import dungeonsAkimbo.gui.ChatGUI;
@@ -27,6 +28,8 @@ import dungeonsAkimbo.netcode.UpdatePacket;
 import jig.Entity;
 import jig.ResourceManager;
 import jig.Vector;
+import org.newdawn.slick.state.transition.FadeInTransition;
+import org.newdawn.slick.state.transition.FadeOutTransition;
 
 public class PlayTestState extends BasicGameState {
 
@@ -141,21 +144,17 @@ public class PlayTestState extends BasicGameState {
 			if (input.isKeyPressed(Input.KEY_P)) {
 				dag.getClient().console(Integer.toString(playerID));
 			}
-			
-			/* if (input.isKeyPressed(Input.KEY_1)) {
-				dag.getCurrentMap().getPlayerList().get(playerID).gunSelect(0);
-			} else if (input.isKeyPressed(Input.KEY_2)) {
-				dag.getCurrentMap().getPlayerList().get(playerID).gunSelect(1);
-			} else if (input.isKeyPressed(Input.KEY_3)) {
-				dag.getCurrentMap().getPlayerList().get(playerID).gunSelect(2);
-			} else if (input.isKeyPressed(Input.KEY_4)) {
-				dag.getCurrentMap().getPlayerList().get(playerID).gunSelect(3);
-			} else if (input.isKeyPressed(Input.KEY_5)) {
-				dag.getCurrentMap().getPlayerList().get(playerID).gunSelect(4);
-			} */
 				
 			if (input.isKeyPressed(Input.KEY_Q)) {
 				dag.getCurrentMap().getPlayerList().get(playerID).getNextGun();
+			}
+			
+			//Enable GodMode
+			if(input.isKeyPressed(Input.KEY_G)) {
+				dag.getCurrentMap().getPlayerList().get(playerID).godMode();
+				if (dag.getCurrentMap().getPlayerList().get(playerID).getGodMode() == false) {
+					dag.getCurrentMap().getPlayerList().get(playerID).setCurrent_health(500);
+				}
 			}
 
 			if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
@@ -253,6 +252,21 @@ public class PlayTestState extends BasicGameState {
 		dag.getLogic().localUpdate(delta);
 		updateChatLog(dag);
 		dag.updateFramecount();
+		
+		// Check for a clear room
+		if(dag.getCurrentMap().getSpawnList().size() <= 0 && dag.getCurrentMap().getBoss().size() <= 0 && dag.getCurrentMap().getMiniBoss().size() <= 0 &&
+				dag.getCurrentMap().getMobList().size() <= 0) {
+			dag.getCurrentMap().getStairs().forEach((stairs) -> stairs.setStatus(true));
+		}
+		
+		// If room is clear, and player collides with stairs, transition to next room
+		for(DaStairs stair: dag.getCurrentMap().getStairs()) {
+			if(stair.isStatus() && dag.getCurrentMap().getPlayerList().get(playerID).collides(stair) != null) {
+				input.clearKeyPressedRecord();
+				currentSound.stop();
+				game.enterState(DungeonsAkimboGame.PLAYTESTSTATE, new FadeOutTransition(), new FadeInTransition());
+			}
+		}
 		
 		// Check player hp, if 0 go to game over state
 		if(dag.getCurrentMap().getPlayerList().get(playerID).getCurrent_health() <= 0) {

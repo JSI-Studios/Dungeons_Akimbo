@@ -19,16 +19,16 @@ public class DaAssault extends Entity implements Ranged{
 	DungeonsAkimboGame dag;
 	
 	public DaAssault() {
-		this.ammo = 20;
-		this.maxAmmo = 20;
+		this.ammo = 24;
+		this.maxAmmo = 24;
 		this.burstAmount = 3;
 		this.maxBurstAmount = 3;
 		this.firingTimer = 30;
 		this.maxfiringTimer = 30;
 		this.shootTimer = 1000;
 		this.maxShootTimer = 1000;
-		this.reloadTimer = 2000;
-		this.maxReloadTimer = 2000;
+		this.reloadTimer = 1000;
+		this.maxReloadTimer = 1000;
 		this.range = 1500;
 		this.damage = 40;
 		

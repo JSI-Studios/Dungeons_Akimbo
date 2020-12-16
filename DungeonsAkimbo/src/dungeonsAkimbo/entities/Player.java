@@ -27,14 +27,18 @@ public class Player extends Entity {
 	
 	private float speed;
 	private int currentHealth;
-	private int max_health;
-	private int dodgeTimer = 500;
+	private int maxHealth;
+	private int dodgeTimer = 1000;
+	private int dodgeCD = 3000;
 	private int backpackIndex; 
 	
 	private boolean dodging;
+	private boolean rest;
+	private boolean godMode;
+	private boolean canDodge;
+
 	
 	private Vector velocity;
-	private boolean rest;
 	
 	private Animation sprite, walkUp, walkDown, walkLeft, walkRight, current;
 	private SpriteSheet sprites;
@@ -45,6 +49,8 @@ public class Player extends Entity {
 		super(x, y);
 		// Max health can either be set from constructor, or a be statically 
 		// constant, deal with later
+		godMode = false;
+		canDodge = true;
 		points = 0;
 		gunBackpack = new ArrayList<Weapon>();
 		
@@ -86,25 +92,8 @@ public class Player extends Entity {
 			this.sprites = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.DA_MALE2_RSC), 32, 32, 0, 0);
 		}
 		
-		/*shotty = new DaShotty();
-		sniper = new DaSniper();
-		pistol = new DaPistol();
-		smg = new DaSMG();
-		assault = new DaAssault(); 
-		
-		//starting gun and index in backpack
-		this.primaryWeapon = assault;
-		this.backpackIndex = 0;
-		
-		gunBackpack = new ArrayList<Weapon>();
-		
-		gunBackpack.add(assault);
-		gunBackpack.add(shotty);
-		gunBackpack.add(pistol);
-		gunBackpack.add(smg);
-		gunBackpack.add(sniper); */
-		
 		this.addImageWithBoundingBox(this.sprites.getSprite(1, 0));
+		this.setCoarseGrainedRadius(10);
 		this.removeImage(this.sprites.getSprite(1, 0));
 		
 		this.sprite.addFrame(this.sprites.getSprite(1, 0), 1);		//Player face down
@@ -160,6 +149,10 @@ public class Player extends Entity {
 		this.dodging = true;
 	}
 	
+	public boolean isDodging() {
+		return this.dodging;
+	}
+	
 	public void setVelocity(final Vector v) {
 		velocity = v;
 	}
@@ -182,11 +175,11 @@ public class Player extends Entity {
 	}
 	
 	public int getMax_health() {
-		return max_health;
+		return maxHealth;
 	}
 
-	public void setMax_health(int max_health) {
-		this.max_health = max_health;
+	public void setMax_health(int maxHealth) {
+		this.maxHealth = maxHealth;
 	}
 
 	public int getCurrent_health() {
@@ -197,21 +190,49 @@ public class Player extends Entity {
 		this.currentHealth = current_health;
 	}
 	
+	public void godMode() {
+		this.godMode = !this.godMode;
+	}
+	
+	public boolean getGodMode() {
+		return this.godMode;
+	}
+	
 	public void update(final int delta) {
+		
+		if (this.godMode == true) {
+			//System.out.println("god mode is " + this.godMode);
+			this.maxHealth = 10000;
+			this.currentHealth = 10000;
+		} else {
+			//System.out.println("god mode is " + this.godMode);
+			//System.out.println("health is " + this.currentHealth);
+			this.maxHealth = 500;
+		}
 		
 		if(this.currentHealth < 0) {
 			this.currentHealth = 0;
 		}
 
 		if (this.dodging == true) {
-			dodgeTimer -= delta;
-			//System.out.println("Player is dodge? " + this.dodging);
+			//System.out.println("dodging now asdfasdfasdf");
+			this.dodgeTimer -= delta;
+			this.canDodge = false;
 		}
 		
-		if (dodgeTimer <= 0) {
+		if (this.canDodge == false) {
+			this.dodgeCD -= delta;
+		}
+		
+		if (this.dodgeCD <= 0) {
+			this.canDodge = true;
+			this.dodgeCD = 3000;
+		}
+		
+		if (this.dodgeTimer <= 0) {
 			this.speed = 1f;
 			this.dodging = false;
-			dodgeTimer = 500;	
+			this.dodgeTimer = 500;	
 		}
 		
 		if (Math.abs(((Entity) this.primaryWeapon).getRotation()) < 45) { 		//Player facing right

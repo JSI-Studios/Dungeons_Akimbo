@@ -19,9 +19,9 @@ public class DaShotty extends Entity implements Ranged {
 		ammo = 5;
 		maxAmmo = 5;
 		shootTimer = 300;
-		reloadTimer = 2000;
-		maxReloadTimer = 2000;
-		maxTimer = 500;
+		reloadTimer = 1500;
+		maxReloadTimer = 1500;
+		maxTimer = 300;
 		range = 400;
 		damage = 40;
 		canShoot = true;
