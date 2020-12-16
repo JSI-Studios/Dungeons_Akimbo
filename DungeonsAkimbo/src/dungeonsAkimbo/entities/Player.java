@@ -39,12 +39,14 @@ public class Player extends Entity {
 	
 	private Animation sprite, walkUp, walkDown, walkLeft, walkRight, current;
 	private SpriteSheet sprites;
+
+	private int points;
 	
 	public Player(final float x, final float y, int type) {
 		super(x, y);
 		// Max health can either be set from constructor, or a be statically 
 		// constant, deal with later
-		
+		points = 0;
 		gunBackpack = new ArrayList<Weapon>();
 		
 		this.sprite = new Animation(false);
@@ -248,4 +250,13 @@ public class Player extends Entity {
 	public void setRest(boolean rest) {
 		this.rest = rest;
 }
+
+	public int getPoints() {
+		// TODO Auto-generated method stub
+		return points;
+	}
+	
+	public void setPoints(int points) {
+		this.points = points;
+	}
 }
