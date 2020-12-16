@@ -8,6 +8,7 @@ import java.util.stream.IntStream;
 import dungeonsAkimbo.entities.DaBoi;
 import dungeonsAkimbo.entities.DaMiniBoi;
 import dungeonsAkimbo.entities.DaMob;
+import dungeonsAkimbo.entities.DaSpawner;
 import dungeonsAkimbo.entities.Player;
 import dungeonsAkimbo.entities.Projectile;
 import dungeonsAkimbo.map.DaMap;
@@ -22,6 +23,7 @@ public class DaCollisions {
 	private Map<Integer, Player> playerList;
 	private ArrayList<DaMiniBoi> miniBoss;
 	private ArrayList<DaBoi> boss;
+	private ArrayList<DaSpawner> spawns;
 	
 	public DaCollisions (DaMap map) {
 		this.mobList = map.getMobList();
@@ -31,6 +33,7 @@ public class DaCollisions {
 		this.enemyAttacks = map.getEnemyAttacks();
 		this.miniBoss = map.getMiniBoss();
 		this.boss = map.getBoss();
+		this.spawns = map.getSpawnList();
 	}
 	
 	
@@ -156,11 +159,23 @@ public class DaCollisions {
 						// Don't continuously damage the mob, but allow animation to render completely
 						playerHit.setDamage(0);
 					}
-					if(mobBoss.getHealth() == 0) {
+					if(mobBoss.getHealth() <= 0) {
 						currentMiniBoss.remove();
 					}
 				}
 				
+			}
+			for(Iterator<DaSpawner> currentSpawner = this.spawns.iterator(); currentSpawner.hasNext();) {
+				DaSpawner spawn = currentSpawner.next();
+				if(playerHit.collides(spawn) != null) {
+					// Decrease health of spawn and remove it
+					spawn.setHealth(spawn.getHealth() - playerHit.Get_Damage());
+					currentProjectile.remove();
+					// Check health after collision to remove
+					if(spawn.getHealth() <= 0) {
+						currentSpawner.remove();
+					}
+				}
 			}
 		}
 	}

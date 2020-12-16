@@ -18,7 +18,7 @@ public class DaSpawner extends Entity {
 	
 	public DaSpawner(int px, int py) {
 		super(px,py);
-		setHealth(200);
+		setHealth(300);
 		SpriteSheet miscSheet = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.DA_MISCSHEET_RSC), 32, 32);
 		bottomSprite = miscSheet.getSprite(4, 116);
 		topSprite = miscSheet.getSprite(4, 115);
