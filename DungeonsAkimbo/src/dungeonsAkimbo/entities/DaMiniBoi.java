@@ -42,7 +42,7 @@ public class DaMiniBoi extends Entity implements DaEnemy {
 		this.sprite = new Animation(ResourceManager.getSpriteSheet(DungeonsAkimboGame.MINI_BOSS, dimensions, dimensions), 0, 3, 2, 3, true, 200, true);
 		sprite.setLooping(true);
 		addAnimation(sprite);
-		this.setHealth(200);
+		this.setHealth(400);
 		this.playerPunish = false;
 		this.attackCooldown = 0;
 		this.rest = 0;
@@ -52,7 +52,7 @@ public class DaMiniBoi extends Entity implements DaEnemy {
 	@Override
 	public void collisionAction(boolean isHit, boolean isPlayer) {		
 		if(isHit) {
-			this.setHealth(this.getHealth() - 1);
+			this.setHealth(this.getHealth() - 10);
 			// If collide to player, stop and pause
 			if(isPlayer) {
 				// Trigger special attack (call multiple mobs maybe?)
@@ -103,11 +103,11 @@ public class DaMiniBoi extends Entity implements DaEnemy {
 			return attack;
 		} else if(this.attackPhase == 1) {
 			// Begin phase 1 of attack
-			attack.add(new Projectile(this.getX(), this.getY() + 64, 50, 500, .3f, 90, 2));
-			attack.add(new Projectile(this.getX() - 64, this.getY() + 64, 50, 500, .3f, 90, 2));
-			attack.add(new Projectile(this.getX() + 64, this.getY() + 64, 50, 500, .3f, 90 ,2));
-			attack.add(new Projectile(this.getX() - 64, this.getY(), 10, 500, .3f, -180, 2));
-			attack.add(new Projectile(this.getX() + 64, this.getY(), 10, 500, .3f, 0, 2));
+			attack.add(new Projectile(this.getX(), this.getY() + 64, 50, 500, .3f, 90, 1));
+			attack.add(new Projectile(this.getX() - 64, this.getY() + 64, 50, 500, .3f, 90, 1));
+			attack.add(new Projectile(this.getX() + 64, this.getY() + 64, 50, 500, .3f, 90 ,1));
+			attack.add(new Projectile(this.getX() - 64, this.getY(), 10, 500, .3f, -180, 1));
+			attack.add(new Projectile(this.getX() + 64, this.getY(), 10, 500, .3f, 0, 1));
 			this.attackPhase = 2;
 			return attack;
 		}

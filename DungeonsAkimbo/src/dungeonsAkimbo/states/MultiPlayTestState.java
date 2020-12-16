@@ -7,6 +7,7 @@ import dungeonsAkimbo.entities.Projectile;
 import dungeonsAkimbo.gui.ChatGUI;
 import dungeonsAkimbo.gui.DaCamera;
 import jig.Entity;
+import jig.ResourceManager;
 import jig.Vector;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
@@ -26,6 +27,8 @@ public class MultiPlayTestState extends BasicGameState {
     private DungeonsAkimboGame dag;
 
     private ArrayList<Integer> playerIDs;
+    
+	private Sound currentSound;
 
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
@@ -51,7 +54,12 @@ public class MultiPlayTestState extends BasicGameState {
             dag.addPlayer(keyboardIndex);
         }
         // Chat GUI handling
-        chat = new ChatGUI(0, 768, 1024, 244, container);
+        chat = new ChatGUI(0, 768, 1024, 244, container);;
+		
+		// Handle BGM
+		container.setSoundOn(true);
+		currentSound = ResourceManager.getSound(DungeonsAkimboGame.BGM);
+		currentSound.loop(1f, 0.2f);
 
     }
 
@@ -62,6 +70,8 @@ public class MultiPlayTestState extends BasicGameState {
         // render the camera view and everything within it. layered in the order of
         // calls.
         gameView.renderMap(g);
+        gameView.renderItems(g);
+        gameView.renderPlayerGui(g);
         gameView.renderPlayers(g);
         g.flush();
         gameView.renderMobs(g);
@@ -99,7 +109,7 @@ public class MultiPlayTestState extends BasicGameState {
         // Temp movement control handling
 
         for (int playerID : dag.getCurrentMap().getPlayerList().keySet()) {
-            double shotAngle = 0.0;
+            double shotAngle;
             if (playerID == dag.getKeyboardMouseIndex()) {
                 // if this player is controlled via a keyboard and mouse
                 Vector new_velocity;
@@ -131,6 +141,8 @@ public class MultiPlayTestState extends BasicGameState {
                     dag.getCurrentMap().getPlayerList().get(playerID).gunSelect(2);
                 } else if (input.isKeyPressed(Input.KEY_4)) {
                     dag.getCurrentMap().getPlayerList().get(playerID).gunSelect(3);
+                } else if (input.isKeyPressed(Input.KEY_Q)) {
+                    dag.getCurrentMap().getPlayerList().get(playerID).getNextGun();
                 }
 
                 if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
@@ -171,24 +183,24 @@ public class MultiPlayTestState extends BasicGameState {
                 shotAngle = shot_dir.getRotation();
                 Vector new_velocity = new Vector(0, 0);
 
-                if (activeListeners[playerID].isButtonPressed(3)) {
+                if (activeListeners[playerID].isButtonDown(3)) {
                     new_velocity = new_velocity.add(new Vector(0f, -0.5f * dag.getCurrentMap().getPlayerList().get(playerID).getSpeed()));
                 }
-                if (activeListeners[playerID].isButtonPressed(2)) {
+                if (activeListeners[playerID].isButtonDown(2)) {
                     new_velocity = new_velocity.add(new Vector(-0.5f * dag.getCurrentMap().getPlayerList().get(playerID).getSpeed(), 0f));
                 }
-                if (activeListeners[playerID].isButtonPressed(0)) {
+                if (activeListeners[playerID].isButtonDown(0)) {
                     new_velocity = new_velocity.add(new Vector(0f, 0.5f * dag.getCurrentMap().getPlayerList().get(playerID).getSpeed()));
                 }
-                if (activeListeners[playerID].isButtonPressed(1)) {
+                if (activeListeners[playerID].isButtonDown(1)) {
                     new_velocity = new_velocity.add(new Vector(0.5f * dag.getCurrentMap().getPlayerList().get(playerID).getSpeed(), 0f));
                 }
 
                 if (activeListeners[playerID].isButtonPressed(15)) {
-                    // rotate player weapon
+                    dag.getCurrentMap().getPlayerList().get(playerID).getNextGun();
                 }
 
-                if (activeListeners[playerID].isButtonPressed(5)) {
+                if (activeListeners[playerID].isButtonDown(5)) {
                     if (dag.getCurrentMap().getPlayerList().get(playerID).getPrimaryWeapon().isCan_shoot()) {
                         Object bulletReturn = dag.getCurrentMap().getPlayerList().get(playerID).Shoot(shotAngle);
 
@@ -203,7 +215,8 @@ public class MultiPlayTestState extends BasicGameState {
 
                     }
                 }
-
+                dag.getCurrentMap().getPlayerList().get(playerID).setVelocity(new_velocity);
+                ((Entity) dag.getCurrentMap().getPlayerList().get(playerID).getPrimaryWeapon()).setRotation(shotAngle);
                 if (activeListeners[playerID].isButtonPressed(4)) {
                     dag.getCurrentMap().getPlayerList().get(playerID).doDodge(delta, 1);
                 }
@@ -215,6 +228,17 @@ public class MultiPlayTestState extends BasicGameState {
         //update Logic
         dag.getLogic().localUpdate(delta);
         updateChatLog(dag);
+        
+        // Check all player's health. If 0, remove player.
+        // If player arrayList is empty, game over state
+        dag.getCurrentMap().getPlayerList().entrySet().removeIf((player) -> player.getValue().getCurrent_health() <= 0);
+        if(dag.getCurrentMap().getPlayerList().size() <= 0) {
+			// Clear inputs, stop sound and transition to gameover state
+			input.clearKeyPressedRecord();
+			currentSound.stop();
+			// Go back to splash state for now
+			game.enterState(DungeonsAkimboGame.GAMEOVERSTATE);
+        }
     }
 
     private void updateChatLog(DungeonsAkimboGame dag) {

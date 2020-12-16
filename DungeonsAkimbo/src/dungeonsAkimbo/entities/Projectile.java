@@ -67,7 +67,7 @@ public class Projectile extends Entity {
 		this.speed = 0.1f;
 		this.setSpriteType(spriteType);
 		// Add hitbox of a projectile
-		if(spriteType > 0) {
+		if(spriteType == 1) {
 			this.attackSprite = ResourceManager.getSpriteSheet(DungeonsAkimboGame.BANG, 64, 64);
 			Image temp = attackSprite.getSprite(0, 0);
 			this.addImageWithBoundingBox(temp);
@@ -76,6 +76,24 @@ public class Projectile extends Entity {
 			this.attackAnimation = new Animation(ResourceManager.getSpriteSheet(DungeonsAkimboGame.BANG, 64, 64), 0, 0, 22, 0, true, 25, true);
 			addAnimation(this.attackAnimation);
 			this.attackAnimation.setLooping(false);
+		} else if(spriteType == 2) {
+			Image[] frames = {
+					ResourceManager.getImage(DungeonsAkimboGame.MAGIC_ONE),
+					ResourceManager.getImage(DungeonsAkimboGame.MAGIC_TWO),
+					ResourceManager.getImage(DungeonsAkimboGame.MAGIC_THREE),
+					ResourceManager.getImage(DungeonsAkimboGame.MAGIC_FOUR),
+					ResourceManager.getImage(DungeonsAkimboGame.MAGIC_FIVE)};
+			this.attackAnimation = new Animation(true);
+			this.attackSprite = null;
+			Image temp = frames[0];
+			this.addImageWithBoundingBox(temp);
+			this.removeImage(temp);
+			// iterate through frames to animate
+			for(int i = 0; i < frames.length; i++) {
+				this.attackAnimation.addFrame(frames[i], 80);
+			}
+			this.attackAnimation.setLooping(false);
+			addAnimation(this.attackAnimation);
 		} else {
 			this.attackAnimation = null;
 			this.attackSprite = null;
@@ -89,7 +107,7 @@ public class Projectile extends Entity {
 		this.speed = speed;
 		this.setSpriteType(spriteType);
 		// Add hitbox of a projectile
-		if(spriteType > 0) {
+		if(spriteType == 1) {
 			this.attackSprite = ResourceManager.getSpriteSheet(DungeonsAkimboGame.BANG, 64, 64);
 			Image temp = attackSprite.getSprite(0, 0);
 			this.addImageWithBoundingBox(temp);
@@ -98,6 +116,24 @@ public class Projectile extends Entity {
 			this.attackAnimation = new Animation(ResourceManager.getSpriteSheet(DungeonsAkimboGame.BANG, 64, 64), 0, 0, 22, 0, true, 25, true);
 			addAnimation(this.attackAnimation);
 			this.attackAnimation.setLooping(false);
+		} else if(spriteType == 2) {
+			Image[] frames = {
+					ResourceManager.getImage(DungeonsAkimboGame.MAGIC_ONE),
+					ResourceManager.getImage(DungeonsAkimboGame.MAGIC_TWO),
+					ResourceManager.getImage(DungeonsAkimboGame.MAGIC_THREE),
+					ResourceManager.getImage(DungeonsAkimboGame.MAGIC_FOUR),
+					ResourceManager.getImage(DungeonsAkimboGame.MAGIC_FIVE)};
+			this.attackAnimation = new Animation(true);
+			this.attackSprite = null;
+			Image temp = frames[0];
+			this.addImageWithBoundingBox(temp);
+			this.removeImage(temp);
+			// iterate through frames to animate
+			for(int i = 0; i < frames.length; i++) {
+				this.attackAnimation.addFrame(frames[i], 120);
+			}
+			this.attackAnimation.setLooping(false);
+			addAnimation(this.attackAnimation);
 		} else {
 			this.attackAnimation = null;
 			this.attackSprite = null;
@@ -124,7 +160,7 @@ public class Projectile extends Entity {
 		try {
 			translate(velocity.scale(delta));
 		} catch (Exception e) {
-			System.out.println("caught exception when trying to translate player velocity" + e);
+//			System.out.println("caught exception when trying to translate player velocity" + e);
 		} 
 	}
 

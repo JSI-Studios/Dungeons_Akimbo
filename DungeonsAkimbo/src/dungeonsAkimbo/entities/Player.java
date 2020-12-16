@@ -39,17 +39,19 @@ public class Player extends Entity {
 	
 	private Animation sprite, walkUp, walkDown, walkLeft, walkRight, current;
 	private SpriteSheet sprites;
+
+	private int points;
 	
 	public Player(final float x, final float y, int type) {
 		super(x, y);
 		// Max health can either be set from constructor, or a be statically 
 		// constant, deal with later
-		
+		points = 0;
 		gunBackpack = new ArrayList<Weapon>();
 		
 		this.sprite = new Animation(false);
 		this.sprites = new SpriteSheet(ResourceManager.getImage(DungeonsAkimboGame.DA_PLAYER_RSC), 32, 32, 0, 0);
-		setMax_health(100);
+		setMax_health(500);
 		setCurrent_health(getMax_health());
 		speed = 0.5f;
 		
@@ -166,6 +168,9 @@ public class Player extends Entity {
 	
 	public void update(final int delta) {
 		
+		if(this.currentHealth < 0) {
+			this.currentHealth = 0;
+		}
 
 		if (this.dodging == true) {
 			dodgeTimer -= delta;
@@ -245,4 +250,13 @@ public class Player extends Entity {
 	public void setRest(boolean rest) {
 		this.rest = rest;
 }
+
+	public int getPoints() {
+		// TODO Auto-generated method stub
+		return points;
+	}
+	
+	public void setPoints(int points) {
+		this.points = points;
+	}
 }

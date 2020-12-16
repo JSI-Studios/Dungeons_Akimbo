@@ -29,6 +29,11 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	public static final String MOB_TWO = "dungeonsAkimbo/resource/Mobs/Skully.png";
 	public static final String MOB_THREE = "dungeonsAkimbo/resource/Mobs/Spoopy-Season-Two.png";
 	public static final String MINI_BOSS = "dungeonsAkimbo/resource/Mobs/Mini-Boss.png";
+	public static final String STALL_ONE = "dungeonsAkimbo/resource/Mobs/Cosmic_06.png";
+	public static final String STALL_TWO = "dungeonsAkimbo/resource/Mobs/Cosmic_07.png";
+	public static final String STALL_THREE = "dungeonsAkimbo/resource/Mobs/Cosmic_08.png";
+	public static final String STALL_FOUR = "dungeonsAkimbo/resource/Mobs/Cosmic_09.png";
+	public static final String STALL_FIVE = "dungeonsAkimbo/resource/Mobs/Cosmic_10.png";
 	
 	//Weapon Macros
 	public static final String DA_SNIPER_RSC = "dungeonsAkimbo/resource/Weapons/Sniper/sniper.png";
@@ -39,14 +44,21 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	
 	// Enemy Attack Macros
 	public static final String BANG = "dungeonsAkimbo/resource/Projectiles/explosion.png";
+	public static final String MAGIC_ONE = "dungeonsAkimbo/resource/Projectiles/Cosmic_01.png";
+	public static final String MAGIC_TWO = "dungeonsAkimbo/resource/Projectiles/Cosmic_02.png";
+	public static final String MAGIC_THREE = "dungeonsAkimbo/resource/Projectiles/Cosmic_03.png";
+	public static final String MAGIC_FOUR = "dungeonsAkimbo/resource/Projectiles/Cosmic_04.png";
+	public static final String MAGIC_FIVE = "dungeonsAkimbo/resource/Projectiles/Cosmic_05.png";
 	
 	//item macros
-	public static final String DA_HEALTH_RSC = "dungeonsAkimbo/resource/items/ammobox.png";
-	public static final String DA_AMMO_RSC = "dungeonsAkimbo/resource/items/candy_02g.png";
-	public static final String DA_CANDYRELOAD_RSC = "dungeonsAkimbo/resource/items/lever2.png";
-	public static final String DA_SWITCH_RSC = "dungeonsAkimbo/resource/items/potion_03a.png";
+	public static final String DA_HEALTH_RSC = "dungeonsAkimbo/resource/items/potion_03a.png";
+	public static final String DA_AMMO_RSC = "dungeonsAkimbo/resource/items/ammobox.png";
+	public static final String DA_CANDYRELOAD_RSC = "dungeonsAkimbo/resource/items/candy_02g.png";
+	public static final String DA_SWITCH_RSC = "dungeonsAkimbo/resource/items/lever2.png";
 	
 	public static final String DA_PLAYER_RSC = "dungeonsAkimbo/resource/Mobs/Male 01-1.png";
+	public static final String DA_MISCSHEET_RSC = "dungeonsAkimbo/resource/Maps/testMap/[Base]BaseChip_pipo.png";
+	
 	
 	// BGM macros
 	public static final String TEMP_BGM = "dungeonsAkimbo/resource/bgm/Final Boss Battle 6 V2.WAV";
@@ -62,6 +74,7 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	public static final int MULTIMENUSTATE = 5;
 	public static final int LOCALSETUPSTATE = 6;
 	public static final int MULTIPLAYTESTSTATE = 7;
+	public static final int GAMEOVERSTATE = 8;
 	
 	public static final String DA_TESTMAP_RSC = "dungeonsAkimbo/resource/Maps/testMap/DaTestMapSmall.tmx";
 	public static final String DA_TESTMAP_TILESET_RSC = "dungeonsAkimbo/resource/Maps/testmap/";
@@ -99,6 +112,7 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		addState(new MultiMenuState());
 		addState(new LocalSetupState());
 		addState(new MultiPlayTestState());
+		addState(new GameOverState());
 		ResourceManager.setFilterMethod(ResourceManager.FILTER_LINEAR);
 		
 		// Load projectiles
@@ -121,13 +135,26 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		ResourceManager.loadImage(MOB_ONE);
 		ResourceManager.loadImage(MOB_TWO);
 		ResourceManager.loadImage(MOB_THREE);
+		
+		// Load boss assets
 		ResourceManager.loadImage(MINI_BOSS);
+		ResourceManager.loadImage(STALL_ONE);
+		ResourceManager.loadImage(STALL_TWO);
+		ResourceManager.loadImage(STALL_THREE);
+		ResourceManager.loadImage(STALL_FOUR);
+		ResourceManager.loadImage(STALL_FIVE);
+		ResourceManager.loadImage(MAGIC_ONE);
+		ResourceManager.loadImage(MAGIC_TWO);
+		ResourceManager.loadImage(MAGIC_THREE);
+		ResourceManager.loadImage(MAGIC_FOUR);
+		ResourceManager.loadImage(MAGIC_FIVE);
 		
 		// Load item sprites
 		ResourceManager.loadImage(DA_HEALTH_RSC);
 		ResourceManager.loadImage(DA_AMMO_RSC);
 		ResourceManager.loadImage(DA_CANDYRELOAD_RSC);
 		ResourceManager.loadImage(DA_SWITCH_RSC);
+		ResourceManager.loadImage(DA_MISCSHEET_RSC);
 	
 		// Load bgm
 		ResourceManager.loadSound(BGM);
@@ -208,7 +235,7 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		for (Iterator<DaJoyconListener> jls = inactiveJoycons.iterator(); jls.hasNext();) {
 			if (activeJoycons[0] == null || activeJoycons[1] == null || activeJoycons[2] == null || activeJoycons[3] == null) {
 				DaJoyconListener listener = jls.next();
-				if (listener.isButtonPressed(4) && listener.isButtonPressed(5)) {
+				if (listener.isButtonDown(4) && listener.isButtonDown(5)) {
 					if (activeJoycons[0] == null) {
 						activeJoycons[0] = listener;
 						jls.remove();
