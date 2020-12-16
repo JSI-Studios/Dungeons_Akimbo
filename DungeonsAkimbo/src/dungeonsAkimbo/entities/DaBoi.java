@@ -80,35 +80,36 @@ public class DaBoi extends Entity implements DaEnemy {
 		int rng = this.getRngHandler().nextInt(8);
 		int unitWidth = DungeonsAkimboGame.WIDTH / 6;
 		int unitHeight = DungeonsAkimboGame.HEIGHT / 6;
-		rng = 7;
-		if(rng == 0) {
-			this.setX(unitWidth);
-			this.setY(unitHeight);
-		} else if(rng == 1) {
-			this.setX(unitWidth * 2);
-			this.setY(unitHeight);
-		} else if(rng == 2) {
-			this.setX(unitWidth * 3);
-			this.setY(unitHeight);
-		} else if(rng == 3){
-			this.setX(unitWidth);
-			this.setY(unitHeight * 5);
-		} else if(rng == 4) {
-			this.setX(unitWidth * 2);
-			this.setY(unitHeight * 5);
-		} else if(rng == 5){
-			this.setX(unitWidth * 3);
-			this.setY(unitHeight * 5);
-		} else if(rng == 6) {
-			this.setX(DungeonsAkimboGame.WIDTH / 3);
-			this.setY(DungeonsAkimboGame.HEIGHT / 3 + 100);
-		} else {
-			this.removeAnimation(this.sprite);
-			if(this.getNumAnimations() == 0) {
-				this.stall.restart();
-				this.addAnimation(this.stall);
+		if(!this.isStall) {
+			if(rng == 0) {
+				this.setX(unitWidth);
+				this.setY(unitHeight);
+			} else if(rng == 1) {
+				this.setX(unitWidth * 2);
+				this.setY(unitHeight);
+			} else if(rng == 2) {
+				this.setX(unitWidth * 3);
+				this.setY(unitHeight);
+			} else if(rng == 3){
+				this.setX(unitWidth);
+				this.setY(unitHeight * 5);
+			} else if(rng == 4) {
+				this.setX(unitWidth * 2);
+				this.setY(unitHeight * 5);
+			} else if(rng == 5){
+				this.setX(unitWidth * 3);
+				this.setY(unitHeight * 5);
+			} else if(rng == 6) {
+				this.setX(DungeonsAkimboGame.WIDTH / 3);
+				this.setY(DungeonsAkimboGame.HEIGHT / 3 + 100);
+			} else {
+				this.removeAnimation(this.sprite);
+				if(this.getNumAnimations() == 0) {
+					this.stall.restart();
+					this.addAnimation(this.stall);
+					this.stallCooldown = 200;
+				}
 				this.setStall(true);
-				this.stallCooldown = 200;
 			}
 		}
 	}
