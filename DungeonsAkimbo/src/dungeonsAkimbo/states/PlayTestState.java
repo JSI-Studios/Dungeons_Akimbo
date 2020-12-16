@@ -196,7 +196,7 @@ public class PlayTestState extends BasicGameState {
 			input.clearKeyPressedRecord();
 			currentSound.stop();
 			// Go back to splash state for now
-			game.enterState(DungeonsAkimboGame.SPLASHSCREENSTATE);
+			game.enterState(DungeonsAkimboGame.GAMEOVERSTATE);
 		}
 
 	}

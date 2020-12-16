@@ -74,6 +74,7 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	public static final int MULTIMENUSTATE = 5;
 	public static final int LOCALSETUPSTATE = 6;
 	public static final int MULTIPLAYTESTSTATE = 7;
+	public static final int GAMEOVERSTATE = 8;
 	
 	public static final String DA_TESTMAP_RSC = "dungeonsAkimbo/resource/Maps/testMap/DaTestMapSmall.tmx";
 	public static final String DA_TESTMAP_TILESET_RSC = "dungeonsAkimbo/resource/Maps/testmap/";
@@ -111,6 +112,7 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		addState(new MultiMenuState());
 		addState(new LocalSetupState());
 		addState(new MultiPlayTestState());
+		addState(new GameOverState());
 		ResourceManager.setFilterMethod(ResourceManager.FILTER_LINEAR);
 		
 		// Load projectiles
