@@ -139,21 +139,17 @@ public class PlayTestState extends BasicGameState {
 			if (input.isKeyPressed(Input.KEY_P)) {
 				dag.getClient().console(Integer.toString(playerID));
 			}
-			
-			/* if (input.isKeyPressed(Input.KEY_1)) {
-				dag.getCurrentMap().getPlayerList().get(playerID).gunSelect(0);
-			} else if (input.isKeyPressed(Input.KEY_2)) {
-				dag.getCurrentMap().getPlayerList().get(playerID).gunSelect(1);
-			} else if (input.isKeyPressed(Input.KEY_3)) {
-				dag.getCurrentMap().getPlayerList().get(playerID).gunSelect(2);
-			} else if (input.isKeyPressed(Input.KEY_4)) {
-				dag.getCurrentMap().getPlayerList().get(playerID).gunSelect(3);
-			} else if (input.isKeyPressed(Input.KEY_5)) {
-				dag.getCurrentMap().getPlayerList().get(playerID).gunSelect(4);
-			} */
 				
 			if (input.isKeyPressed(Input.KEY_Q)) {
 				dag.getCurrentMap().getPlayerList().get(playerID).getNextGun();
+			}
+			
+			//Enable GodMode
+			if(input.isKeyPressed(Input.KEY_G)) {
+				dag.getCurrentMap().getPlayerList().get(playerID).godMode();
+				if (dag.getCurrentMap().getPlayerList().get(playerID).getGodMode() == false) {
+					dag.getCurrentMap().getPlayerList().get(playerID).setCurrent_health(500);
+				}
 			}
 
 			if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
