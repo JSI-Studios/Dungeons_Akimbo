@@ -41,12 +41,14 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	public static final String BANG = "dungeonsAkimbo/resource/Projectiles/explosion.png";
 	
 	//item macros
-	public static final String DA_HEALTH_RSC = "dungeonsAkimbo/resource/items/ammobox.png";
-	public static final String DA_AMMO_RSC = "dungeonsAkimbo/resource/items/candy_02g.png";
-	public static final String DA_CANDYRELOAD_RSC = "dungeonsAkimbo/resource/items/lever2.png";
-	public static final String DA_SWITCH_RSC = "dungeonsAkimbo/resource/items/potion_03a.png";
+	public static final String DA_HEALTH_RSC = "dungeonsAkimbo/resource/items/potion_03a.png";
+	public static final String DA_AMMO_RSC = "dungeonsAkimbo/resource/items/ammobox.png";
+	public static final String DA_CANDYRELOAD_RSC = "dungeonsAkimbo/resource/items/candy_02g.png";
+	public static final String DA_SWITCH_RSC = "dungeonsAkimbo/resource/items/lever2.png";
 	
 	public static final String DA_PLAYER_RSC = "dungeonsAkimbo/resource/Mobs/Male 01-1.png";
+	public static final String DA_MISCSHEET_RSC = "dungeonsAkimbo/resource/Maps/testMap/[Base]BaseChip_pipo.png";
+	
 	
 	// BGM macros
 	public static final String TEMP_BGM = "dungeonsAkimbo/resource/bgm/Final Boss Battle 6 V2.WAV";
@@ -128,6 +130,7 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		ResourceManager.loadImage(DA_AMMO_RSC);
 		ResourceManager.loadImage(DA_CANDYRELOAD_RSC);
 		ResourceManager.loadImage(DA_SWITCH_RSC);
+		ResourceManager.loadImage(DA_MISCSHEET_RSC);
 	
 		// Load bgm
 		ResourceManager.loadSound(BGM);
