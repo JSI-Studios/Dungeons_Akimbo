@@ -82,6 +82,11 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	
 	public static final String DA_TESTMAP_RSC = "dungeonsAkimbo/resource/Maps/testMap/DaTestMapSmall.tmx";
 	public static final String DA_TESTMAP_TILESET_RSC = "dungeonsAkimbo/resource/Maps/testmap/";
+
+	public static final String DA_MAINMAP_TILESET_RSC = "dungeonsAkimbo/resource/Maps/mainMaps";
+	public static final String DA_BIG_VERTICAL_MAP_RSC = "dungeonsAkimbo/resource/Maps/mainMaps/DaBigVerticalMap.tmx";
+	public static final String DA_BIG_HORIZONTAL_MAP_RSC = "dungeonsAkimbo/resource/Maps/mainMaps/DaBigHorizontalMap.tmx";
+	public static final String DA_COLLESIUM_MAP_RSC = "dungeonsAkimbo/resource/Maps/mainMaps/DaCollesiumMap.tmx";
 	//App properties
 	public static final int WIDTH = 1280;
 	public static final int HEIGHT = 1024;
@@ -103,6 +108,7 @@ public class DungeonsAkimboGame extends StateBasedGame {
 	private DaJoyconListener[] activeJoycons;
 	private ArrayList<DaJoyconListener> inactiveJoycons;
 	private int keyboardMouseIndex;
+	private int currentMap;
 	// Keep track of mobs
 	
 	
@@ -184,6 +190,7 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		super(title);
 		screenWidth = width;
 		screenHeight = height;
+		currentMap = 2;
 	}
 
 	
@@ -192,6 +199,16 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		if (map == 1) {
 			mapPlan = new TiledMap(DA_TESTMAP_RSC, DA_TESTMAP_TILESET_RSC);
 		}
+		else if (map == 2) {
+			mapPlan = new TiledMap(DA_BIG_VERTICAL_MAP_RSC, DA_TESTMAP_TILESET_RSC);
+		}
+		else if (map == 3) {
+			mapPlan = new TiledMap(DA_BIG_HORIZONTAL_MAP_RSC, DA_TESTMAP_TILESET_RSC);
+		}
+		else if (map == 4) {
+			mapPlan = new TiledMap(DA_COLLESIUM_MAP_RSC, DA_TESTMAP_TILESET_RSC);
+		}
+		currentMap = map;
 		mapReady = true;
 	}
 	
@@ -285,6 +302,9 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		gameMap.addNewPlayer(playerID);
 	}
 
+	public int getCurrentMapNum() {
+		return currentMap;
+	}
 	
 	public static void main(String[] args) {
 		try {
