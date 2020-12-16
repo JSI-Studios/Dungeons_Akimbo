@@ -45,7 +45,7 @@ Enemy Pathing: P
 		1s reload time.
 
 ## Project Goals
-### Low Bar
+### Low Bar (Implementation)
 - [x] 2 to 4 playable characters
 - [x] Weapons that have different mechanics
     - [x] Piercing Bullets
@@ -74,4 +74,4 @@ Enemy Pathing: P
 - [ ] New Game+ (Replayabllity + Increased Difficulty)
 
 ## License
-Our game falls under an Apachi License.
+Our game falls under an Apache License.
