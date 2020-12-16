@@ -78,6 +78,9 @@ public class DaCollisions {
 					mob.translate(mob.collides(uniquePlayer.getValue()).getMinPenetration().scale(delta));
 				}
 			}
+			if(mob.collides(miniBoss) != null && mob.getType() == 2) {
+				mob.translate(mob.collides(miniBoss).getMinPenetration().scale(delta));
+			}
 			if(mob.isDead()) {
 				// mob is dead
 				current.remove();
@@ -87,7 +90,7 @@ public class DaCollisions {
 			Player player = uniquePlayer.getValue();
 			// Handle collision with player, tell player to decrease health later
 			if(player.collides(miniBoss) != null) {
-				player.translate(player.collides(miniBoss).getMinPenetration().scale(delta/.5f));
+				player.translate(player.collides(miniBoss).getMinPenetration().scale(delta * 5f));
 				miniBoss.collisionAction(true, true);
 			}
 		}

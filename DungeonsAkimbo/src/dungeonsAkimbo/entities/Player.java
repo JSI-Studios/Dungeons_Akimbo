@@ -203,10 +203,10 @@ public class Player extends Entity {
 		}else if (((Entity) this.primaryWeapon).getRotation() > -135 && ((Entity) this.primaryWeapon).getRotation() < -45 ) {		//Player facing up
 			if(current.equals(walkUp) &&  velocity.length() != 0) {
 				current.start();				
-			}else if( current.equals(walkUp) && velocity.length() == 0) {
+			} else if( current.equals(walkUp) && velocity.length() == 0) {
 				current.stop();
 				current.setCurrentFrame(1);
-			}else if(!current.equals(walkUp)) {
+			} else if(!current.equals(walkUp)) {
 				current.stop();
 				this.removeAnimation(current);
 				this.addAnimation(walkUp);
