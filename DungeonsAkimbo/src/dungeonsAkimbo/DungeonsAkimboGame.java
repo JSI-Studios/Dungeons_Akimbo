@@ -211,7 +211,7 @@ public class DungeonsAkimboGame extends StateBasedGame {
 		for (Iterator<DaJoyconListener> jls = inactiveJoycons.iterator(); jls.hasNext();) {
 			if (activeJoycons[0] == null || activeJoycons[1] == null || activeJoycons[2] == null || activeJoycons[3] == null) {
 				DaJoyconListener listener = jls.next();
-				if (listener.isButtonPressed(4) && listener.isButtonPressed(5)) {
+				if (listener.isButtonDown(4) && listener.isButtonDown(5)) {
 					if (activeJoycons[0] == null) {
 						activeJoycons[0] = listener;
 						jls.remove();
