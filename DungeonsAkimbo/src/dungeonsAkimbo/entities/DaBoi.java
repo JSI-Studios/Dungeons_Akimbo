@@ -1,5 +1,6 @@
 package dungeonsAkimbo.entities;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import org.newdawn.slick.Animation;
@@ -82,27 +83,35 @@ public class DaBoi extends Entity implements DaEnemy {
 		int unitHeight = DungeonsAkimboGame.HEIGHT / 6;
 		if(!this.isStall) {
 			if(rng == 0) {
+				// Move top left
 				this.setX(unitWidth);
 				this.setY(unitHeight);
 			} else if(rng == 1) {
+				// Move top middle
 				this.setX(unitWidth * 2);
 				this.setY(unitHeight);
 			} else if(rng == 2) {
+				// Move top right
 				this.setX(unitWidth * 3);
 				this.setY(unitHeight);
 			} else if(rng == 3){
+				// Move bottom left
 				this.setX(unitWidth);
 				this.setY(unitHeight * 5);
 			} else if(rng == 4) {
+				// Move bottom middle
 				this.setX(unitWidth * 2);
 				this.setY(unitHeight * 5);
 			} else if(rng == 5){
+				// Move bottom right
 				this.setX(unitWidth * 3);
 				this.setY(unitHeight * 5);
 			} else if(rng == 6) {
+				// Move middle
 				this.setX(DungeonsAkimboGame.WIDTH / 3);
 				this.setY(DungeonsAkimboGame.HEIGHT / 3 + 100);
 			} else {
+				// Begin stalling
 				this.removeAnimation(this.sprite);
 				if(this.getNumAnimations() == 0) {
 					this.stall.restart();
@@ -115,8 +124,27 @@ public class DaBoi extends Entity implements DaEnemy {
 	}
 
 	@Override
-	public Projectile attack(Entity player) {
-		// TODO Auto-generated method stub
+	public Projectile attack(Entity player) {		
+		// Calculate vectors needed to locate the boss relative to the player
+		Vector distance = this.getPosition().subtract(player.getPosition());
+		double currentDirection = distance.negate().getRotation();
+		
+		// Actual attack interaction
+		Projectile attacked = null;
+		if(this.isStall) {
+			if(this.attackCooldown <= 0) {
+				attacked = new Projectile(this.getX(), this.getY(), 20);
+				attacked.rotate(currentDirection);
+				attacked.Set_Velocity(currentDirection);
+				this.attackCooldown = 10;
+			} else {
+				this.attackCooldown--;
+			}
+		}
+		return attacked;
+	}
+	
+	public ArrayList<Projectile> multiAttack(){
 		return null;
 	}
 	
@@ -137,6 +165,7 @@ public class DaBoi extends Entity implements DaEnemy {
 				this.addAnimation(this.sprite);
 				this.stallCooldown = 0;
 				this.isStall = false;
+				this.attackCooldown = 0;
 			}
 		}
 	}

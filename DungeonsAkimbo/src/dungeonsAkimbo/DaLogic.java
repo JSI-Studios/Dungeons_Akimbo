@@ -148,6 +148,14 @@ public class DaLogic {
 		
 		// Handle boss attack
 		DaBoi boss = map.getBoss();
+		Projectile bossAttack = boss.attack(currentPlayer);
+		ArrayList<Projectile> bossMultiAttack = boss.multiAttack();
+		if(bossAttack != null) {
+			map.getEnemyAttacks().add(bossAttack);
+		}
+		if(bossMultiAttack != null) {
+			bossMultiAttack.forEach((hit)-> map.getEnemyAttacks().add(hit));
+		}
 		
 		// Update enemies based on their updates
 		mobs.forEach((mob) -> mob.update(delta));
