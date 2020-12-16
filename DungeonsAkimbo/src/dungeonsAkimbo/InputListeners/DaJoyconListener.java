@@ -2,6 +2,7 @@ package dungeonsAkimbo.InputListeners;
 
 import org.joyconLib.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -13,6 +14,7 @@ public class DaJoyconListener implements JoyconListener{
     // this implementation assumes that the joy-con is held horizontally
     private float x;
     private float y;
+    private boolean[] buttonsDown;
     private boolean[] buttonsPressed;
     private boolean isLeft;
     /*
@@ -36,7 +38,9 @@ public class DaJoyconListener implements JoyconListener{
 
      */
     public DaJoyconListener(boolean isLeft) {
+        buttonsDown = new boolean[16];
         buttonsPressed = new boolean[16];
+        Arrays.fill(buttonsDown, false);
         Arrays.fill(buttonsPressed, false);
         this.isLeft = isLeft;
     }
@@ -52,59 +56,73 @@ public class DaJoyconListener implements JoyconListener{
             // button input detection and handling:
             if (entry.getKey().equals(JoyconConstant.LEFT) || entry.getKey().equals(JoyconConstant.A)) {
                 // if bottom button changed:
-                buttonsPressed[0] = entry.getValue();
+                if (!buttonsDown[0] && entry.getValue()) buttonsPressed[0] = true;
+                buttonsDown[0] = entry.getValue();
             }
             if (entry.getKey().equals(JoyconConstant.DOWN) || entry.getKey().equals(JoyconConstant.X)) {
                 // if right button changed:
-                buttonsPressed[1] = entry.getValue();
+                if (!buttonsPressed[1] && entry.getValue()) buttonsPressed[1] = true;
+                buttonsDown[1] = entry.getValue();
             }
             if (entry.getKey().equals(JoyconConstant.UP) || entry.getKey().equals(JoyconConstant.B)) {
                 // if left button changed:
-                buttonsPressed[2] = entry.getValue();
+                if (!buttonsPressed[2] && entry.getValue()) buttonsPressed[2] = true;
+                buttonsDown[2] = entry.getValue();
             }
             if (entry.getKey().equals(JoyconConstant.RIGHT) || entry.getKey().equals(JoyconConstant.Y)) {
                 // if top button changed:
-                buttonsPressed[3] = entry.getValue();
+                if (!buttonsPressed[3] && entry.getValue()) buttonsPressed[3] = true;
+                buttonsDown[3] = entry.getValue();
             }
             if (entry.getKey().equals(JoyconConstant.SL)) {
                 // if SL changed:
-                buttonsPressed[4] = entry.getValue();
+                if (!buttonsPressed[4] && entry.getValue()) buttonsPressed[4] = true;
+                buttonsDown[4] = entry.getValue();
             }
             if (entry.getKey().equals(JoyconConstant.SR)) {
                 // if SR changed:
-                buttonsPressed[5] = entry.getValue();
+                if (!buttonsPressed[5] && entry.getValue()) buttonsPressed[5] = true;
+                buttonsDown[5] = entry.getValue();
             }
             if (entry.getKey().equals(JoyconConstant.MINUS)) {
                 // if - changed (left joy-con only):
-                buttonsPressed[8] = entry.getValue();
+                if (!buttonsPressed[8] && entry.getValue()) buttonsPressed[8] = true;
+                buttonsDown[8] = entry.getValue();
             }
             if (entry.getKey().equals(JoyconConstant.PLUS)) {
                 // if + changed (right joy-con only):
-                buttonsPressed[9] = entry.getValue();
+                if (!buttonsPressed[9] && entry.getValue()) buttonsPressed[9] = true;
+                buttonsDown[9] = entry.getValue();
             }
             if (entry.getKey().equals(JoyconConstant.LEFT_STICK)) {
                 // if left joy-con's joystick changed:
-                buttonsPressed[10] = entry.getValue();
+                if (!buttonsPressed[10] && entry.getValue()) buttonsPressed[10] = true;
+                buttonsDown[10] = entry.getValue();
             }
             if (entry.getKey().equals(JoyconConstant.RIGHT_STICK)) {
                 // if right joy-con's joystick changed:
-                buttonsPressed[11] = entry.getValue();
+                if (!buttonsPressed[11] && entry.getValue()) buttonsPressed[11] = true;
+                buttonsDown[11] = entry.getValue();
             }
             if (entry.getKey().equals(JoyconConstant.CAPTURE)) {
                 // if capture button changed (left joy-con only):
-                buttonsPressed[12] = entry.getValue();
+                if (!buttonsPressed[12] && entry.getValue()) buttonsPressed[12] = true;
+                buttonsDown[12] = entry.getValue();
             }
             if (entry.getKey().equals(JoyconConstant.HOME)) {
                 // if home button changed (right joy-con only):
-                buttonsPressed[13] = entry.getValue();
+                if (!buttonsPressed[13] && entry.getValue()) buttonsPressed[13] = true;
+                buttonsDown[13] = entry.getValue();
             }
             if (entry.getKey().equals(JoyconConstant.L) || entry.getKey().equals(JoyconConstant.R)) {
                 // if L/R changed:
-                buttonsPressed[14] = entry.getValue();
+                if (!buttonsPressed[14] && entry.getValue()) buttonsPressed[14] = true;
+                buttonsDown[14] = entry.getValue();
             }
             if (entry.getKey().equals(JoyconConstant.ZL) || entry.getKey().equals(JoyconConstant.ZR)) {
                 // if ZL/ZR changed:
-                buttonsPressed[15] = entry.getValue();
+                if (!buttonsPressed[15] && entry.getValue()) buttonsPressed[15] = true;
+                buttonsDown[15] = entry.getValue();
             }
 
         }
@@ -137,5 +155,15 @@ public class DaJoyconListener implements JoyconListener{
 
     public float getY() {return y;}
 
-    public boolean isButtonPressed(int button) {return buttonsPressed[button];}
+    public boolean isButtonDown(int button) {
+        return buttonsDown[button];
+    }
+
+    public boolean isButtonPressed(int button) {
+        if (buttonsPressed[button]) {
+            buttonsPressed[button] = false;
+            return true;
+        }
+        return false;
+    }
 }
