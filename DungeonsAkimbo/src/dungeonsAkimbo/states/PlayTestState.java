@@ -57,7 +57,7 @@ public class PlayTestState extends BasicGameState {
 		
 		// Handle BGM
 		container.setSoundOn(true);
-		ResourceManager.getSound(DungeonsAkimboGame.TEMP_BGM).loop();
+		ResourceManager.getSound(DungeonsAkimboGame.TEMP_BGM).loop(1.1f, 0.2f);
 	}
 
 	@Override
